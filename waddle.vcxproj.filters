@@ -13,10 +13,51 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="engine">
+      <UniqueIdentifier>{e2fe68dc-b373-47ef-8921-e4cd53edbe25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\src">
+      <UniqueIdentifier>{a5eef1c2-75f5-41a5-bc9d-53ae5475cc8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="engine\include">
+      <UniqueIdentifier>{96d5588d-6af1-4bfa-81f7-1ce78c206cb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game">
+      <UniqueIdentifier>{6cf93ab4-1893-4f22-9e6f-8eebea585d06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\include">
+      <UniqueIdentifier>{56635566-2eaa-4ae3-8e29-ca6374fe4d2f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="game\src">
+      <UniqueIdentifier>{1b8d10e9-1e89-47b0-acfd-474afbbdd1f3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.c">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="waddle.c">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="waddle_log.c">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="waddle_time.c">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="game.h">
+      <Filter>game\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_log.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_time.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
