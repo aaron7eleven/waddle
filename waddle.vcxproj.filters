@@ -51,6 +51,9 @@
     <ClCompile Include="quad_controller.c">
       <Filter>game\src</Filter>
     </ClCompile>
+    <ClCompile Include="waddle_entity.c">
+      <Filter>engine\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -79,6 +82,12 @@
     </ClInclude>
     <ClInclude Include="quad_controller.h">
       <Filter>game\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_system_update.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_component_transform.h">
+      <Filter>engine\include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

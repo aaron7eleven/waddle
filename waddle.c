@@ -5,6 +5,7 @@
 #include "waddle_entity.h"
 #include "waddle_component.h"
 #include "waddle_component_quad_renderer.h"
+#include "waddle_component_transform.h"
 #include "quad_controller.h"
 
 #include "waddle_system_render.h"
@@ -143,7 +144,15 @@ int waddle_run(waddle* waddle) {
 		{ 0xFF, 0x00, 0x00, 0x00 },
 		{ 100.0f, 100.0f, 100.0f, 100.0f }
 	});
-	add_component(waddle, quad, QUAD_CONTROLLER, &(quad_controller) {300.0f, 0.0f});
+	add_component(waddle, quad, QUAD_CONTROLLER, &(quad_controller) {
+		300.0f, 
+		{ 0.0f, 0.0f }
+	});
+	add_component(waddle, quad, TRANSFORM, &(transform) {
+		{ 100.0f, 100.0f},
+		{ 0.0f, 0.0f },
+		{ 2.0f, 2.0f }
+	});
 
 
 	while (!(waddle->quit)) {
@@ -165,7 +174,6 @@ void waddle_process_input(waddle* waddle) {
 		//User requests quit
 		if (waddle->event.type == SDL_QUIT)
 		{
-			waddle_log("quitting\n");
 			waddle->quit = 1;
 		}
 	}
@@ -173,12 +181,7 @@ void waddle_process_input(waddle* waddle) {
 
 void waddle_update(waddle* waddle) {
 	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
-		for (int comp_i = 0; comp_i < waddle->entities[entity_i]->component_count; comp_i++) {
-			//if (waddle->entities[entity_i]->components[comp_i]->type == QUAD_CONTROLLER) {
-			//	update_quad_controller(waddle->delta_time, waddle->key_state);
-			//}
-
-		}
+		update_quad_controller(waddle->delta_time, waddle->key_state, waddle->entities[entity_i]);
 	}
 }
 
@@ -201,7 +204,7 @@ entity* create_entity(waddle* waddle)
 	entity* new_entity = malloc(sizeof(entity));
 	new_entity->id = waddle->entity_count;
 	new_entity->component_count = 0;
-	for (int comp_i = 0; comp_i < waddle->max_entities; comp_i++) {
+	for (int comp_i = 0; comp_i < waddle->max_component_per_entity; comp_i++) {
 		new_entity->components[comp_i] = NULL;
 	}
 

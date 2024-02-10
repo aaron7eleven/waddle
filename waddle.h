@@ -30,8 +30,10 @@ typedef struct {
 	// runtime
 	float delta_time;
 	Uint32 start_ticks;
-	SDL_Event event;
-	const Uint8* key_state;
+	
+	// input
+	SDL_Event event; // use for window events and dynamic "event" input (i.e. SDL_Keycode)
+	const Uint8* key_state; // use for key presses (i.e. SDL_SCANCODE_XXXX)
 
 	int entity_count;
 	int max_entities;
