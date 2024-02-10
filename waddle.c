@@ -1,6 +1,14 @@
 #pragma once
+#include <stdlib.h>
 #include "waddle.h"
 #include "waddle_time.h"
+#include "waddle_entity.h"
+#include "waddle_component.h"
+#include "waddle_component_quad_renderer.h"
+#include "quad_controller.h"
+
+#include "waddle_system_render.h"
+
 
 int waddle_init(waddle* waddle) {
 	if (!waddle->initialize) {
@@ -85,6 +93,17 @@ int waddle_init(waddle* waddle) {
 	waddle->quit = 0;
 	waddle->restart = 0;
 	waddle->initialize = 1;
+
+	waddle->entity_count = 0;
+	waddle->max_entities = 16;
+	
+	for (int entity_i = 0; entity_i < waddle->max_entities; entity_i++) {
+		waddle->entities[entity_i] = NULL;
+	}
+
+	waddle->max_component_per_entity = 16;
+
+
 	return 0;
 }
 
@@ -119,15 +138,25 @@ int waddle_free(waddle* waddle) {
 
 int waddle_run(waddle* waddle) {
 
+	entity* quad = create_entity(waddle);
+	add_component(waddle, quad, QUAD_RENDERER, &(quad_renderer) {
+		{ 0xFF, 0x00, 0x00, 0x00 },
+		{ 100.0f, 100.0f, 100.0f, 100.0f }
+	});
+	add_component(waddle, quad, QUAD_CONTROLLER, &(quad_controller) {300.0f, 0.0f});
+
+
 	while (!(waddle->quit)) {
-		update_delta_time(waddle);
-		process_input(waddle);
+		waddle_update_delta_time(waddle);
+		waddle_process_input(waddle);
+		waddle_update(waddle);
+		waddle_render(waddle);
 	}
 
 	return 0;
 }
 
-void process_input(waddle* waddle) {
+void waddle_process_input(waddle* waddle) {
 	waddle->key_state = SDL_GetKeyboardState(NULL);
 
 	// Event Based Inputs (Handle events on queue)
@@ -140,4 +169,58 @@ void process_input(waddle* waddle) {
 			waddle->quit = 1;
 		}
 	}
+}
+
+void waddle_update(waddle* waddle) {
+	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
+		for (int comp_i = 0; comp_i < waddle->entities[entity_i]->component_count; comp_i++) {
+			//if (waddle->entities[entity_i]->components[comp_i]->type == QUAD_CONTROLLER) {
+			//	update_quad_controller(waddle->delta_time, waddle->key_state);
+			//}
+
+		}
+	}
+}
+
+void waddle_render(waddle* waddle) {
+	SDL_SetRenderDrawColor(waddle->renderer, 0x00, 0x00, 0xFF, 0xFF);
+	SDL_RenderClear(waddle->renderer);
+	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
+		update_render_system(waddle->renderer, waddle->entities[entity_i]);
+	}
+	SDL_RenderPresent(waddle->renderer);
+}
+
+entity* create_entity(waddle* waddle)
+{
+	if ((waddle->entity_count + 1) >= waddle->max_entities) {
+		printf("ERROR: At max entity count, not creating entity");
+		return NULL;
+	}
+
+	entity* new_entity = malloc(sizeof(entity));
+	new_entity->id = waddle->entity_count;
+	new_entity->component_count = 0;
+	for (int comp_i = 0; comp_i < waddle->max_entities; comp_i++) {
+		new_entity->components[comp_i] = NULL;
+	}
+
+	waddle->entities[waddle->entity_count] = new_entity;
+	waddle->entity_count++;
+
+	return new_entity;
+}
+
+void add_component(waddle* waddle, entity* entity, component_type type, void* data) {
+	if ((entity->component_count + 1) >= waddle->max_component_per_entity) {
+		printf("ERROR: At max component count per entity, not adding component to entity");
+		return NULL;
+	}
+
+	component* new_component = malloc(sizeof(component));
+	new_component->type = type;
+	new_component->data = data;
+
+	entity->components[entity->component_count] = new_component;
+	entity->component_count++;
 }

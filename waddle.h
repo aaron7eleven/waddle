@@ -1,10 +1,9 @@
 #pragma once
 #include <SDL.h>
-#include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
-#include "waddle_log.h"
+#include "waddle_entity.h"
 
 typedef struct {
 	SDL_Window* window;
@@ -34,12 +33,22 @@ typedef struct {
 	SDL_Event event;
 	const Uint8* key_state;
 
-} waddle;
+	int entity_count;
+	int max_entities;
+	entity* entities[16];
+	int max_component_per_entity;
 
-//typedef waddle waddle;
+} waddle;
 
 int waddle_init(waddle* waddle);
 int waddle_run(waddle* waddle);
 int waddle_free(waddle* waddle);
 
-void process_input(waddle* waddle);
+void waddle_process_input(waddle* waddle);
+void waddle_update(waddle* waddle);
+void waddle_render(waddle* waddle);
+
+entity* create_entity(waddle* waddle);
+
+void add_component(waddle* waddle, entity* entity, component_type type, void* data);
+

@@ -45,6 +45,12 @@
     <ClCompile Include="waddle_time.c">
       <Filter>engine\src</Filter>
     </ClCompile>
+    <ClCompile Include="waddle_system_render.c">
+      <Filter>engine\src</Filter>
+    </ClCompile>
+    <ClCompile Include="quad_controller.c">
+      <Filter>game\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -58,6 +64,21 @@
     </ClInclude>
     <ClInclude Include="waddle_time.h">
       <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_component.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_entity.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_component_quad_renderer.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_system_render.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="quad_controller.h">
+      <Filter>game\include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
