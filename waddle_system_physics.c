@@ -51,31 +51,27 @@ int check_collision(entity* a, entity* b) {
 
 	// Is the right edge of b to the left of the left edge of a
 	if ((b_quad_collider->rect.x + b_quad_collider->rect.w) < a_quad_collider->rect.x ) {
-		printf("right edge of b is left of left edge of a\n");
+		//printf("right edge of b is left of left edge of a\n");
 		return 0;
 	}
 
 	// Is the right edge of a to the left of the left edge of b
 	if ((a_quad_collider->rect.x + a_quad_collider->rect.w) < b_quad_collider->rect.x) {
-		printf("right edge of a is left of left edge of b\n");
+		//printf("right edge of a is left of left edge of b\n");
 		return 0;
 	}
 
 	// Is the bottom edge of b to the above of the top edge of a
 	if ((b_quad_collider->rect.y + b_quad_collider->rect.h) < a_quad_collider->rect.y) {
-		printf("bottom edge of b is above of top edge of a\n");
+		//printf("bottom edge of b is above of top edge of a\n");
 		return 0;
 	}
 
 	// Is the bottom edge of a to the above of the top edge of b
 	if ((a_quad_collider->rect.y + a_quad_collider->rect.h) < b_quad_collider->rect.y) {
-		printf("bottom edge of a is above of top edge of b\n");
+		//printf("bottom edge of a is above of top edge of b\n");
 		return 0;
 	}
 
-	/*printf("")*/
-
 	return 1;
-
-
 }

@@ -152,6 +152,7 @@
     <ClCompile Include="waddle.c" />
     <ClCompile Include="waddle_entity.c" />
     <ClCompile Include="waddle_log.c" />
+    <ClCompile Include="waddle_math.c" />
     <ClCompile Include="waddle_system_physics.c" />
     <ClCompile Include="waddle_system_render.c" />
     <ClCompile Include="waddle_time.c" />
@@ -166,6 +167,7 @@
     <ClInclude Include="waddle_component_transform.h" />
     <ClInclude Include="waddle_entity.h" />
     <ClInclude Include="waddle_log.h" />
+    <ClInclude Include="waddle_math.h" />
     <ClInclude Include="waddle_system_physics.h" />
     <ClInclude Include="waddle_system_render.h" />
     <ClInclude Include="waddle_time.h" />

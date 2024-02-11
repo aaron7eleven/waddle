@@ -1,4 +1,5 @@
 #include "quad_controller.h"
+#include "waddle_math.h"
 #include "waddle_component_transform.h"
 
 void update_quad_controller(float delta_time, const Uint8* key_state, entity* entity) {
@@ -26,11 +27,13 @@ void update_quad_controller(float delta_time, const Uint8* key_state, entity* en
 				quad_ctrl->velocity.x += 1.0f;
 			}
 
+			if (magnitude(quad_ctrl->velocity.x, quad_ctrl->velocity.y) > 1.0f) {
+				normalize(&(quad_ctrl->velocity));
+			}			
+
 			transform* t = (transform*)get_component(entity, TRANSFORM);
 			t->position.x += quad_ctrl->velocity.x * quad_ctrl->speed * delta_time;
 			t->position.y += quad_ctrl->velocity.y * quad_ctrl->speed * delta_time;
-
-
 		}
 	}
 }

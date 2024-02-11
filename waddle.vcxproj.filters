@@ -57,6 +57,9 @@
     <ClCompile Include="waddle_system_physics.c">
       <Filter>engine\src</Filter>
     </ClCompile>
+    <ClCompile Include="waddle_math.c">
+      <Filter>engine\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -93,6 +96,9 @@
       <Filter>engine\include</Filter>
     </ClInclude>
     <ClInclude Include="waddle_system_physics.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_math.h">
       <Filter>engine\include</Filter>
     </ClInclude>
   </ItemGroup>
