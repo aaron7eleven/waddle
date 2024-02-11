@@ -6,9 +6,11 @@
 #include "waddle_component.h"
 #include "waddle_component_quad_renderer.h"
 #include "waddle_component_transform.h"
+#include "waddle_component_quad_collider.h"
 #include "quad_controller.h"
 
 #include "waddle_system_render.h"
+#include "waddle_system_physics.h"
 
 
 int waddle_init(waddle* waddle) {
@@ -140,18 +142,35 @@ int waddle_free(waddle* waddle) {
 int waddle_run(waddle* waddle) {
 
 	entity* quad = create_entity(waddle);
+	add_component(waddle, quad, TRANSFORM, &(transform) {
+		{ 100.0f, 100.0f},
+		{ 0.0f, 0.0f },
+		{ 1.0f, 1.0f }
+	});
 	add_component(waddle, quad, QUAD_RENDERER, &(quad_renderer) {
-		{ 0xFF, 0x00, 0x00, 0x00 },
-		{ 100.0f, 100.0f, 100.0f, 100.0f }
+		{ 100.0f, 100.0f, 50.0f, 50.0f },
+		{ 0xDB, 0xE7, 0xC9, 0xFF }
 	});
 	add_component(waddle, quad, QUAD_CONTROLLER, &(quad_controller) {
 		300.0f, 
 		{ 0.0f, 0.0f }
 	});
-	add_component(waddle, quad, TRANSFORM, &(transform) {
-		{ 100.0f, 100.0f},
+	add_component(waddle, quad, QUAD_COLLIDER, &(quad_collider) {
+		{ 100.0f, 100.0f, 50.0f, 50.0f }
+	});
+
+	entity* wall = create_entity(waddle);
+	add_component(waddle, wall, TRANSFORM, &(transform) {
+		{ 300.0f, 300.0f},
 		{ 0.0f, 0.0f },
-		{ 2.0f, 2.0f }
+		{ 1.0f, 1.0f }
+	});
+	add_component(waddle, wall, QUAD_RENDERER, &(quad_renderer) {
+		{ 50.0f, 50.0f, 100.0f, 100.0f },
+		{ 0x78, 0x94, 0x61, 0xFF }
+	});
+	add_component(waddle, wall, QUAD_COLLIDER, &(quad_collider) {
+		{ 100.0f, 100.0f, 100.0f, 100.0f }
 	});
 
 
@@ -159,6 +178,7 @@ int waddle_run(waddle* waddle) {
 		waddle_update_delta_time(waddle);
 		waddle_process_input(waddle);
 		waddle_update(waddle);
+		waddle_update_physics(waddle);
 		waddle_render(waddle);
 	}
 
@@ -185,8 +205,13 @@ void waddle_update(waddle* waddle) {
 	}
 }
 
+void waddle_update_physics(waddle* waddle) {
+	update_physics_system(waddle->entities, waddle->entity_count);
+}
+
+
 void waddle_render(waddle* waddle) {
-	SDL_SetRenderDrawColor(waddle->renderer, 0x00, 0x00, 0xFF, 0xFF);
+	SDL_SetRenderDrawColor(waddle->renderer, 0x50, 0x60, 0x3A, 0xFF);
 	SDL_RenderClear(waddle->renderer);
 	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
 		update_render_system(waddle->renderer, waddle->entities[entity_i]);

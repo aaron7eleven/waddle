@@ -54,6 +54,9 @@
     <ClCompile Include="waddle_entity.c">
       <Filter>engine\src</Filter>
     </ClCompile>
+    <ClCompile Include="waddle_system_physics.c">
+      <Filter>engine\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -83,10 +86,13 @@
     <ClInclude Include="quad_controller.h">
       <Filter>game\include</Filter>
     </ClInclude>
-    <ClInclude Include="waddle_system_update.h">
+    <ClInclude Include="waddle_component_transform.h">
       <Filter>engine\include</Filter>
     </ClInclude>
-    <ClInclude Include="waddle_component_transform.h">
+    <ClInclude Include="waddle_component_quad_collider.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_system_physics.h">
       <Filter>engine\include</Filter>
     </ClInclude>
   </ItemGroup>

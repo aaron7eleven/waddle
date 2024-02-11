@@ -48,6 +48,7 @@ int waddle_free(waddle* waddle);
 
 void waddle_process_input(waddle* waddle);
 void waddle_update(waddle* waddle);
+void waddle_update_physics(waddle* waddle);
 void waddle_render(waddle* waddle);
 
 entity* create_entity(waddle* waddle);

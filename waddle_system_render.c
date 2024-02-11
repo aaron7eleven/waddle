@@ -1,6 +1,6 @@
+#include "waddle_system_render.h"
 #include "waddle_component_transform.h"
 #include "waddle_component_quad_renderer.h"
-#include "waddle_system_render.h"
 
 void update_render_system(SDL_Renderer* renderer, entity* entity)
 {
@@ -14,7 +14,7 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 				t->position.x,
 				t->position.y,
 				q_rend->rect.w * t->scale.x,
-				q_rend->rect.y * t->scale.y
+				q_rend->rect.h * t->scale.y
 			};
 
 			SDL_RenderFillRectF(renderer, &render_rect);

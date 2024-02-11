@@ -3,5 +3,4 @@
 
 typedef struct {
 	SDL_FRect rect;
-	SDL_Color color;
-} quad_renderer;
+} quad_collider;
