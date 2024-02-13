@@ -161,19 +161,34 @@ int waddle_run(waddle* waddle) {
 		DYNAMIC
 	});
 
-	entity* wall = create_entity(waddle);
-	add_component(wall, TRANSFORM, &(transform) {
+	entity* small_wall = create_entity(waddle);
+	add_component(small_wall, TRANSFORM, &(transform) {
 		{ 200.0f, 200.0f},
 		{ 0.0f, 0.0f },
 		{ 1.0f, 1.0f }
 	});
-	add_component(wall, QUAD_RENDERER, &(quad_renderer) {
+	add_component(small_wall, QUAD_RENDERER, &(quad_renderer) {
 		{ 50.0f, 50.0f, 100.0f, 100.0f },
 		{ 0x78, 0x94, 0x61, 0xFF }
 	});
-	add_component(wall, QUAD_COLLIDER, &(quad_collider) {
+	add_component(small_wall, QUAD_COLLIDER, &(quad_collider) {
 		{ 100.0f, 100.0f, 100.0f, 100.0f },
 		STATIC
+	});
+
+	entity* medium_wall = create_entity(waddle);
+	add_component(medium_wall, TRANSFORM, &(transform) {
+		{ 250.0f, 250.0f},
+		{ 0.0f, 0.0f },
+		{ 1.0f, 1.0f }
+	});
+	add_component(medium_wall, QUAD_RENDERER, &(quad_renderer) {
+		{ 50.0f, 50.0f, 200.0f, 200.0f },
+		{ 0x78, 0x94, 0x61, 0xFF }
+	});
+	add_component(medium_wall, QUAD_COLLIDER, &(quad_collider) {
+		{ 100.0f, 100.0f, 200.0f, 200.0f },
+			STATIC
 	});
 
 
