@@ -161,6 +161,7 @@
     <ClInclude Include="game.h" />
     <ClInclude Include="quad_controller.h" />
     <ClInclude Include="waddle.h" />
+    <ClInclude Include="waddle_colliders.h" />
     <ClInclude Include="waddle_component.h" />
     <ClInclude Include="waddle_component_quad_collider.h" />
     <ClInclude Include="waddle_component_quad_renderer.h" />

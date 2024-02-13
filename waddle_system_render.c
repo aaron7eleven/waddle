@@ -1,6 +1,7 @@
 #include "waddle_system_render.h"
 #include "waddle_component_transform.h"
 #include "waddle_component_quad_renderer.h"
+#include "waddle_component_quad_collider.h"
 
 void update_render_system(SDL_Renderer* renderer, entity* entity)
 {
@@ -18,6 +19,21 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 			};
 
 			SDL_RenderFillRectF(renderer, &render_rect);
+		}
+		else if (entity->components[comp_i]->type == QUAD_COLLIDER) {
+			continue;
+			quad_collider* q_collider = (quad_collider*)entity->components[comp_i]->data;
+			SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+			transform* t = (transform*)get_component(entity, TRANSFORM);
+
+			SDL_FRect render_rect = {
+				t->position.x,
+				t->position.y,
+				q_collider->rect.w * t->scale.x,
+				q_collider->rect.h * t->scale.y
+			};
+
+			SDL_RenderDrawRectF(renderer, &render_rect);
 		}
 	}
 }

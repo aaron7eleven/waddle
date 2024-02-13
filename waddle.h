@@ -53,5 +53,3 @@ void waddle_render(waddle* waddle);
 
 entity* create_entity(waddle* waddle);
 
-void add_component(waddle* waddle, entity* entity, component_type type, void* data);
-

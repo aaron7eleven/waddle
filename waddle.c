@@ -7,6 +7,7 @@
 #include "waddle_component_quad_renderer.h"
 #include "waddle_component_transform.h"
 #include "waddle_component_quad_collider.h"
+#include "waddle_colliders.h"
 #include "quad_controller.h"
 
 #include "waddle_system_render.h"
@@ -142,35 +143,37 @@ int waddle_free(waddle* waddle) {
 int waddle_run(waddle* waddle) {
 
 	entity* quad = create_entity(waddle);
-	add_component(waddle, quad, TRANSFORM, &(transform) {
+	add_component(quad, TRANSFORM, &(transform) {
 		{ 100.0f, 100.0f},
 		{ 0.0f, 0.0f },
 		{ 1.0f, 1.0f }
 	});
-	add_component(waddle, quad, QUAD_RENDERER, &(quad_renderer) {
+	add_component(quad, QUAD_RENDERER, &(quad_renderer) {
 		{ 100.0f, 100.0f, 50.0f, 50.0f },
 		{ 0xDB, 0xE7, 0xC9, 0xFF }
 	});
-	add_component(waddle, quad, QUAD_CONTROLLER, &(quad_controller) {
+	add_component(quad, QUAD_CONTROLLER, &(quad_controller) {
 		300.0f, 
 		{ 0.0f, 0.0f }
 	});
-	add_component(waddle, quad, QUAD_COLLIDER, &(quad_collider) {
-		{ 100.0f, 100.0f, 50.0f, 50.0f }
+	add_component(quad, QUAD_COLLIDER, &(quad_collider) {
+		{ 100.0f, 100.0f, 50.0f, 50.0f },
+		DYNAMIC
 	});
 
 	entity* wall = create_entity(waddle);
-	add_component(waddle, wall, TRANSFORM, &(transform) {
-		{ 300.0f, 300.0f},
+	add_component(wall, TRANSFORM, &(transform) {
+		{ 200.0f, 200.0f},
 		{ 0.0f, 0.0f },
 		{ 1.0f, 1.0f }
 	});
-	add_component(waddle, wall, QUAD_RENDERER, &(quad_renderer) {
+	add_component(wall, QUAD_RENDERER, &(quad_renderer) {
 		{ 50.0f, 50.0f, 100.0f, 100.0f },
 		{ 0x78, 0x94, 0x61, 0xFF }
 	});
-	add_component(waddle, wall, QUAD_COLLIDER, &(quad_collider) {
-		{ 100.0f, 100.0f, 100.0f, 100.0f }
+	add_component(wall, QUAD_COLLIDER, &(quad_collider) {
+		{ 100.0f, 100.0f, 100.0f, 100.0f },
+		STATIC
 	});
 
 
@@ -229,6 +232,8 @@ entity* create_entity(waddle* waddle)
 	entity* new_entity = malloc(sizeof(entity));
 	new_entity->id = waddle->entity_count;
 	new_entity->component_count = 0;
+	new_entity->max_component_per_entity = waddle->max_component_per_entity;
+
 	for (int comp_i = 0; comp_i < waddle->max_component_per_entity; comp_i++) {
 		new_entity->components[comp_i] = NULL;
 	}
@@ -237,18 +242,4 @@ entity* create_entity(waddle* waddle)
 	waddle->entity_count++;
 
 	return new_entity;
-}
-
-void add_component(waddle* waddle, entity* entity, component_type type, void* data) {
-	if ((entity->component_count + 1) >= waddle->max_component_per_entity) {
-		printf("ERROR: At max component count per entity, not adding component to entity");
-		return NULL;
-	}
-
-	component* new_component = malloc(sizeof(component));
-	new_component->type = type;
-	new_component->data = data;
-
-	entity->components[entity->component_count] = new_component;
-	entity->component_count++;
 }

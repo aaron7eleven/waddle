@@ -101,5 +101,8 @@
     <ClInclude Include="waddle_math.h">
       <Filter>engine\include</Filter>
     </ClInclude>
+    <ClInclude Include="waddle_colliders.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
