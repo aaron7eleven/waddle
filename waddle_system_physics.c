@@ -2,6 +2,7 @@
 #include "waddle_component_transform.h"
 #include "waddle_component_quad_collider.h"
 #include "waddle_colliders.h"
+#include "waddle_math.h"
 
 void update_physics_system(entity* entities[], int entity_count) {
 	update_colliders(entities, entity_count);
@@ -126,19 +127,32 @@ void collision_response(entity* a, entity* b) {
 	else if (a_quad_collider->type == DYNAMIC && b_quad_collider->type == DYNAMIC) {
 		// Move a & b (equally in opposite directions?)
 		// Move a
-		transform* a_quad_transform = (transform*)get_component(a, TRANSFORM);
+		transform* a_quad_transform = (transform*) get_component(a, TRANSFORM);
+		float a_delta_magn = magnitude(a_quad_collider->delta.x, a_quad_collider->delta.y);
+		float b_delta_magn = magnitude(b_quad_collider->delta.x, b_quad_collider->delta.y);
 
-		a_quad_transform->position.x -= (a_quad_collider->delta.x / 2.0f);
-		a_quad_transform->position.y -= (a_quad_collider->delta.y / 2.0f);
-		//printf("dynamic a hit static b by (%f,%f)\n", a_quad_collider->delta.x, a_quad_collider->delta.y);
-		update_quad_collider(a);
+		//float total_dx = a_quad_collider->delta.x + 
+		if (a_delta_magn > 0) {
+			if (b_delta_magn == 0.0f) {
+				// push b using a's delta
+				transform* b_quad_transform = (transform*)get_component(b, TRANSFORM);
+				b_quad_transform->position.x += a_quad_collider->delta.x;
+				b_quad_transform->position.y += a_quad_collider->delta.y;
+				update_quad_collider(b);
+			}
+		}
 
-		transform* b_quad_transform = (transform*)get_component(b, TRANSFORM);
-		b_quad_transform->position.x -= (b_quad_collider->delta.x / 2.0f);
-		b_quad_transform->position.y -= (b_quad_collider->delta.y / 2.0f);
-		update_quad_collider(b);
+		//a_quad_transform->position.x -= (a_quad_collider->delta.x / 2.0f);
+		//a_quad_transform->position.y -= (a_quad_collider->delta.y / 2.0f);
+		////printf("dynamic a hit static b by (%f,%f)\n", a_quad_collider->delta.x, a_quad_collider->delta.y);
+		//update_quad_collider(a);
 
-		printf("dynamic a hit dynamic a\n");
+		//transform* b_quad_transform = (transform*)get_component(b, TRANSFORM);
+		//b_quad_transform->position.x -= (b_quad_collider->delta.x / 2.0f);
+		//b_quad_transform->position.y -= (b_quad_collider->delta.y / 2.0f);
+		//update_quad_collider(b);
+
+		//printf("dynamic a hit dynamic a\n");
 	}
 	else {
 		printf("uncaught collision repsonse...");

@@ -157,8 +157,27 @@ int waddle_run(waddle* waddle) {
 		{ 0.0f, 0.0f }
 	});
 	add_component(quad, QUAD_COLLIDER, &(quad_collider) {
-		{ 100.0f, 100.0f, 50.0f, 50.0f },
+		{ 300.0f, 100.0f, 50.0f, 50.0f },
 		DYNAMIC
+	});
+
+	entity* moveable_quad = create_entity(waddle);
+	add_component(moveable_quad, TRANSFORM, &(transform) {
+		{ 300.0f, 100.0f},
+		{ 0.0f, 0.0f },
+		{ 1.0f, 1.0f }
+	});
+	add_component(moveable_quad, QUAD_RENDERER, &(quad_renderer) {
+		{ 100.0f, 100.0f, 50.0f, 50.0f },
+		{ 0xDB, 0xE7, 0xC9, 0xFF }
+	});
+	//add_component(quad, QUAD_CONTROLLER, &(quad_controller) {
+	//	300.0f,
+	//	{ 0.0f, 0.0f }
+	//});
+	add_component(moveable_quad, QUAD_COLLIDER, &(quad_collider) {
+		{ 100.0f, 100.0f, 50.0f, 50.0f },
+			DYNAMIC
 	});
 
 	entity* small_wall = create_entity(waddle);
