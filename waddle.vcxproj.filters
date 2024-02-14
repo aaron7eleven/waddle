@@ -42,9 +42,6 @@
     <ClCompile Include="waddle_log.c">
       <Filter>engine\src</Filter>
     </ClCompile>
-    <ClCompile Include="waddle_time.c">
-      <Filter>engine\src</Filter>
-    </ClCompile>
     <ClCompile Include="waddle_system_render.c">
       <Filter>engine\src</Filter>
     </ClCompile>
@@ -60,6 +57,9 @@
     <ClCompile Include="waddle_math.c">
       <Filter>engine\src</Filter>
     </ClCompile>
+    <ClCompile Include="game.c">
+      <Filter>game\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -69,9 +69,6 @@
       <Filter>engine\include</Filter>
     </ClInclude>
     <ClInclude Include="waddle_log.h">
-      <Filter>engine\include</Filter>
-    </ClInclude>
-    <ClInclude Include="waddle_time.h">
       <Filter>engine\include</Filter>
     </ClInclude>
     <ClInclude Include="waddle_component.h">
@@ -101,7 +98,19 @@
     <ClInclude Include="waddle_math.h">
       <Filter>engine\include</Filter>
     </ClInclude>
-    <ClInclude Include="waddle_colliders.h">
+    <ClInclude Include="waddle_collider_type.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_include.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_component_types.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_component_type.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_game_component_types.h">
       <Filter>engine\include</Filter>
     </ClInclude>
   </ItemGroup>

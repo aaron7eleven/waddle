@@ -147,6 +147,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="game.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="quad_controller.c" />
     <ClCompile Include="waddle.c" />
@@ -155,23 +156,25 @@
     <ClCompile Include="waddle_math.c" />
     <ClCompile Include="waddle_system_physics.c" />
     <ClCompile Include="waddle_system_render.c" />
-    <ClCompile Include="waddle_time.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h" />
     <ClInclude Include="quad_controller.h" />
     <ClInclude Include="waddle.h" />
-    <ClInclude Include="waddle_colliders.h" />
+    <ClInclude Include="waddle_collider_type.h" />
     <ClInclude Include="waddle_component.h" />
     <ClInclude Include="waddle_component_quad_collider.h" />
     <ClInclude Include="waddle_component_quad_renderer.h" />
     <ClInclude Include="waddle_component_transform.h" />
+    <ClInclude Include="waddle_component_type.h" />
+    <ClInclude Include="waddle_component_types.h" />
     <ClInclude Include="waddle_entity.h" />
+    <ClInclude Include="waddle_game_component_types.h" />
+    <ClInclude Include="waddle_include.h" />
     <ClInclude Include="waddle_log.h" />
     <ClInclude Include="waddle_math.h" />
     <ClInclude Include="waddle_system_physics.h" />
     <ClInclude Include="waddle_system_render.h" />
-    <ClInclude Include="waddle_time.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

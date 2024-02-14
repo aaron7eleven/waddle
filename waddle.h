@@ -3,7 +3,9 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 
-#include "waddle_entity.h"
+#include "waddle_include.h"
+
+typedef void (*waddle_update_callback)(float delta_time, const Uint8* key_state, entity* entity);
 
 typedef struct {
 	SDL_Window* window;
@@ -39,17 +41,27 @@ typedef struct {
 	int max_entities;
 	entity* entities[16];
 	int max_component_per_entity;
+	
+	int update_callback_count;
+	int max_update_callback_count;
+	waddle_update_callback update_callbacks[16];
 
 } waddle;
 
+waddle* waddle_create();
 int waddle_init(waddle* waddle);
 int waddle_run(waddle* waddle);
 int waddle_free(waddle* waddle);
 
 void waddle_process_input(waddle* waddle);
 void waddle_update(waddle* waddle);
-void waddle_update_physics(waddle* waddle);
+void waddle_physics_update(waddle* waddle);
 void waddle_render(waddle* waddle);
 
+void waddle_update_delta_time(waddle* waddle);
+void waddle_apply_frame_delay(waddle* waddle);
+
 entity* create_entity(waddle* waddle);
+int add_update_callback(waddle* waddle, waddle_update_callback callback);
+//void free_entities(entity* entity);
 

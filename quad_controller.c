@@ -1,9 +1,7 @@
 #include "quad_controller.h"
-#include "waddle_math.h"
-#include "waddle_component_transform.h"
+#include "waddle.h"
 
 void update_quad_controller(float delta_time, const Uint8* key_state, entity* entity) {
-	
 	for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
 		if (entity->components[comp_i]->type == QUAD_CONTROLLER) {
 			quad_controller* quad_ctrl = (quad_controller*)entity->components[comp_i]->data;
@@ -31,7 +29,7 @@ void update_quad_controller(float delta_time, const Uint8* key_state, entity* en
 				normalize(&(quad_ctrl->velocity));
 			}			
 
-			transform* t = (transform*)get_component(entity, TRANSFORM);
+			transform* t = (transform*) get_component(entity, WADDLE_TRANSFORM);
 			t->position.x += quad_ctrl->velocity.x * quad_ctrl->speed * delta_time;
 			t->position.y += quad_ctrl->velocity.y * quad_ctrl->speed * delta_time;
 		}

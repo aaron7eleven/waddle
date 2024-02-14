@@ -3,4 +3,4 @@
 typedef enum {
 	STATIC,
 	DYNAMIC
-} collider_type;
+} waddle_collider_type;

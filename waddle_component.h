@@ -1,12 +1,5 @@
 #pragma once
-
-typedef enum {
-	TRANSFORM,
-	QUAD_RENDERER,
-	QUAD_COLLIDER,
-	QUAD_CONTROLLER
-} component_type;
-
+#include "waddle_component_type.h"
 
 typedef struct {
 	component_type type;

@@ -1,18 +1,14 @@
 #pragma once
 #include <stdlib.h>
 #include "waddle.h"
-#include "waddle_time.h"
-#include "waddle_entity.h"
-#include "waddle_component.h"
-#include "waddle_component_quad_renderer.h"
-#include "waddle_component_transform.h"
-#include "waddle_component_quad_collider.h"
-#include "waddle_colliders.h"
-#include "quad_controller.h"
 
-#include "waddle_system_render.h"
-#include "waddle_system_physics.h"
-
+waddle* waddle_create() {
+	waddle* w = (waddle*) malloc(sizeof(waddle));
+	if (waddle_init(w)) {
+		return NULL;
+	}
+	return w;
+}
 
 int waddle_init(waddle* waddle) {
 	if (!waddle->initialize) {
@@ -107,6 +103,12 @@ int waddle_init(waddle* waddle) {
 
 	waddle->max_component_per_entity = 16;
 
+	waddle->update_callback_count = 0;
+	waddle->max_update_callback_count = 16;
+
+	for (int update_cb_i = 0; update_cb_i < waddle->max_update_callback_count; update_cb_i++) {
+		waddle->update_callbacks[update_cb_i] = NULL;
+	}
 
 	return 0;
 }
@@ -142,81 +144,20 @@ int waddle_free(waddle* waddle) {
 
 int waddle_run(waddle* waddle) {
 
-	entity* quad = create_entity(waddle);
-	add_component(quad, TRANSFORM, &(transform) {
-		{ 100.0f, 100.0f},
-		{ 0.0f, 0.0f },
-		{ 1.0f, 1.0f }
-	});
-	add_component(quad, QUAD_RENDERER, &(quad_renderer) {
-		{ 100.0f, 100.0f, 50.0f, 50.0f },
-		{ 0xDB, 0xE7, 0xC9, 0xFF }
-	});
-	add_component(quad, QUAD_CONTROLLER, &(quad_controller) {
-		300.0f, 
-		{ 0.0f, 0.0f }
-	});
-	add_component(quad, QUAD_COLLIDER, &(quad_collider) {
-		{ 300.0f, 100.0f, 50.0f, 50.0f },
-		DYNAMIC
-	});
-
-	entity* moveable_quad = create_entity(waddle);
-	add_component(moveable_quad, TRANSFORM, &(transform) {
-		{ 300.0f, 100.0f},
-		{ 0.0f, 0.0f },
-		{ 1.0f, 1.0f }
-	});
-	add_component(moveable_quad, QUAD_RENDERER, &(quad_renderer) {
-		{ 100.0f, 100.0f, 50.0f, 50.0f },
-		{ 0xDB, 0xE7, 0xC9, 0xFF }
-	});
-	//add_component(quad, QUAD_CONTROLLER, &(quad_controller) {
-	//	300.0f,
-	//	{ 0.0f, 0.0f }
-	//});
-	add_component(moveable_quad, QUAD_COLLIDER, &(quad_collider) {
-		{ 100.0f, 100.0f, 50.0f, 50.0f },
-			DYNAMIC
-	});
-
-	entity* small_wall = create_entity(waddle);
-	add_component(small_wall, TRANSFORM, &(transform) {
-		{ 200.0f, 200.0f},
-		{ 0.0f, 0.0f },
-		{ 1.0f, 1.0f }
-	});
-	add_component(small_wall, QUAD_RENDERER, &(quad_renderer) {
-		{ 50.0f, 50.0f, 100.0f, 100.0f },
-		{ 0x78, 0x94, 0x61, 0xFF }
-	});
-	add_component(small_wall, QUAD_COLLIDER, &(quad_collider) {
-		{ 100.0f, 100.0f, 100.0f, 100.0f },
-		STATIC
-	});
-
-	entity* medium_wall = create_entity(waddle);
-	add_component(medium_wall, TRANSFORM, &(transform) {
-		{ 250.0f, 250.0f},
-		{ 0.0f, 0.0f },
-		{ 1.0f, 1.0f }
-	});
-	add_component(medium_wall, QUAD_RENDERER, &(quad_renderer) {
-		{ 50.0f, 50.0f, 200.0f, 200.0f },
-		{ 0x78, 0x94, 0x61, 0xFF }
-	});
-	add_component(medium_wall, QUAD_COLLIDER, &(quad_collider) {
-		{ 100.0f, 100.0f, 200.0f, 200.0f },
-			STATIC
-	});
-
-
-	while (!(waddle->quit)) {
+	while (!waddle->quit)
+	{
 		waddle_update_delta_time(waddle);
 		waddle_process_input(waddle);
 		waddle_update(waddle);
 		waddle_update_physics(waddle);
 		waddle_render(waddle);
+
+		if (waddle->restart) {
+			waddle_free(waddle);
+			if (waddle_init(waddle)) {
+				return 1;
+			}
+		}
 	}
 
 	return 0;
@@ -238,12 +179,14 @@ void waddle_process_input(waddle* waddle) {
 
 void waddle_update(waddle* waddle) {
 	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
-		update_quad_controller(waddle->delta_time, waddle->key_state, waddle->entities[entity_i]);
+		for (int callback_i = 0; callback_i < waddle->update_callback_count; callback_i++) {
+			waddle->update_callbacks[callback_i](waddle->delta_time, waddle->key_state, waddle->entities[entity_i]);
+		}
 	}
 }
 
-void waddle_update_physics(waddle* waddle) {
-	update_physics_system(waddle->entities, waddle->entity_count);
+void waddle_physics_update(waddle* waddle) {
+	//update_physics_system(waddle->entities, waddle->entity_count);
 }
 
 
@@ -256,6 +199,20 @@ void waddle_render(waddle* waddle) {
 	SDL_RenderPresent(waddle->renderer);
 }
 
+void waddle_update_delta_time(waddle* waddle) {
+	waddle->delta_time = (SDL_GetTicks() - waddle->start_ticks) / 1000.0f;
+	waddle->start_ticks = SDL_GetTicks();
+}
+
+void waddle_apply_frame_delay(waddle* waddle) {
+	Uint32 current_frame_ticks = SDL_GetTicks() - waddle->start_ticks;
+	if (current_frame_ticks < waddle->ticks_per_frame)
+	{
+		//Wait remaining time
+		SDL_Delay(waddle->ticks_per_frame - current_frame_ticks);
+	}
+}
+
 entity* create_entity(waddle* waddle)
 {
 	if ((waddle->entity_count + 1) >= waddle->max_entities) {
@@ -264,6 +221,7 @@ entity* create_entity(waddle* waddle)
 	}
 
 	entity* new_entity = malloc(sizeof(entity));
+	new_entity->name = "entity";
 	new_entity->id = waddle->entity_count;
 	new_entity->component_count = 0;
 	new_entity->max_component_per_entity = waddle->max_component_per_entity;
@@ -276,4 +234,15 @@ entity* create_entity(waddle* waddle)
 	waddle->entity_count++;
 
 	return new_entity;
+}
+
+int add_update_callback(waddle* waddle, waddle_update_callback callback) {
+	if ((waddle->update_callback_count + 1) >= waddle->max_update_callback_count) {
+		printf("ERROR: At max update callback count, not adding callback\n");
+		return 0;
+	}
+
+	waddle->update_callbacks[waddle->update_callback_count] = callback;
+	waddle->update_callback_count++;
+	return 1;
 }
