@@ -3,6 +3,7 @@
 
 typedef struct {
 	waddle* waddle;
+	const char* name;
 } game;
 
 

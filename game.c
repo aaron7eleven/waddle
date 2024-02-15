@@ -2,11 +2,23 @@
 #include "quad_controller.h"
 
 int game_init(game* game) {
+	game->name = "Waddle: 2D test demo";
 	game->waddle = waddle_create();
+	
+	// Check if created waddle
 	if (game->waddle == NULL) {
 		return 1;
 	}
 
+	// Customize waddle configuration
+	game->waddle->window_title = game->name; // could assign directly
+
+	// Initialize waddle
+	if (waddle_init(game->waddle)) {
+		return 1;
+	}
+
+	// Add all the game entity's and their components
 	entity* quad = create_entity(game->waddle);
 	quad->name = "quad";
 	add_component(quad, WADDLE_TRANSFORM, &(transform) {

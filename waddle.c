@@ -4,9 +4,7 @@
 
 waddle* waddle_create() {
 	waddle* w = (waddle*) malloc(sizeof(waddle));
-	if (waddle_init(w)) {
-		return NULL;
-	}
+	w->window_title = "Waddle";
 	return w;
 }
 
@@ -29,7 +27,8 @@ int waddle_init(waddle* waddle) {
 	//Create window
 	Uint32 window_flags = SDL_WINDOW_SHOWN;
 	window_flags = waddle->fullscreen ? window_flags | SDL_WINDOW_FULLSCREEN : window_flags;
-	waddle->window = SDL_CreateWindow("Waddle", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, waddle->screen_width, waddle->screen_height, window_flags);
+
+	waddle->window = SDL_CreateWindow(waddle->window_title, SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, waddle->screen_width, waddle->screen_height, window_flags);
 	if (waddle->window == NULL)
 	{
 		printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
@@ -103,11 +102,11 @@ int waddle_init(waddle* waddle) {
 
 	waddle->max_component_per_entity = 16;
 
-	waddle->update_callback_count = 0;
-	waddle->max_update_callback_count = 16;
+	waddle->system_update_callback_count = 0;
+	waddle->max_system_update_callback_count = 16;
 
-	for (int update_cb_i = 0; update_cb_i < waddle->max_update_callback_count; update_cb_i++) {
-		waddle->update_callbacks[update_cb_i] = NULL;
+	for (int update_cb_i = 0; update_cb_i < waddle->max_system_update_callback_count; update_cb_i++) {
+		waddle->system_update_callbacks[update_cb_i] = NULL;
 	}
 
 	return 0;
@@ -149,7 +148,7 @@ int waddle_run(waddle* waddle) {
 		waddle_update_delta_time(waddle);
 		waddle_process_input(waddle);
 		waddle_update(waddle);
-		waddle_update_physics(waddle);
+		waddle_physics_update(waddle);
 		waddle_render(waddle);
 
 		if (waddle->restart) {
@@ -179,8 +178,8 @@ void waddle_process_input(waddle* waddle) {
 
 void waddle_update(waddle* waddle) {
 	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
-		for (int callback_i = 0; callback_i < waddle->update_callback_count; callback_i++) {
-			waddle->update_callbacks[callback_i](waddle->delta_time, waddle->key_state, waddle->entities[entity_i]);
+		for (int callback_i = 0; callback_i < waddle->system_update_callback_count; callback_i++) {
+			waddle->system_update_callbacks[callback_i](waddle->delta_time, waddle->key_state, waddle->entities[entity_i]);
 		}
 	}
 }
@@ -236,13 +235,13 @@ entity* create_entity(waddle* waddle)
 	return new_entity;
 }
 
-int add_update_callback(waddle* waddle, waddle_update_callback callback) {
-	if ((waddle->update_callback_count + 1) >= waddle->max_update_callback_count) {
+int add_update_callback(waddle* waddle, waddle_system_update_callback callback) {
+	if ((waddle->system_update_callback_count + 1) >= waddle->max_system_update_callback_count) {
 		printf("ERROR: At max update callback count, not adding callback\n");
 		return 0;
 	}
 
-	waddle->update_callbacks[waddle->update_callback_count] = callback;
-	waddle->update_callback_count++;
+	waddle->system_update_callbacks[waddle->system_update_callback_count] = callback;
+	waddle->system_update_callback_count++;
 	return 1;
 }
