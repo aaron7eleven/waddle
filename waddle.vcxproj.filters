@@ -60,6 +60,12 @@
     <ClCompile Include="game.c">
       <Filter>game\src</Filter>
     </ClCompile>
+    <ClCompile Include="waddle_sprite.h">
+      <Filter>engine\include</Filter>
+    </ClCompile>
+    <ClCompile Include="coin_spawner.c">
+      <Filter>game\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -111,6 +117,18 @@
       <Filter>engine\include</Filter>
     </ClInclude>
     <ClInclude Include="waddle_game_component_types.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_component_sprite_renderer.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_component_include.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="coin_spawner.h">
+      <Filter>game\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_callback_test.h">
       <Filter>engine\include</Filter>
     </ClInclude>
   </ItemGroup>

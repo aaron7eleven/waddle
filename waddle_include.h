@@ -1,12 +1,5 @@
 #pragma once
-#include "waddle_collider_type.h"
-//#include "waddle_component_types.h"
-//#include "waddle_game_component_types.h"
-#include "waddle_component_type.h"
-#include "waddle_component.h"
-#include "waddle_component_transform.h"
-#include "waddle_component_quad_collider.h"
-#include "waddle_component_quad_renderer.h"
+#include "waddle_component_include.h"
 #include "waddle_entity.h"
 #include "waddle_log.h"
 #include "waddle_math.h"

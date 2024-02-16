@@ -4,4 +4,7 @@
 typedef struct {
 	SDL_FPoint size;
 	SDL_Color color;
-} quad_renderer;
+	const char* file;
+	SDL_Texture* texture;
+} sprite_renderer;
+

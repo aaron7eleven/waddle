@@ -1,5 +1,5 @@
 #pragma once
-#include <stdlib.h>
+//#include <stdlib.h>
 #include "waddle.h"
 
 waddle* waddle_create() {
@@ -19,8 +19,8 @@ int waddle_init(waddle* waddle) {
 	}
 
 	// window config
-	waddle->screen_width = 640;
-	waddle->screen_height = 480;
+	waddle->screen_width = 1280;
+	waddle->screen_height = 720;
 	waddle->v_sync = 1;
 	waddle->fullscreen = 0;
 
@@ -48,7 +48,7 @@ int waddle_init(waddle* waddle) {
 	waddle->surface = SDL_GetWindowSurface(waddle->window);
 
 	//Initialize PNG loading
-	int img_flags = IMG_INIT_PNG;
+	int img_flags = IMG_INIT_PNG | IMG_INIT_JPG;
 	if (!(IMG_Init(img_flags) & img_flags))
 	{
 		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
@@ -56,10 +56,10 @@ int waddle_init(waddle* waddle) {
 	}
 
 	// Load text library
-	if (TTF_Init() == -1) {
-		printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
-		return 1;
-	}
+	//if (TTF_Init() == -1) {
+	//	printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+	//	return 1;
+	//}
 
 	//// Load Font
 	//app->font = TTF_OpenFont("assets/font/DotGothic16-Regular.ttf", app->fontPointSize);
@@ -105,9 +105,9 @@ int waddle_init(waddle* waddle) {
 	waddle->system_update_callback_count = 0;
 	waddle->max_system_update_callback_count = 16;
 
-	for (int update_cb_i = 0; update_cb_i < waddle->max_system_update_callback_count; update_cb_i++) {
-		waddle->system_update_callbacks[update_cb_i] = NULL;
-	}
+	//for (int update_cb_i = 0; update_cb_i < waddle->max_system_update_callback_count; update_cb_i++) {
+	//	waddle->system_update_callbacks[update_cb_i] = NULL;
+	//}
 
 	return 0;
 }
@@ -141,6 +141,30 @@ int waddle_free(waddle* waddle) {
 	return 0;
 }
 
+int waddle_load_assets(waddle* waddle) {
+	// Loop through each entity's component to load any assets it's components are pointing to
+	entity* entity;
+	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
+		entity = waddle->entities[entity_i];
+		for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
+			
+			switch (entity->components[comp_i]->type) {
+				case WADDLE_SPRITE_RENDERER: {
+					sprite_renderer* sprite_rend = (sprite_renderer*)entity->components[comp_i]->data;
+					sprite_rend->texture = IMG_LoadTexture(waddle->renderer, sprite_rend->file);
+					if (sprite_rend->texture == NULL) {
+						printf("ERROR: Failed to load asset: %s", sprite_rend->file);
+					}
+				} break;
+
+				default: {
+
+				} break;
+			}
+		}
+	}
+}
+
 int waddle_run(waddle* waddle) {
 
 	while (!waddle->quit)
@@ -148,7 +172,7 @@ int waddle_run(waddle* waddle) {
 		waddle_update_delta_time(waddle);
 		waddle_process_input(waddle);
 		waddle_update(waddle);
-		waddle_physics_update(waddle);
+		//waddle_physics_update(waddle);
 		waddle_render(waddle);
 
 		if (waddle->restart) {
@@ -179,19 +203,20 @@ void waddle_process_input(waddle* waddle) {
 void waddle_update(waddle* waddle) {
 	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
 		for (int callback_i = 0; callback_i < waddle->system_update_callback_count; callback_i++) {
-			waddle->system_update_callbacks[callback_i](waddle->delta_time, waddle->key_state, waddle->entities[entity_i]);
+			//waddle->system_update_callbacks[callback_i](waddle);
 		}
 	}
 }
 
 void waddle_physics_update(waddle* waddle) {
-	//update_physics_system(waddle->entities, waddle->entity_count);
+	update_physics_system(waddle->entities, waddle->entity_count);
 }
 
 
 void waddle_render(waddle* waddle) {
 	SDL_SetRenderDrawColor(waddle->renderer, 0x50, 0x60, 0x3A, 0xFF);
 	SDL_RenderClear(waddle->renderer);
+	SDL_Renderer* renderer = waddle->renderer;
 	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
 		update_render_system(waddle->renderer, waddle->entities[entity_i]);
 	}
@@ -235,13 +260,13 @@ entity* create_entity(waddle* waddle)
 	return new_entity;
 }
 
-int add_update_callback(waddle* waddle, waddle_system_update_callback callback) {
-	if ((waddle->system_update_callback_count + 1) >= waddle->max_system_update_callback_count) {
-		printf("ERROR: At max update callback count, not adding callback\n");
-		return 0;
-	}
-
-	waddle->system_update_callbacks[waddle->system_update_callback_count] = callback;
-	waddle->system_update_callback_count++;
-	return 1;
-}
+//int add_system_update(waddle* waddle, waddle_system_update_callback callback) {
+//	if ((waddle->system_update_callback_count + 1) >= waddle->max_system_update_callback_count) {
+//		printf("ERROR: At max update callback count, not adding callback\n");
+//		return 0;
+//	}
+//
+//	waddle->system_update_callbacks[waddle->system_update_callback_count] = callback;
+//	waddle->system_update_callback_count++;
+//	return 1;
+//}

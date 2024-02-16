@@ -4,10 +4,21 @@
 #include <SDL_ttf.h>
 
 #include "waddle_include.h"
+//#include "waddle_callback_test.h"
 
-typedef void (*waddle_system_update_callback)(float delta_time, const Uint8* key_state, entity* entity);
+typedef struct waddle waddle;
 
-typedef struct {
+typedef void (*waddle_system_update_callback)(waddle* waddle);
+//typedef void (*waddle_system_update_callback)(
+//	entity* entities[],
+//	int entity_count,
+//	float delta_time,
+//	Uint8 inputs
+//);
+
+
+
+struct waddle {
 	SDL_Window* window;
 	SDL_Surface* surface;
 	SDL_Renderer* renderer;
@@ -44,15 +55,22 @@ typedef struct {
 	
 	int system_update_callback_count;
 	int max_system_update_callback_count;
-	waddle_system_update_callback system_update_callbacks[16];
+	void (*waddle_system_update_callback)(waddle* waddle);
+	//waddle_system_update_callback system_update_callbacks[16];
+	//void (*waddle_system_update_callback[16])(waddle* waddle);
 
-} waddle;
+};
+
+
+//typedef void (*waddle_system_update_callback)(waddle* waddle);
 
 waddle* waddle_create();
 int waddle_init(waddle* waddle);
 int waddle_run(waddle* waddle);
 int waddle_free(waddle* waddle);
+int waddle_load_assets(waddle* waddle);
 
+// Game Loop
 void waddle_process_input(waddle* waddle);
 void waddle_update(waddle* waddle);
 void waddle_physics_update(waddle* waddle);
@@ -62,6 +80,6 @@ void waddle_update_delta_time(waddle* waddle);
 void waddle_apply_frame_delay(waddle* waddle);
 
 entity* create_entity(waddle* waddle);
-int add_system_update(waddle* waddle, waddle_system_update_callback callback);
+//int add_system_update(waddle* waddle, waddle_system_update_callback callback);
 //void free_entities(entity* entity);
 

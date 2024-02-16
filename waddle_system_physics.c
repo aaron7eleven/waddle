@@ -12,13 +12,19 @@ void update_physics_system(entity* entities[], int entity_count) {
 void update_colliders(entity* entities[], int entity_count) {
 	// Update collider position
 	for (int entity_i = 0; entity_i < entity_count; entity_i++) {
-		if ((quad_collider*)get_component(entities[entity_i], WADDLE_QUAD_COLLIDER) != NULL) {
-			// If collision type is static, you don't need to update every frame. Just the first time.
-			//quad_collider* q_collider = (quad_collider*)get_component(entities[entity_i], QUAD_COLLIDER);
-			//if (q_collider->type != STATIC) {
-			//	update_quad_collider(entities[entity_i]);
-			//}
-			update_quad_collider(entities[entity_i]);
+		for (int comp_i = 0; comp_i < entities[entity_i]->component_count; comp_i++) {
+			//continue;
+			switch (entities[entity_i]->components[comp_i]->type)
+			{
+
+			case WADDLE_QUAD_COLLIDER: {
+				update_quad_collider(entities[entity_i]);
+			} break;
+
+
+			default:
+				break;
+			}
 		}
 	}
 }
@@ -27,11 +33,30 @@ void update_quad_collider(entity* entity) {
 	quad_collider* quad_col = (quad_collider*)get_component(entity, WADDLE_QUAD_COLLIDER);
 	transform* quad_transform = (transform*)get_component(entity, WADDLE_TRANSFORM);
 
+	if (quad_col == NULL) {
+		printf("update_quad_collider():%s doesn't have a quad_collider\n", entity->name);
+		return;
+	}
+
+	if (quad_transform == NULL) {
+		printf("update_quad_collider():%s doesn't have a transform\n", entity->name);
+		return;
+	}
+
 	quad_col->delta.x = quad_transform->position.x - quad_col->rect.x;
 	quad_col->delta.y = quad_transform->position.y - quad_col->rect.y;
 
-	quad_col->rect.x = quad_transform->position.x;
-	quad_col->rect.y = quad_transform->position.y;
+	quad_col->rect.x = quad_transform->position.x; // works
+	
+	// writing to y of quad collider breaks renderer
+	quad_col->rect.y = quad_transform->position.y; // errors renderer
+	//quad_col->rect.y = quad_transform->position.x; // errors renderer
+	//quad_col->rect.x = quad_transform->position.y; // works
+	
+	
+	quad_col->rect.w = 150.0f;
+	quad_col->rect.h = 250.0f;
+	
 }
 
 void check_collisions(entity* entities[], int entity_count) {
@@ -155,7 +180,7 @@ void collision_response(entity* a, entity* b) {
 		//printf("dynamic a hit dynamic a\n");
 	}
 	else {
-		printf("uncaught collision repsonse...\n");
+		//printf("uncaught collision repsonse...\n");
 	}
 	
 }

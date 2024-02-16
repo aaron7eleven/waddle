@@ -10,4 +10,5 @@ typedef struct {
 } entity;
 
 void* get_component(entity* entity, component_type type);
+void* create_component(component_type type);
 void add_component(entity* entity, component_type type, void* data);

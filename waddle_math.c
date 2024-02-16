@@ -19,9 +19,9 @@ float magnitude(float x, float y) {
 
 void normalize(SDL_FPoint* point) {
 	float point_magn = magnitude(point->x, point->y);
-	printf("point_magn = %f\n", point_magn);
+	//printf("point_magn = %f\n", point_magn);
 	point->x /= point_magn;
 	point->y /= point_magn;
 
-	printf("point normalized = (%f,%f)\n", point->x, point->y);
+	//printf("point normalized = (%f,%f)\n", point->x, point->y);
 }
