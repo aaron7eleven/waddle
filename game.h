@@ -10,4 +10,4 @@ typedef struct {
 int game_main(int argc, char* argv[]);
 int game_init(game* game);
 int game_run(game* game);
-int game_free(game* game);
+void game_free(game* game);

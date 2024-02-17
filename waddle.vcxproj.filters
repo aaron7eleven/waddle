@@ -131,5 +131,8 @@
     <ClInclude Include="waddle_callback_test.h">
       <Filter>engine\include</Filter>
     </ClInclude>
+    <ClInclude Include="waddle_lazy.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

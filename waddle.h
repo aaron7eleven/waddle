@@ -8,7 +8,7 @@
 
 typedef struct waddle waddle;
 
-typedef void (*waddle_system_update_callback)(waddle* waddle);
+typedef void (*waddle_update_callback)(waddle* waddle);
 //typedef void (*waddle_system_update_callback)(
 //	entity* entities[],
 //	int entity_count,
@@ -53,12 +53,9 @@ struct waddle {
 	entity* entities[16];
 	int max_component_per_entity;
 	
-	int system_update_callback_count;
-	int max_system_update_callback_count;
-	void (*waddle_system_update_callback)(waddle* waddle);
-	//waddle_system_update_callback system_update_callbacks[16];
-	//void (*waddle_system_update_callback[16])(waddle* waddle);
-
+	int update_callback_count;
+	int max_update_callback_count;
+	waddle_update_callback update_callbacks[16];
 };
 
 
@@ -80,6 +77,9 @@ void waddle_update_delta_time(waddle* waddle);
 void waddle_apply_frame_delay(waddle* waddle);
 
 entity* create_entity(waddle* waddle);
-//int add_system_update(waddle* waddle, waddle_system_update_callback callback);
+void add_update_callback(waddle* waddle, waddle_update_callback callback);
 //void free_entities(entity* entity);
 
+// Debug
+void peek_entities(waddle* waddle);
+void peek_entity(entity* entity);

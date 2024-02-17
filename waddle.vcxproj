@@ -177,6 +177,7 @@
     <ClInclude Include="waddle_entity.h" />
     <ClInclude Include="waddle_game_component_types.h" />
     <ClInclude Include="waddle_include.h" />
+    <ClInclude Include="waddle_lazy.h" />
     <ClInclude Include="waddle_log.h" />
     <ClInclude Include="waddle_math.h" />
     <ClInclude Include="waddle_system_physics.h" />

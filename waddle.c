@@ -3,7 +3,7 @@
 #include "waddle.h"
 
 waddle* waddle_create() {
-	waddle* w = (waddle*) malloc(sizeof(waddle));
+	waddle* w = (waddle*) calloc(1, sizeof(waddle));
 	w->window_title = "Waddle";
 	return w;
 }
@@ -102,12 +102,12 @@ int waddle_init(waddle* waddle) {
 
 	waddle->max_component_per_entity = 16;
 
-	waddle->system_update_callback_count = 0;
-	waddle->max_system_update_callback_count = 16;
+	waddle->update_callback_count = 0;
+	waddle->max_update_callback_count = 16;
 
-	//for (int update_cb_i = 0; update_cb_i < waddle->max_system_update_callback_count; update_cb_i++) {
-	//	waddle->system_update_callbacks[update_cb_i] = NULL;
-	//}
+	for (int update_cb_i = 0; update_cb_i < waddle->max_update_callback_count; update_cb_i++) {
+		waddle->update_callbacks[update_cb_i] = NULL;
+	}
 
 	return 0;
 }
@@ -166,21 +166,13 @@ int waddle_load_assets(waddle* waddle) {
 }
 
 int waddle_run(waddle* waddle) {
-
-	while (!waddle->quit)
+	while (!waddle->quit || !waddle->restart)
 	{
-		waddle_update_delta_time(waddle);
-		waddle_process_input(waddle);
-		waddle_update(waddle);
+		//waddle_update_delta_time(waddle);
+		//waddle_process_input(waddle);
+		//waddle_update(waddle);
 		//waddle_physics_update(waddle);
 		waddle_render(waddle);
-
-		if (waddle->restart) {
-			waddle_free(waddle);
-			if (waddle_init(waddle)) {
-				return 1;
-			}
-		}
 	}
 
 	return 0;
@@ -201,10 +193,8 @@ void waddle_process_input(waddle* waddle) {
 }
 
 void waddle_update(waddle* waddle) {
-	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
-		for (int callback_i = 0; callback_i < waddle->system_update_callback_count; callback_i++) {
-			//waddle->system_update_callbacks[callback_i](waddle);
-		}
+	for (int callback_i = 0; callback_i < waddle->update_callback_count; callback_i++) {
+		waddle->update_callbacks[callback_i](waddle);
 	}
 }
 
@@ -218,7 +208,78 @@ void waddle_render(waddle* waddle) {
 	SDL_RenderClear(waddle->renderer);
 	SDL_Renderer* renderer = waddle->renderer;
 	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
-		update_render_system(waddle->renderer, waddle->entities[entity_i]);
+		entity* entity = waddle->entities[entity_i];
+		for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
+			switch (entity->components[comp_i]->type)
+			{
+			case WADDLE_QUAD_RENDERER: {
+				//peek_entity(entity);
+				transform* t = (transform*)get_component(entity, WADDLE_TRANSFORM);
+				if (t == NULL) {
+					printf("%s's sprite renderer doesn't have a transform\n", entity->name);
+					break;
+				}
+
+				quad_renderer* q_rend = (quad_renderer*)entity->components[comp_i]->data;
+				SDL_FRect render_rect = {
+					t->position.x,
+					t->position.y,
+					q_rend->size.x * t->scale.x,
+					q_rend->size.y * t->scale.y
+				};
+
+				SDL_SetRenderDrawColor(renderer, q_rend->color.r, q_rend->color.g, q_rend->color.b, q_rend->color.a);
+				SDL_RenderFillRectF(renderer, &render_rect);
+
+				// Debug: Gives quad an outline to show where texture is supposed to be
+				SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+				SDL_RenderDrawRectF(renderer, &render_rect);
+
+			} break;
+
+				//case WADDLE_QUAD_COLLIDER: {
+				//	continue;
+				//	quad_collider* q_collider = (quad_collider*)entity->components[comp_i]->data;
+				//	SDL_FRect render_rect = {
+				//		q_collider->rect.x,
+				//		q_collider->rect.y,
+				//		q_collider->rect.w * q_collider->scale.x,
+				//		q_collider->rect.h * q_collider->scale.y
+				//	};
+
+				//	SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+				//	SDL_RenderDrawRectF(renderer, &render_rect);
+				//} break;
+
+			case WADDLE_SPRITE_RENDERER: {
+				//continue;
+				sprite_renderer* sprite_rend = (sprite_renderer*)entity->components[comp_i]->data;
+				transform* t = (transform*)get_component(entity, WADDLE_TRANSFORM);
+
+				if (t == NULL) {
+					printf("%s's sprite renderer doesn't have a transform\n", entity->name);
+					break;
+				}
+
+				SDL_FRect render_rect = {
+					t->position.x,
+					t->position.y,
+					sprite_rend->size.x * t->scale.x,
+					sprite_rend->size.y * t->scale.y
+				};
+
+				SDL_SetRenderDrawColor(renderer, sprite_rend->color.r, sprite_rend->color.g, sprite_rend->color.b, sprite_rend->color.a);
+				SDL_RenderCopyF(renderer, sprite_rend->texture, NULL, &render_rect);
+
+				// Debug: Gives sprite an outline to show where texture is supposed to be
+				SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+				SDL_RenderDrawRectF(renderer, &render_rect);
+			} break;
+
+			default:
+				break;
+			}
+		}
 	}
 	SDL_RenderPresent(waddle->renderer);
 }
@@ -260,13 +321,49 @@ entity* create_entity(waddle* waddle)
 	return new_entity;
 }
 
-//int add_system_update(waddle* waddle, waddle_system_update_callback callback) {
-//	if ((waddle->system_update_callback_count + 1) >= waddle->max_system_update_callback_count) {
-//		printf("ERROR: At max update callback count, not adding callback\n");
-//		return 0;
-//	}
-//
-//	waddle->system_update_callbacks[waddle->system_update_callback_count] = callback;
-//	waddle->system_update_callback_count++;
-//	return 1;
-//}
+void add_update_callback(waddle* waddle, waddle_update_callback callback) {
+	if ((waddle->update_callback_count + 1) >= waddle->max_update_callback_count) {
+		printf("ERROR: At max update callback count, not adding callback\n");
+		return;
+	}
+
+	waddle->update_callbacks[waddle->update_callback_count] = callback;
+	waddle->update_callback_count++;
+}
+
+void peek_entities(waddle* waddle) {
+	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
+		// stuff with entity
+		peek_entity(waddle->entities[entity_i]);
+	}
+}
+
+void peek_entity(entity* entity) {
+	for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
+		switch (entity->components[comp_i]->type)
+		{
+			// add statements to filter by component type
+			case WADDLE_TRANSFORM: {
+				transform* t = (transform*)get_component(entity, WADDLE_TRANSFORM);
+				if (t == NULL) {
+					printf("%s: no transform");
+				}
+			} break;
+
+			case WADDLE_QUAD_RENDERER: {
+				quad_renderer* quad_rend = (quad_renderer*)get_component(entity, WADDLE_QUAD_RENDERER);
+				if (quad_rend == NULL) {
+					printf("%s: no quad renderer");
+				}
+			} break;
+
+			//case WADDLE_SPRITE_RENDERER: {
+			//	sprite_renderer* sprite_rend = (sprite_renderer*)get_component(entity, WADDLE_SPRITE_RENDERER);
+			//} break;
+
+			default: {
+				printf("component not peekable");
+			} break;
+		}
+	}
+}
