@@ -1,5 +1,6 @@
 #pragma once
 #include "waddle.h"
+#include "custom_component_type.h"
 
 typedef struct {
 	float time_to_spawn;

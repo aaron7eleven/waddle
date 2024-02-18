@@ -6,8 +6,5 @@ typedef enum {
 	WADDLE_QUAD_RENDERER,
 	WADDLE_QUAD_COLLIDER,
 	WADDLE_SPRITE_RENDERER,
-
-	// User defined
-	QUAD_CONTROLLER,
-	COIN_SPAWNER
-} component_type;
+	WADDLE_COMPONENT_COUNT
+} waddle_component_type;

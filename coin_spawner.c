@@ -1,10 +1,9 @@
-//#include <stdlib.h>
 #include "coin_spawner.h"
 
 void update_coin_spawner(waddle* waddle) {
 	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
 		for (int comp_i = 0; comp_i < waddle->entities[entity_i]->component_count; comp_i++) {
-			switch (waddle->entities[entity_i]->components[comp_i]->type)
+			switch ((custom_component_type) waddle->entities[entity_i]->components[comp_i]->type)
 			{
 				case COIN_SPAWNER: {
 					coin_spawner* cs = (coin_spawner*)waddle->entities[entity_i]->components[comp_i]->data;

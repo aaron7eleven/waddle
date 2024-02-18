@@ -1,4 +1,5 @@
 #include "game.h"
+#include "custom_component.h"
 #include "coin_spawner.h"
 #include "quad_controller.h"
 
@@ -117,27 +118,31 @@ int game_init(game* game) {
 			entity* entity = create_entity(game->waddle);
 			entity->name = "quad";
 			
-			transform* transform = create_component(WADDLE_TRANSFORM);
+			transform* transform = create_waddle_component(WADDLE_TRANSFORM);
 			transform->position.x = (float)((float) x * 100.0f + 100.0f);
 			transform->position.y = (float)((float) y * 100.0f + 100.0f);
 			transform->rotation = (SDL_FPoint){ 0.0f, 0.0f };
 			transform->scale = (SDL_FPoint){ 1.0f, 1.0f };
-
 			add_component(entity, WADDLE_TRANSFORM, transform);
 
-			quad_renderer* quad_renderer = create_component(WADDLE_QUAD_RENDERER);
+			quad_renderer* quad_renderer = create_waddle_component(WADDLE_QUAD_RENDERER);
 			quad_renderer->size = (SDL_FPoint) { 64.0f, 64.0f };
 			quad_renderer->color = (SDL_Color){ 0xFF, 0xFF, 0xFF, 0xFF };
+			add_component(entity, WADDLE_QUAD_RENDERER, quad_renderer);
 
-			add_component(entity, WADDLE_QUAD_RENDERER, quad_renderer);			
+			quad_controller* quad_controller = create_custom_component(QUAD_CONTROLLER);
+			quad_controller->speed = 300.0f;
+			add_component(entity, QUAD_CONTROLLER, quad_controller);
+
 		}
 	}
 
+	//peek_entities(game->waddle);
+
 	//waddle_load_assets(game->waddle);
 
-	//add_update_callback(game->waddle, update_quad_controller);
+	add_update_callback(game->waddle, update_quad_controller);
 	//add_update_callback(game->waddle, update_coin_spawner);
-	//peek_entities(game->waddle);
 	return 0;
 }
 
@@ -155,9 +160,16 @@ int game_main(int argc, char* argv[]) {
 		return 1;
 	}
 
-	peek_entities(game.waddle);
-	if (game_run(&game)) {
-		return 1;
+	while (!game_run(&game)) {
+		if (game.waddle->restart == 1) {
+			if (game_init(&game)) {
+				return 1;
+			}
+		}
+		else {
+			// trying to quit
+			break;
+		}
 	}
 	
 	game_free(&game);
