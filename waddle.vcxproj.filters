@@ -69,6 +69,12 @@
     <ClCompile Include="waddle_component_sprite_renderer.c">
       <Filter>engine\src</Filter>
     </ClCompile>
+    <ClCompile Include="game_manager.c">
+      <Filter>game\src</Filter>
+    </ClCompile>
+    <ClCompile Include="coin_manager.c">
+      <Filter>game\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -132,6 +138,9 @@
       <Filter>engine\include</Filter>
     </ClInclude>
     <ClInclude Include="game_manager.h">
+      <Filter>game\include</Filter>
+    </ClInclude>
+    <ClInclude Include="coin_manager.h">
       <Filter>game\include</Filter>
     </ClInclude>
   </ItemGroup>

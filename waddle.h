@@ -62,9 +62,10 @@ int waddle_free(waddle* waddle);
 // Game Loop
 void waddle_process_input(waddle* waddle);
 void waddle_update(waddle* waddle);
-void waddle_post_update(waddle* waddle);
 void waddle_physics_update(waddle* waddle);
 void waddle_render(waddle* waddle);
+
+void waddle_internal_update(waddle* waddle);
 
 void waddle_update_delta_time(waddle* waddle);
 void waddle_apply_frame_delay(waddle* waddle);

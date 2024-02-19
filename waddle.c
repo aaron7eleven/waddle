@@ -171,7 +171,7 @@ int waddle_run(waddle* waddle) {
 		waddle_process_input(waddle);
 		waddle_update(waddle);
 		waddle_physics_update(waddle);
-		waddle_post_update(waddle);
+		waddle_internal_update(waddle);
 		waddle_render(waddle);
 	}
 
@@ -198,13 +198,6 @@ void waddle_update(waddle* waddle) {
 	}
 }
 
-void waddle_post_update(waddle* waddle) {
-	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
-		if (waddle->entities[entity_i]->destory) {
-			free_entity(waddle, &waddle->entities[entity_i]);
-		}
-	}
-}
 
 void waddle_physics_update(waddle* waddle) {
 	update_physics_system(waddle->entities, waddle->entity_count);
@@ -218,6 +211,14 @@ void waddle_render(waddle* waddle) {
 		update_render_system(waddle->renderer, waddle->entities[entity_i]);
 	}
 	SDL_RenderPresent(waddle->renderer);
+}
+
+void waddle_internal_update(waddle* waddle) {
+	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
+		if (waddle->entities[entity_i]->destroy) {
+			free_entity(waddle, &waddle->entities[entity_i]);
+		}
+	}
 }
 
 void waddle_update_delta_time(waddle* waddle) {
@@ -245,7 +246,7 @@ entity* create_entity(waddle* waddle)
 	new_entity->name = "entity";
 	new_entity->id = waddle->entity_count;
 	new_entity->component_count = 0;
-	new_entity->destory = 0;
+	new_entity->destroy = 0;
 	new_entity->max_component_per_entity = waddle->max_component_per_entity;
 
 	for (int comp_i = 0; comp_i < waddle->max_component_per_entity; comp_i++) {

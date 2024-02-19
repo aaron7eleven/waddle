@@ -1,6 +1,7 @@
 #include "game.h"
 #include "coin_spawner.h"
 #include "quad_controller.h"
+#include "game_manager.h"
 
 int game_init(game* game) {
 	game->name = "Waddle: 2D test demo";
@@ -49,21 +50,26 @@ int game_init(game* game) {
 	player_quad_collider->scale = (SDL_FPoint){ 1.0f, 1.0f };
 	add_component(player, WADDLE_QUAD_COLLIDER, player_quad_collider);
 
-	// coin spawner
-	entity* coin_spawner_entity = create_entity(game->waddle);
-	coin_spawner_entity->name = "coin_spawner";
+	// GAME OVERSEER
+	entity* game_overseer = create_entity(game->waddle);
+	game_overseer->name = "game_overseer";
 
-	waddle_transform* cs_transform = create_component(WADDLE_TRANSFORM);
-	cs_transform->position = (SDL_FPoint){ 0.0f, 0.0f };
-	cs_transform->rotation = (SDL_FPoint){ 0.0f, 0.0f };
-	cs_transform->scale = (SDL_FPoint){ 1.0f, 1.0f };
-	add_component(coin_spawner_entity, WADDLE_TRANSFORM, cs_transform);
+	waddle_transform* go_t = create_component(WADDLE_TRANSFORM);
+	go_t->position = (SDL_FPoint){ 0.0f, 0.0f };
+	go_t->rotation = (SDL_FPoint){ 0.0f, 0.0f };
+	go_t->scale = (SDL_FPoint){ 1.0f, 1.0f };
+	add_component(game_overseer, WADDLE_TRANSFORM, go_t);
 
 	coin_spawner* coin_spawn = create_component_by_size(sizeof(coin_spawner));
 	coin_spawn->time_to_spawn = 2.0F;
 	coin_spawn->spawn_timer = 0.0f;
-	coin_spawn->coins_spawned = 0;
-	add_component(coin_spawner_entity, COIN_SPAWNER, coin_spawn);
+	add_component(game_overseer, COIN_SPAWNER, coin_spawn);
+
+	game_manager* gm = create_component_by_size(sizeof(game_manager));
+	gm->coins_to_spawn = 10;
+	gm->coins_collected = 0;
+	gm->coins_spawned = 0;
+	add_component(game_overseer, GAME_MANAGER, gm);
 
 	//destroy_entity(game->waddle, &player);
 
@@ -71,6 +77,7 @@ int game_init(game* game) {
 
 	add_update_callback(game->waddle, update_quad_controller);
 	add_update_callback(game->waddle, update_coin_spawner);
+	add_update_callback(game->waddle, update_game_manager);
 
 	return 0;
 }

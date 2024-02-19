@@ -147,8 +147,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="coin_manager.c" />
     <ClCompile Include="coin_spawner.c" />
     <ClCompile Include="game.c" />
+    <ClCompile Include="game_manager.c" />
     <ClCompile Include="main.c" />
     <ClCompile Include="quad_controller.c" />
     <ClCompile Include="waddle.c" />
@@ -161,6 +163,7 @@
     <ClCompile Include="waddle_system_render.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="coin_manager.h" />
     <ClInclude Include="coin_spawner.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="game_manager.h" />

@@ -10,7 +10,9 @@ typedef enum {
 
 	// Custom
 	QUAD_CONTROLLER,
-	COIN_SPAWNER
+	COIN_SPAWNER,
+	COIN_MANAGER,
+	GAME_MANAGER
 } component_type;
 
 typedef struct {

@@ -69,5 +69,5 @@ void free_components(entity* entity) {
 }
 
 void destroy_entity(entity* entity) {
-	entity->destory = 1;
+	entity->destroy = 1;
 }

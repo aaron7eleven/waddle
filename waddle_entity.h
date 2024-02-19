@@ -7,7 +7,7 @@ typedef struct {
 	int component_count;
 	int max_component_per_entity;
 	component* components[16];
-	int destory;
+	int destroy;
 } entity;
 
 void* get_component(entity* entity, component_type type);
