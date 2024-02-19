@@ -2,12 +2,10 @@
 
 void update_coin_spawner(waddle* waddle) {
 	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
-		
-
 		coin_spawner* cs = (coin_spawner*) get_component(waddle->entities[entity_i], COIN_SPAWNER);
 		if (cs != NULL) {
 			if (cs->coins_spawned >= 1) {
-				printf("Spawned a coins...no more\n");
+				//printf("Spawned a coins...no more\n");
 				break;
 			}
 			cs->spawn_timer += waddle->delta_time;
@@ -33,7 +31,7 @@ int spawn_coin(waddle* waddle) {
 	}
 	coin->name = "coin";
 	
-	transform* t = (transform*)create_component(WADDLE_TRANSFORM);
+	waddle_transform* t = (waddle_transform*)create_component(WADDLE_TRANSFORM);
 	if (t == NULL) {
 		return 0;
 	}
@@ -43,7 +41,7 @@ int spawn_coin(waddle* waddle) {
 	t->scale = (SDL_FPoint){ 1.0f, 1.0f };
 	add_component(coin, WADDLE_TRANSFORM, t);
 
-	sprite_renderer* sprite_rend = (sprite_renderer*)create_component(WADDLE_SPRITE_RENDERER);
+	waddle_sprite_renderer* sprite_rend = (waddle_sprite_renderer*)create_component(WADDLE_SPRITE_RENDERER);
 	if (sprite_rend == NULL) {
 		return 0;
 	}
@@ -52,7 +50,14 @@ int spawn_coin(waddle* waddle) {
 	sprite_rend->file = "test_assets/images/Coin.png";
 	sprite_rend->texture = NULL;
 	waddle_load_sprite(waddle->renderer, sprite_rend);
-
 	add_component(coin, WADDLE_SPRITE_RENDERER, sprite_rend);
+
+	waddle_quad_collider* quad_collider = create_component(WADDLE_QUAD_COLLIDER);
+	quad_collider->type = STATIC;
+	quad_collider->rect = (SDL_FRect){ 0.0f, 0.0f, 64.0f, 64.0f };
+	quad_collider->delta = (SDL_FPoint){ 0.0f, 0.0f };
+	quad_collider->scale = (SDL_FPoint){ 1.0f, 1.0f };
+	add_component(coin, WADDLE_QUAD_COLLIDER, quad_collider);
+
 	return 1;
 }

@@ -5,7 +5,7 @@ void update_quad_controller(waddle* waddle) {
 		entity* entity = waddle->entities[entity_i];
 		quad_controller* quad_ctrl = (quad_controller*) get_component(entity, QUAD_CONTROLLER);
 		if (quad_ctrl != NULL) {
-			transform* t = (transform*) get_component(entity, WADDLE_TRANSFORM);
+			waddle_transform* t = (waddle_transform*) get_component(entity, WADDLE_TRANSFORM);
 			if (t == NULL) {
 				printf("%s doesn't have a transform to use in quad_controller", entity->name);
 				continue;

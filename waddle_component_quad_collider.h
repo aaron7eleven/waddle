@@ -7,4 +7,4 @@ typedef struct {
 	SDL_FRect rect;
 	SDL_FPoint delta;
 	SDL_FPoint scale;
-} quad_collider;
+} waddle_quad_collider;

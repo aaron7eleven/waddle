@@ -24,14 +24,14 @@ int game_init(game* game) {
 	entity* player = create_entity(game->waddle);
 	player->name = "player";
 
-	transform* player_transform = create_component(WADDLE_TRANSFORM);
+	waddle_transform* player_transform = create_component(WADDLE_TRANSFORM);
 	player_transform->position.x = game->waddle->screen_width / 2.0f - 32.0f; // minus width of sprite
 	player_transform->position.y = game->waddle->screen_height / 2.0f - 32.0f; // minus height of sprite
 	player_transform->rotation = (SDL_FPoint){ 0.0f, 0.0f };
 	player_transform->scale = (SDL_FPoint){ 1.0f, 1.0f };
 	add_component(player, WADDLE_TRANSFORM, player_transform);
 
-	sprite_renderer* sprite_renderer = create_component(WADDLE_SPRITE_RENDERER);
+	waddle_sprite_renderer* sprite_renderer = create_component(WADDLE_SPRITE_RENDERER);
 	sprite_renderer->size = (SDL_FPoint){ 64.0f, 64.0f };
 	sprite_renderer->color = (SDL_Color){ 0xFF, 0xFF, 0xFF, 0xFF };
 	sprite_renderer->file = "test_assets/images/smiley_64x64.png";
@@ -42,11 +42,18 @@ int game_init(game* game) {
 	quad_ctrl->speed = 300.0f;
 	add_component(player, QUAD_CONTROLLER, quad_ctrl);
 
+	waddle_quad_collider* player_quad_collider = create_component(WADDLE_QUAD_COLLIDER);
+	player_quad_collider->type = DYNAMIC;
+	player_quad_collider->rect = (SDL_FRect){ 0.0f, 0.0f, 64.0f, 64.0f };
+	player_quad_collider->delta = (SDL_FPoint){ 0.0f, 0.0f };
+	player_quad_collider->scale = (SDL_FPoint){ 1.0f, 1.0f };
+	add_component(player, WADDLE_QUAD_COLLIDER, player_quad_collider);
+
 	// coin spawner
 	entity* coin_spawner_entity = create_entity(game->waddle);
 	coin_spawner_entity->name = "coin_spawner";
 
-	transform* cs_transform = create_component(WADDLE_TRANSFORM);
+	waddle_transform* cs_transform = create_component(WADDLE_TRANSFORM);
 	cs_transform->position = (SDL_FPoint){ 0.0f, 0.0f };
 	cs_transform->rotation = (SDL_FPoint){ 0.0f, 0.0f };
 	cs_transform->scale = (SDL_FPoint){ 1.0f, 1.0f };
@@ -57,6 +64,8 @@ int game_init(game* game) {
 	coin_spawn->spawn_timer = 0.0f;
 	coin_spawn->coins_spawned = 0;
 	add_component(coin_spawner_entity, COIN_SPAWNER, coin_spawn);
+
+	//destroy_entity(game->waddle, &player);
 
 	waddle_load_assets(game->waddle);
 

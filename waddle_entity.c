@@ -6,19 +6,19 @@ void* create_component(component_type type) {
 	switch (type)
 	{
 		case WADDLE_TRANSFORM: {
-			return calloc(1, sizeof(transform));
+			return calloc(1, sizeof(waddle_transform));
 		} break;
 
 		case WADDLE_QUAD_RENDERER: {
-			return calloc(1, sizeof(quad_renderer));
+			return calloc(1, sizeof(waddle_quad_renderer));
 		} break;
 
 		case WADDLE_QUAD_COLLIDER: {
-			return calloc(1, sizeof(quad_collider));
+			return calloc(1, sizeof(waddle_quad_collider));
 		} break;
 
 		case WADDLE_SPRITE_RENDERER: {
-			return calloc(1, sizeof(quad_collider));
+			return calloc(1, sizeof(waddle_sprite_renderer));
 		} break;
 
 	default:
@@ -54,4 +54,16 @@ void add_component(entity* entity, component_type type, void* data) {
 	
 	entity->components[entity->component_count] = new_component;
 	entity->component_count++;
+}
+
+void free_component(component* component) {
+	free(component->data);
+}
+
+void free_components(entity* entity) {
+	for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
+		free_component(entity->components[comp_i]);
+		free(entity->components[comp_i]);
+		entity->components[comp_i] = NULL;
+	}
 }

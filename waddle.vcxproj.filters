@@ -131,5 +131,8 @@
     <ClInclude Include="wadde_custom_component_type.h">
       <Filter>engine\include</Filter>
     </ClInclude>
+    <ClInclude Include="game_manager.h">
+      <Filter>game\include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -163,6 +163,7 @@
   <ItemGroup>
     <ClInclude Include="coin_spawner.h" />
     <ClInclude Include="game.h" />
+    <ClInclude Include="game_manager.h" />
     <ClInclude Include="quad_controller.h" />
     <ClInclude Include="wadde_custom_component_type.h" />
     <ClInclude Include="waddle.h" />

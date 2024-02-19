@@ -150,10 +150,9 @@ int waddle_load_assets(waddle* waddle) {
 			
 			switch (entity->components[comp_i]->type) {
 				case WADDLE_SPRITE_RENDERER: {
-					sprite_renderer* sprite_rend = (sprite_renderer*)entity->components[comp_i]->data;
-					sprite_rend->texture = IMG_LoadTexture(waddle->renderer, sprite_rend->file);
-					if (sprite_rend->texture == NULL) {
-						printf("ERROR: Failed to load asset: %s", sprite_rend->file);
+					waddle_sprite_renderer* sprite_rend = (waddle_sprite_renderer*)entity->components[comp_i]->data;
+					if (waddle_load_sprite(waddle->renderer, sprite_rend)) {
+						printf("ERROR: failed to load sprite for %s", entity->name);
 					}
 				} break;
 
@@ -171,7 +170,7 @@ int waddle_run(waddle* waddle) {
 		waddle_update_delta_time(waddle);
 		waddle_process_input(waddle);
 		waddle_update(waddle);
-		//waddle_physics_update(waddle);
+		waddle_physics_update(waddle);
 		waddle_render(waddle);
 	}
 
@@ -199,7 +198,7 @@ void waddle_update(waddle* waddle) {
 }
 
 void waddle_physics_update(waddle* waddle) {
-	//update_physics_system(waddle->entities, waddle->entity_count);
+	update_physics_system(waddle->entities, waddle->entity_count);
 }
 
 
@@ -244,10 +243,67 @@ entity* create_entity(waddle* waddle)
 		new_entity->components[comp_i] = NULL;
 	}
 
-	waddle->entities[waddle->entity_count] = new_entity;
+	int store_entity = 0;
+	// find place to store entity in list
+	for (int entity_i = 0; entity_i < waddle->max_entities; entity_i++) {
+
+		if (waddle->entities[entity_i] == NULL) {
+			waddle->entities[entity_i] = new_entity;
+			store_entity = 1;
+			break;
+		}
+	}
+
+	if (!store_entity) {
+		printf("WADDLE_ERROR: unable find place to store newly created entity");
+		free(new_entity);
+		return NULL;
+	}
+
+	//waddle->entities[waddle->entity_count] = new_entity;
 	waddle->entity_count++;
 
 	return new_entity;
+}
+
+void destroy_entity(waddle* waddle, entity** entity_ptr)
+{
+	if (entity_ptr == NULL) {
+		printf("ERROR: passed in entity that is null\n");
+		return;
+	}
+	
+	entity* entity_to_destroy = *entity_ptr;
+	if (entity_to_destroy == NULL) {
+		printf("ERROR: trying to destroy entity which is null\n");
+		return;
+	}
+	
+	int destory_entity_i = -1;
+	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
+		if (waddle->entities[entity_i]->id == entity_to_destroy->id) {
+			// found entity to destroy
+			destory_entity_i = entity_i;
+			break;
+		}
+	}
+
+	if (destory_entity_i < 0) {
+		printf("WADDLE_ERROR: unable to find entity to destroy\n");
+		return;
+	}
+
+	// Destroy entity
+	free_components(entity_to_destroy);
+	for (int comp_i = 0; comp_i < entity_to_destroy->component_count; comp_i++) {
+		entity_to_destroy->components[comp_i] = NULL;
+	}
+	free(waddle->entities[destory_entity_i]);
+	waddle->entities[destory_entity_i] = NULL;
+	//free_entity(entity);
+	*entity_ptr = NULL;
+
+	waddle->entity_count--;
 }
 
 void add_update_callback(waddle* waddle, waddle_update_callback callback) {
@@ -273,14 +329,14 @@ void peek_entity(entity* entity) {
 		{
 			// add statements to filter by component type
 			case WADDLE_TRANSFORM: {
-				transform* t = (transform*)get_component(entity, WADDLE_TRANSFORM);
+				waddle_transform* t = (waddle_transform*)get_component(entity, WADDLE_TRANSFORM);
 				if (t == NULL) {
 					printf("%s: no transform");
 				}
 			} break;
 
 			case WADDLE_QUAD_RENDERER: {
-				quad_renderer* quad_rend = (quad_renderer*)get_component(entity, WADDLE_QUAD_RENDERER);
+				waddle_quad_renderer* quad_rend = (waddle_quad_renderer*)get_component(entity, WADDLE_QUAD_RENDERER);
 				if (quad_rend == NULL) {
 					printf("%s: no quad renderer");
 				}

@@ -69,6 +69,8 @@ void waddle_update_delta_time(waddle* waddle);
 void waddle_apply_frame_delay(waddle* waddle);
 
 entity* create_entity(waddle* waddle);
+void destroy_entity(waddle* waddle, entity** entity);
+
 void add_update_callback(waddle* waddle, waddle_update_callback callback);
 //void free_entities(entity* entity);
 

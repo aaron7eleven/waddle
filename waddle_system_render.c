@@ -6,13 +6,13 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 		switch (entity->components[comp_i]->type)
 		{
 		case WADDLE_QUAD_RENDERER: {
-			transform* t = (transform*)get_component(entity, WADDLE_TRANSFORM);
+			waddle_transform* t = (waddle_transform*)get_component(entity, WADDLE_TRANSFORM);
 			if (t == NULL) {
 				printf("%s's sprite renderer doesn't have a transform\n", entity->name);
 				break;
 			}
 
-			quad_renderer* q_rend = (quad_renderer*)entity->components[comp_i]->data;
+			waddle_quad_renderer* q_rend = (waddle_quad_renderer*)entity->components[comp_i]->data;
 			SDL_FRect render_rect = {
 				t->position.x,
 				t->position.y,
@@ -31,7 +31,7 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 
 			case WADDLE_QUAD_COLLIDER: {
 				continue;
-				quad_collider* q_collider = (quad_collider*)entity->components[comp_i]->data;
+				waddle_quad_collider* q_collider = (waddle_quad_collider*)entity->components[comp_i]->data;
 				SDL_FRect render_rect = {
 					q_collider->rect.x,
 					q_collider->rect.y,
@@ -44,8 +44,8 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 			} break;
 
 		case WADDLE_SPRITE_RENDERER: {
-			sprite_renderer* sprite_rend = (sprite_renderer*)entity->components[comp_i]->data;
-			transform* t = (transform*)get_component(entity, WADDLE_TRANSFORM);
+			waddle_sprite_renderer* sprite_rend = (waddle_sprite_renderer*)entity->components[comp_i]->data;
+			waddle_transform* t = (waddle_transform*)get_component(entity, WADDLE_TRANSFORM);
 
 			if (t == NULL) {
 				printf("%s's sprite renderer doesn't have a transform\n", entity->name);

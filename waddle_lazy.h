@@ -1,6 +1,6 @@
 #pragma once
 #include "waddle.h"
-// These are lazy copy and paste functions and loops that happen often
+// These are lazy copy and paste "functions" that contain loops that happen often
 
 void waddle_entities_component_loop(waddle* waddle) {
 	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {

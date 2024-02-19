@@ -1,6 +1,5 @@
 #include "waddle_system_physics.h"
-#include "waddle_component_transform.h"
-#include "waddle_component_quad_collider.h"
+#include "waddle_component_include.h"
 #include "waddle_collider_type.h"
 #include "waddle_math.h"
 
@@ -30,8 +29,8 @@ void update_colliders(entity* entities[], int entity_count) {
 }
 
 void update_quad_collider(entity* entity) {
-	quad_collider* quad_col = (quad_collider*)get_component(entity, WADDLE_QUAD_COLLIDER);
-	transform* quad_transform = (transform*)get_component(entity, WADDLE_TRANSFORM);
+	waddle_quad_collider* quad_col = (waddle_quad_collider*)get_component(entity, WADDLE_QUAD_COLLIDER);
+	waddle_transform* quad_transform = (waddle_transform*)get_component(entity, WADDLE_TRANSFORM);
 
 	if (quad_col == NULL) {
 		printf("update_quad_collider():%s doesn't have a quad_collider\n", entity->name);
@@ -46,16 +45,17 @@ void update_quad_collider(entity* entity) {
 	quad_col->delta.x = quad_transform->position.x - quad_col->rect.x;
 	quad_col->delta.y = quad_transform->position.y - quad_col->rect.y;
 
-	quad_col->rect.x = quad_transform->position.x; // works
+	quad_col->rect.x = quad_transform->position.x;
+	quad_col->rect.y = quad_transform->position.y;
+
+	//// writing to y of quad collider breaks renderer
+	//quad_col->rect.y = quad_transform->position.y; // errors renderer
+	////quad_col->rect.y = quad_transform->position.x; // errors renderer
+	////quad_col->rect.x = quad_transform->position.y; // works
 	
-	// writing to y of quad collider breaks renderer
-	quad_col->rect.y = quad_transform->position.y; // errors renderer
-	//quad_col->rect.y = quad_transform->position.x; // errors renderer
-	//quad_col->rect.x = quad_transform->position.y; // works
 	
-	
-	quad_col->rect.w = 150.0f;
-	quad_col->rect.h = 250.0f;
+	//quad_col->rect.w = 150.0f;
+	//quad_col->rect.h = 250.0f;
 	
 }
 
@@ -67,25 +67,25 @@ void check_collisions(entity* entities[], int entity_count) {
 				continue;
 			}
 
-			if ((quad_collider*)get_component(entities[entity_i], WADDLE_QUAD_COLLIDER) == NULL) {
+			if ((waddle_quad_collider*)get_component(entities[entity_i], WADDLE_QUAD_COLLIDER) == NULL) {
 				continue;
 			}
 
-			if ((quad_collider*)get_component(entities[entity_j], WADDLE_QUAD_COLLIDER) == NULL) {
+			if ((waddle_quad_collider*)get_component(entities[entity_j], WADDLE_QUAD_COLLIDER) == NULL) {
 				continue;
 			}
 
 			if (check_collision(entities[entity_i], entities[entity_j])) {
-				//printf("collision occured\n");
-				collision_response(entities[entity_i], entities[entity_j]);
+				printf("collision occured\n");
+				//collision_response(entities[entity_i], entities[entity_j]);
 			}
 		}
 	}
 }
 
 int check_collision(entity* a, entity* b) {
-	quad_collider* a_quad_collider = (quad_collider*) get_component(a, WADDLE_QUAD_COLLIDER);
-	quad_collider* b_quad_collider = (quad_collider*) get_component(b, WADDLE_QUAD_COLLIDER);
+	waddle_quad_collider* a_quad_collider = (waddle_quad_collider*) get_component(a, WADDLE_QUAD_COLLIDER);
+	waddle_quad_collider* b_quad_collider = (waddle_quad_collider*) get_component(b, WADDLE_QUAD_COLLIDER);
 
 	// Is the right edge of b to the left of the left edge of a
 	if ((b_quad_collider->rect.x + b_quad_collider->rect.w) < a_quad_collider->rect.x ) {
@@ -115,8 +115,8 @@ int check_collision(entity* a, entity* b) {
 }
 
 void collision_response(entity* a, entity* b) {
-	quad_collider* a_quad_collider = (quad_collider*)get_component(a, WADDLE_QUAD_COLLIDER);
-	quad_collider* b_quad_collider = (quad_collider*)get_component(b, WADDLE_QUAD_COLLIDER);
+	waddle_quad_collider* a_quad_collider = (waddle_quad_collider*)get_component(a, WADDLE_QUAD_COLLIDER);
+	waddle_quad_collider* b_quad_collider = (waddle_quad_collider*)get_component(b, WADDLE_QUAD_COLLIDER);
 	
 	if (a_quad_collider->type == STATIC && b_quad_collider->type == STATIC) {
 		// Don't do anything?
@@ -125,7 +125,7 @@ void collision_response(entity* a, entity* b) {
 
 	if (a_quad_collider->type == DYNAMIC && b_quad_collider->type == STATIC) {
 		// Move a
-		transform* a_quad_transform = (transform*) get_component(a, WADDLE_TRANSFORM);
+		waddle_transform* a_quad_transform = (waddle_transform*) get_component(a, WADDLE_TRANSFORM);
 
 		// undo delta. Makes a passable collision. Not perfect. Leaves a little gap between colliders sometimes.
 		// could get a closer to collision by 
@@ -138,7 +138,7 @@ void collision_response(entity* a, entity* b) {
 	}
 	else if (a_quad_collider->type == STATIC && b_quad_collider->type == DYNAMIC) {
 		// Move b
-		transform* b_quad_transform = (transform*)get_component(b, WADDLE_TRANSFORM);
+		waddle_transform* b_quad_transform = (waddle_transform*)get_component(b, WADDLE_TRANSFORM);
 
 		// undo delta. Makes a passable collision. Not perfect. Leaves a little gap between colliders sometimes.
 		// could get a closer to collision by 
@@ -152,7 +152,7 @@ void collision_response(entity* a, entity* b) {
 	else if (a_quad_collider->type == DYNAMIC && b_quad_collider->type == DYNAMIC) {
 		// Move a & b (equally in opposite directions?)
 		// Move a
-		transform* a_quad_transform = (transform*) get_component(a, WADDLE_TRANSFORM);
+		waddle_transform* a_quad_transform = (waddle_transform*) get_component(a, WADDLE_TRANSFORM);
 		float a_delta_magn = magnitude(a_quad_collider->delta.x, a_quad_collider->delta.y);
 		float b_delta_magn = magnitude(b_quad_collider->delta.x, b_quad_collider->delta.y);
 
@@ -160,7 +160,7 @@ void collision_response(entity* a, entity* b) {
 		if (a_delta_magn > 0) {
 			if (b_delta_magn == 0.0f) {
 				// push b using a's delta
-				transform* b_quad_transform = (transform*)get_component(b, WADDLE_TRANSFORM);
+				waddle_transform* b_quad_transform = (waddle_transform*)get_component(b, WADDLE_TRANSFORM);
 				b_quad_transform->position.x += a_quad_collider->delta.x;
 				b_quad_transform->position.y += a_quad_collider->delta.y;
 				update_quad_collider(b);
