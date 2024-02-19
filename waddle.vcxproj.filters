@@ -134,5 +134,8 @@
     <ClInclude Include="game_manager.h">
       <Filter>game\include</Filter>
     </ClInclude>
+    <ClInclude Include="coin.h">
+      <Filter>game\include</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

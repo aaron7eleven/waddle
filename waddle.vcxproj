@@ -161,6 +161,7 @@
     <ClCompile Include="waddle_system_render.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="coin.h" />
     <ClInclude Include="coin_spawner.h" />
     <ClInclude Include="game.h" />
     <ClInclude Include="game_manager.h" />

@@ -1,10 +1,12 @@
+#include <stdio.h>
+#include <string.h>
 #include "coin_spawner.h"
 
 void update_coin_spawner(waddle* waddle) {
 	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
 		coin_spawner* cs = (coin_spawner*) get_component(waddle->entities[entity_i], COIN_SPAWNER);
 		if (cs != NULL) {
-			if (cs->coins_spawned >= 1) {
+			if (cs->coins_spawned >= 4) {
 				//printf("Spawned a coins...no more\n");
 				break;
 			}
@@ -36,7 +38,6 @@ int spawn_coin(waddle* waddle) {
 		return 0;
 	}
 	t->position = (SDL_FPoint){ 40.0f + (float)(rand() % 560), 40.0f + (float)(rand() % 400) };
-	//t->position = (SDL_FPoint){ 40.0f + (float)(rand() % 560), 40.0f + (float)(rand() % 400) };
 	t->rotation = (SDL_FPoint){ 0.0f, 0.0f };
 	t->scale = (SDL_FPoint){ 1.0f, 1.0f };
 	add_component(coin, WADDLE_TRANSFORM, t);
@@ -57,7 +58,15 @@ int spawn_coin(waddle* waddle) {
 	quad_collider->rect = (SDL_FRect){ 0.0f, 0.0f, 64.0f, 64.0f };
 	quad_collider->delta = (SDL_FPoint){ 0.0f, 0.0f };
 	quad_collider->scale = (SDL_FPoint){ 1.0f, 1.0f };
+	quad_collider->on_collision_enter_callback = coin_on_collision_enter_callback;
 	add_component(coin, WADDLE_QUAD_COLLIDER, quad_collider);
 
 	return 1;
+}
+
+void coin_on_collision_enter_callback(entity* src_entity, entity* dest_entity) {
+	//printf("%s hit %s...destroying %s\n", src_entity->name, dest_entity->name, src_entity->name);
+	if (strcmp(dest_entity->name, "player") == 0) {
+		destroy_entity(src_entity);
+	}
 }

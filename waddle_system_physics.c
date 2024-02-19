@@ -76,7 +76,17 @@ void check_collisions(entity* entities[], int entity_count) {
 			}
 
 			if (check_collision(entities[entity_i], entities[entity_j])) {
-				printf("collision occured\n");
+				//printf("collision occured\n");
+				waddle_quad_collider* a_quad_collider = (waddle_quad_collider*)get_component(entities[entity_i], WADDLE_QUAD_COLLIDER);
+				if (a_quad_collider->on_collision_enter_callback != NULL) {
+					a_quad_collider->on_collision_enter_callback(entities[entity_i], entities[entity_j]);
+				}
+
+				waddle_quad_collider* b_quad_collider = (waddle_quad_collider*) get_component(entities[entity_j], WADDLE_QUAD_COLLIDER);
+				if (b_quad_collider->on_collision_enter_callback != NULL) {
+					b_quad_collider->on_collision_enter_callback(entities[entity_j], entities[entity_i]);
+				}
+				
 				//collision_response(entities[entity_i], entities[entity_j]);
 			}
 		}

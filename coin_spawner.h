@@ -9,3 +9,4 @@ typedef struct {
 
 void update_coin_spawner(waddle* waddle);
 int spawn_coin(waddle* waddle);
+void coin_on_collision_enter_callback(entity* src_entity, entity* dest_entity);

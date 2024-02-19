@@ -171,6 +171,7 @@ int waddle_run(waddle* waddle) {
 		waddle_process_input(waddle);
 		waddle_update(waddle);
 		waddle_physics_update(waddle);
+		waddle_post_update(waddle);
 		waddle_render(waddle);
 	}
 
@@ -197,6 +198,14 @@ void waddle_update(waddle* waddle) {
 	}
 }
 
+void waddle_post_update(waddle* waddle) {
+	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
+		if (waddle->entities[entity_i]->destory) {
+			free_entity(waddle, &waddle->entities[entity_i]);
+		}
+	}
+}
+
 void waddle_physics_update(waddle* waddle) {
 	update_physics_system(waddle->entities, waddle->entity_count);
 }
@@ -205,7 +214,6 @@ void waddle_physics_update(waddle* waddle) {
 void waddle_render(waddle* waddle) {
 	SDL_SetRenderDrawColor(waddle->renderer, 0x50, 0x60, 0x3A, 0xFF);
 	SDL_RenderClear(waddle->renderer);
-	SDL_Renderer* renderer = waddle->renderer;
 	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
 		update_render_system(waddle->renderer, waddle->entities[entity_i]);
 	}
@@ -237,6 +245,7 @@ entity* create_entity(waddle* waddle)
 	new_entity->name = "entity";
 	new_entity->id = waddle->entity_count;
 	new_entity->component_count = 0;
+	new_entity->destory = 0;
 	new_entity->max_component_per_entity = waddle->max_component_per_entity;
 
 	for (int comp_i = 0; comp_i < waddle->max_component_per_entity; comp_i++) {
@@ -266,7 +275,7 @@ entity* create_entity(waddle* waddle)
 	return new_entity;
 }
 
-void destroy_entity(waddle* waddle, entity** entity_ptr)
+void free_entity(waddle* waddle, entity** entity_ptr)
 {
 	if (entity_ptr == NULL) {
 		printf("ERROR: passed in entity that is null\n");
@@ -302,6 +311,23 @@ void destroy_entity(waddle* waddle, entity** entity_ptr)
 	waddle->entities[destory_entity_i] = NULL;
 	//free_entity(entity);
 	*entity_ptr = NULL;
+
+	// Restructure entities so there are no gaps
+	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
+		// if current entity is not null, move to next
+		if (waddle->entities[entity_i] != NULL) continue;
+
+		// if current entity index is the last index, move on to end loop (do
+		if ((entity_i + 1) >= waddle->entity_count) continue;
+		
+		// if next entity is null, move to next (will be come current) (double check for sanity)
+		if (waddle->entities[entity_i + 1] == NULL) continue;
+		
+		// Swap entity pointer (safely)
+		entity* entity_tmp = waddle->entities[entity_i];
+		waddle->entities[entity_i] = waddle->entities[entity_i + 1];
+		waddle->entities[entity_i+1] = entity_tmp; // should be setting to null
+	}
 
 	waddle->entity_count--;
 }
