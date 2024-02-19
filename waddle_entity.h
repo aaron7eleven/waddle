@@ -9,6 +9,8 @@ typedef struct {
 	component* components[16];
 } entity;
 
-void* get_component(entity* entity, void* type);
-void* create_waddle_component(waddle_component_type* type);
-void add_component(entity* entity, void* type, void* data);
+void* get_component(entity* entity, component_type type);
+void* create_component(component_type type);
+void* create_component_by_size(size_t sizeof_size);
+void add_component(entity* entity, component_type type, void* data);
+void free_component(entity* entity, component_type type);

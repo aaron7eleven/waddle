@@ -148,7 +148,7 @@ int waddle_load_assets(waddle* waddle) {
 		entity = waddle->entities[entity_i];
 		for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
 			
-			switch ((waddle_component_type) entity->components[comp_i]->type) {
+			switch (entity->components[comp_i]->type) {
 				case WADDLE_SPRITE_RENDERER: {
 					sprite_renderer* sprite_rend = (sprite_renderer*)entity->components[comp_i]->data;
 					sprite_rend->texture = IMG_LoadTexture(waddle->renderer, sprite_rend->file);
@@ -269,7 +269,7 @@ void peek_entities(waddle* waddle) {
 
 void peek_entity(entity* entity) {
 	for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
-		switch ((waddle_component_type) entity->components[comp_i]->type)
+		switch (entity->components[comp_i]->type)
 		{
 			// add statements to filter by component type
 			case WADDLE_TRANSFORM: {

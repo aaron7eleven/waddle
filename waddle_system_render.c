@@ -3,7 +3,7 @@
 void update_render_system(SDL_Renderer* renderer, entity* entity)
 {
 	for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
-		switch ((waddle_component_type) entity->components[comp_i]->type)
+		switch (entity->components[comp_i]->type)
 		{
 		case WADDLE_QUAD_RENDERER: {
 			transform* t = (transform*)get_component(entity, WADDLE_TRANSFORM);
@@ -44,7 +44,6 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 			} break;
 
 		case WADDLE_SPRITE_RENDERER: {
-			continue;
 			sprite_renderer* sprite_rend = (sprite_renderer*)entity->components[comp_i]->data;
 			transform* t = (transform*)get_component(entity, WADDLE_TRANSFORM);
 

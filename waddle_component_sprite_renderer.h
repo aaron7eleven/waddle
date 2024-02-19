@@ -8,3 +8,5 @@ typedef struct {
 	SDL_Texture* texture;
 } sprite_renderer;
 
+int waddle_load_sprite(SDL_Renderer* renderer, sprite_renderer* sprite_renderer);
+

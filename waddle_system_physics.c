@@ -14,7 +14,7 @@ void update_colliders(entity* entities[], int entity_count) {
 	for (int entity_i = 0; entity_i < entity_count; entity_i++) {
 		for (int comp_i = 0; comp_i < entities[entity_i]->component_count; comp_i++) {
 			//continue;
-			switch ((waddle_component_type) entities[entity_i]->components[comp_i]->type)
+			switch (entities[entity_i]->components[comp_i]->type)
 			{
 
 			case WADDLE_QUAD_COLLIDER: {

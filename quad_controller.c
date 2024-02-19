@@ -1,4 +1,3 @@
-#include "custom_component_type.h"
 #include "quad_controller.h"
 
 void update_quad_controller(waddle* waddle) {

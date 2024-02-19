@@ -2,21 +2,7 @@
 #include "waddle_entity.h"
 #include "waddle_component_include.h"
 
-//void* create_component(void* type) {
-//	// check waddle types first
-//	void* ptr = create_waddle_component(type);
-//
-//	if (ptr != NULL) {
-//		return ptr;
-//	}
-//
-//	ptr = create_custom_component(type);
-//
-//	return ptr; // could be null or custom component
-//	
-//}
-
-void* create_waddle_component(waddle_component_type type) {
+void* create_component(component_type type) {
 	switch (type)
 	{
 		case WADDLE_TRANSFORM: {
@@ -27,19 +13,26 @@ void* create_waddle_component(waddle_component_type type) {
 			return calloc(1, sizeof(quad_renderer));
 		} break;
 
-		//case WADDLE_SPRITE_RENDERER: {
-		//	return malloc(sizeof(WADDLE_SPRITE_RENDERER));
-		//}
+		case WADDLE_QUAD_COLLIDER: {
+			return calloc(1, sizeof(quad_collider));
+		} break;
 
-		default:
-			printf("component type not found in waddle. Check custom");
-			return;
+		case WADDLE_SPRITE_RENDERER: {
+			return calloc(1, sizeof(quad_collider));
+		} break;
+
+	default:
+		printf("component type not found in waddle. Check custom");
+		return NULL;
 	}
-
-	return NULL;
+	
 }
 
-void* get_component(entity* entity, void* type) {
+void* create_component_by_size(size_t sizeof_size) {
+	return calloc(1, sizeof_size);
+}
+
+void* get_component(entity* entity, component_type type) {
 	for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
 		if (entity->components[comp_i]->type == type) {
 			return entity->components[comp_i]->data;
@@ -49,7 +42,7 @@ void* get_component(entity* entity, void* type) {
 	return NULL;
 }
 
-void add_component(entity* entity, void* type, void* data) {
+void add_component(entity* entity, component_type type, void* data) {
 	if ((entity->component_count + 1) >= entity->max_component_per_entity) {
 		printf("ERROR: At max component count per entity, not adding component to entity");
 		return NULL;

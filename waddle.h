@@ -9,14 +9,6 @@
 typedef struct waddle waddle;
 
 typedef void (*waddle_update_callback)(waddle* waddle);
-//typedef void (*waddle_system_update_callback)(
-//	entity* entities[],
-//	int entity_count,
-//	float delta_time,
-//	Uint8 inputs
-//);
-
-
 
 struct waddle {
 	SDL_Window* window;
@@ -65,7 +57,7 @@ waddle* waddle_create();
 int waddle_init(waddle* waddle);
 int waddle_run(waddle* waddle);
 int waddle_free(waddle* waddle);
-int waddle_load_assets(waddle* waddle);
+
 
 // Game Loop
 void waddle_process_input(waddle* waddle);
@@ -79,6 +71,9 @@ void waddle_apply_frame_delay(waddle* waddle);
 entity* create_entity(waddle* waddle);
 void add_update_callback(waddle* waddle, waddle_update_callback callback);
 //void free_entities(entity* entity);
+
+int waddle_load_assets(waddle* waddle);
+
 
 // Debug
 void peek_entities(waddle* waddle);

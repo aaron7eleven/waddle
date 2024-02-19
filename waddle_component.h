@@ -1,7 +1,19 @@
 #pragma once
-#include "waddle_component_type.h"
+
+typedef enum {
+	// Waddle
+	WADDLE_TRANSFORM,
+	WADDLE_QUAD_RENDERER,
+	WADDLE_QUAD_COLLIDER,
+	WADDLE_SPRITE_RENDERER,
+	WADDLE_COMPONENT_COUNT,
+
+	// Custom
+	QUAD_CONTROLLER,
+	COIN_SPAWNER
+} component_type;
 
 typedef struct {
-	void* type;
+	component_type type;
 	void* data;
 } component;
