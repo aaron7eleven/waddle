@@ -21,7 +21,7 @@ int waddle_init(waddle* waddle) {
 	// window config
 	waddle->screen_width = 1280;
 	waddle->screen_height = 720;
-	waddle->v_sync = 1;
+	waddle->v_sync = 0;
 	waddle->fullscreen = 0;
 
 	//Create window
@@ -89,10 +89,6 @@ int waddle_init(waddle* waddle) {
 	waddle->ticks_per_frame = 1000 / waddle->target_fps;
 	waddle->start_ticks = SDL_GetTicks();
 
-	waddle->quit = 0;
-	waddle->restart = 0;
-	waddle->initialize = 1;
-
 	waddle->entity_count = 0;
 	waddle->max_entities = 16;
 	
@@ -109,6 +105,10 @@ int waddle_init(waddle* waddle) {
 		waddle->update_callbacks[update_cb_i] = NULL;
 	}
 
+	waddle->quit = 0;
+	waddle->restart = 0;
+	waddle->initialize = 1;
+
 	return 0;
 }
 
@@ -121,7 +121,7 @@ int waddle_free(waddle* waddle) {
 	//	Mix_Quit();
 	//}
 	//Mix_Quit();
-	TTF_Quit();
+	//TTF_Quit();
 	IMG_Quit();
 
 	SDL_FreeSurface(waddle->surface);
@@ -216,7 +216,7 @@ void waddle_render(waddle* waddle) {
 void waddle_internal_update(waddle* waddle) {
 	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
 		if (waddle->entities[entity_i]->destroy) {
-			free_entity(waddle, &waddle->entities[entity_i]);
+			free_entity(waddle, &(waddle->entities[entity_i]));
 		}
 	}
 }
@@ -289,28 +289,25 @@ void free_entity(waddle* waddle, entity** entity_ptr)
 		return;
 	}
 	
-	int destory_entity_i = -1;
-	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
-		if (waddle->entities[entity_i]->id == entity_to_destroy->id) {
-			// found entity to destroy
-			destory_entity_i = entity_i;
-			break;
-		}
-	}
+	// Do I have to check if the entity exists in the list of entities? *hmm*
+	//int destory_entity_i = -1;
+	//for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
+	//	if (waddle->entities[entity_i]->id == entity_to_destroy->id) {
+	//		// found entity to destroy
+	//		destory_entity_i = entity_i;
+	//		break;
+	//	}
+	//}
 
-	if (destory_entity_i < 0) {
-		printf("WADDLE_ERROR: unable to find entity to destroy\n");
-		return;
-	}
+	//if (destory_entity_i < 0) {
+	//	printf("WADDLE_ERROR: unable to find entity to destroy\n");
+	//	return;
+	//}
 
 	// Destroy entity
 	free_components(entity_to_destroy);
-	for (int comp_i = 0; comp_i < entity_to_destroy->component_count; comp_i++) {
-		entity_to_destroy->components[comp_i] = NULL;
-	}
-	free(waddle->entities[destory_entity_i]);
-	waddle->entities[destory_entity_i] = NULL;
-	//free_entity(entity);
+	entity_to_destroy = NULL;
+	free(*entity_ptr);
 	*entity_ptr = NULL;
 
 	// Restructure entities so there are no gaps
@@ -318,7 +315,7 @@ void free_entity(waddle* waddle, entity** entity_ptr)
 		// if current entity is not null, move to next
 		if (waddle->entities[entity_i] != NULL) continue;
 
-		// if current entity index is the last index, move on to end loop (do
+		// if current entity index is the last index, move on to the end loop
 		if ((entity_i + 1) >= waddle->entity_count) continue;
 		
 		// if next entity is null, move to next (will be come current) (double check for sanity)

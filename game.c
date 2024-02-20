@@ -61,12 +61,12 @@ int game_init(game* game) {
 	add_component(game_overseer, WADDLE_TRANSFORM, go_t);
 
 	coin_spawner* coin_spawn = create_component_by_size(sizeof(coin_spawner));
-	coin_spawn->time_to_spawn = 2.0F;
+	coin_spawn->time_to_spawn = 1.0f;
 	coin_spawn->spawn_timer = 0.0f;
 	add_component(game_overseer, COIN_SPAWNER, coin_spawn);
 
 	game_manager* gm = create_component_by_size(sizeof(game_manager));
-	gm->coins_to_spawn = 10;
+	gm->coins_to_spawn = 20;
 	gm->coins_collected = 0;
 	gm->coins_spawned = 0;
 	add_component(game_overseer, GAME_MANAGER, gm);
@@ -97,14 +97,12 @@ int game_main(int argc, char* argv[]) {
 	}
 
 	while (!game_run(&game)) {
+		if (game.waddle->quit) break;
+
 		if (game.waddle->restart == 1) {
 			if (game_init(&game)) {
 				return 1;
 			}
-		}
-		else {
-			// trying to quit
-			break;
 		}
 	}
 	

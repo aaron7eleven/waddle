@@ -28,12 +28,15 @@ int spawn_coin(waddle* waddle) {
 	// actually spawn coin
 	entity* coin = create_entity(waddle);
 	if (coin == NULL) {
+		printf("ERROR: unable to create coin entity");
 		return 0;
 	}
 	coin->name = "coin";
 	
 	waddle_transform* t = (waddle_transform*)create_component(WADDLE_TRANSFORM);
 	if (t == NULL) {
+		destroy_entity(coin);
+		printf("ERROR: unable to create coin transform");
 		return 0;
 	}
 	t->position = (SDL_FPoint){ 40.0f + (float)(rand() % 1000), 40.0f + (float)(rand() % 600) };
@@ -43,6 +46,8 @@ int spawn_coin(waddle* waddle) {
 
 	waddle_sprite_renderer* sprite_rend = (waddle_sprite_renderer*)create_component(WADDLE_SPRITE_RENDERER);
 	if (sprite_rend == NULL) {
+		destroy_entity(coin);
+		printf("ERROR: unable to create coin sprite renderer");
 		return 0;
 	}
 	sprite_rend->size = (SDL_FPoint){ 64.0f, 64.0f };
@@ -53,6 +58,11 @@ int spawn_coin(waddle* waddle) {
 	add_component(coin, WADDLE_SPRITE_RENDERER, sprite_rend);
 
 	waddle_quad_collider* quad_collider = create_component(WADDLE_QUAD_COLLIDER);
+	if (quad_collider == NULL) {
+		destroy_entity(coin);
+		printf("ERROR: unable to create coin quad collider");
+		return 0;
+	}
 	quad_collider->type = STATIC;
 	quad_collider->rect = (SDL_FRect){ 0.0f, 0.0f, 64.0f, 64.0f };
 	quad_collider->delta = (SDL_FPoint){ 0.0f, 0.0f };
@@ -75,6 +85,11 @@ int spawn_coin(waddle* waddle) {
 	on_coin_spawn(gm);
 
 	coin_manager* cm = create_component_by_size(sizeof(coin_manager));
+	if (cm == NULL) {
+		destroy_entity(coin);
+		printf("ERROR: unable to create coin's coin manager");
+		return 0;
+	}
 	cm->game_manager = gm;
 	add_component(coin, COIN_MANAGER, cm);
 
@@ -89,7 +104,7 @@ void coin_on_collision_enter_callback(entity* src_entity, entity* dest_entity) {
 		if (cm == NULL) {
 			return;
 		}
-
+		printf("player hit coin %d (id)", src_entity->id);
 		on_coin_hit(cm->game_manager);
 		destroy_entity(src_entity);
 	}

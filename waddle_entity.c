@@ -66,6 +66,7 @@ void free_components(entity* entity) {
 		free(entity->components[comp_i]);
 		entity->components[comp_i] = NULL;
 	}
+	entity->component_count = 0;
 }
 
 void destroy_entity(entity* entity) {
