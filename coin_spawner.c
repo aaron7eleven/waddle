@@ -66,7 +66,7 @@ int spawn_coin(waddle* waddle) {
 	quad_collider->type = STATIC;
 	quad_collider->rect = (SDL_FRect){ 0.0f, 0.0f, 64.0f, 64.0f };
 	quad_collider->delta = (SDL_FPoint){ 0.0f, 0.0f };
-	quad_collider->scale = (SDL_FPoint){ 1.0f, 1.0f };
+	quad_collider->scale = (SDL_FPoint){ 1.2f, 1.2f };
 	quad_collider->on_collision_enter_callback = coin_on_collision_enter_callback;
 	add_component(coin, WADDLE_QUAD_COLLIDER, quad_collider);
 

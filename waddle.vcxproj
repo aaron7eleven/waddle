@@ -154,6 +154,7 @@
     <ClCompile Include="main.c" />
     <ClCompile Include="quad_controller.c" />
     <ClCompile Include="waddle.c" />
+    <ClCompile Include="waddle_component_audio_player.c" />
     <ClCompile Include="waddle_component_sprite_renderer.c" />
     <ClCompile Include="waddle_entity.c" />
     <ClCompile Include="waddle_log.c" />
@@ -173,6 +174,7 @@
     <ClInclude Include="waddle_callback_test.h" />
     <ClInclude Include="waddle_collider_type.h" />
     <ClInclude Include="waddle_component.h" />
+    <ClInclude Include="waddle_component_audio_player.h" />
     <ClInclude Include="waddle_component_include.h" />
     <ClInclude Include="waddle_component_quad_collider.h" />
     <ClInclude Include="waddle_component_quad_renderer.h" />

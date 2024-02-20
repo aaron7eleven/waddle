@@ -65,13 +65,19 @@ int game_init(game* game) {
 	coin_spawn->spawn_timer = 0.0f;
 	add_component(game_overseer, COIN_SPAWNER, coin_spawn);
 
+	waddle_audio_player* coin_spawn_audio_player = create_component(WADDLE_AUDIO_PLAYER);
+	coin_spawn_audio_player->type = WAV;
+	coin_spawn_audio_player->path = "test_assets/audio/sfx/350871__cabled_mess__coin_c_04.wav";
+	coin_spawn_audio_player->clip = NULL;
+	coin_spawn_audio_player->volume = 128;
+	add_component(game_overseer, WADDLE_AUDIO_PLAYER, coin_spawn_audio_player);
+
 	game_manager* gm = create_component_by_size(sizeof(game_manager));
 	gm->coins_to_spawn = 20;
 	gm->coins_collected = 0;
 	gm->coins_spawned = 0;
+	gm->coin_spawn_audio_player = coin_spawn_audio_player;
 	add_component(game_overseer, GAME_MANAGER, gm);
-
-	//destroy_entity(game->waddle, &player);
 
 	waddle_load_assets(game->waddle);
 

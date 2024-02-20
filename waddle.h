@@ -2,9 +2,9 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
+#include <SDL_mixer.h>
 
 #include "waddle_include.h"
-//#include "waddle_callback_test.h"
 
 typedef struct waddle waddle;
 

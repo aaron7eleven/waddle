@@ -5,6 +5,7 @@ typedef struct {
 	int coins_collected;
 	int coins_spawned;
 	int coins_to_spawn;
+	waddle_audio_player* coin_spawn_audio_player;
 } game_manager;
 
 void update_game_manager(waddle* waddle);

@@ -8,6 +8,7 @@ void on_coin_hit(game_manager* game_manager) {
 
 void on_coin_spawn(game_manager* game_manager) {
 	game_manager->coins_spawned++;
+	play(game_manager->coin_spawn_audio_player);
 	printf("coins spawned = %d\n", game_manager->coins_spawned);
 }
 

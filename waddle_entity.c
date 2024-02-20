@@ -21,6 +21,10 @@ void* create_component(component_type type) {
 			return calloc(1, sizeof(waddle_sprite_renderer));
 		} break;
 
+		case WADDLE_AUDIO_PLAYER: {
+			return calloc(1, sizeof(waddle_audio_player));
+		} break;
+
 	default:
 		printf("component type not found in waddle. Check custom");
 		return NULL;

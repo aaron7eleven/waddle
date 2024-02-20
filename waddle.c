@@ -1,5 +1,4 @@
 #pragma once
-//#include <stdlib.h>
 #include "waddle.h"
 
 waddle* waddle_create() {
@@ -68,20 +67,20 @@ int waddle_init(waddle* waddle) {
 	//	return 1;
 	//}
 
-	//if (!waddle->initialize) {
-	//	int mixer_flags = MIX_INIT_MP3 | MIX_INIT_OGG;
-	//	if (!Mix_Init(mixer_flags)) {
-	//		printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-	//		return 1;
-	//	}
+	if (!waddle->initialize) {
+		int mixer_flags = MIX_INIT_MP3 | MIX_INIT_OGG;
+		if (!Mix_Init(mixer_flags)) {
+			printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+			return 1;
+		}
 
-	//	//Initialize SDL_mixer
-	//	if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
-	//	{
-	//		printf("SDL_Mixer Open Audio could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
-	//		return 1;
-	//	}
-	//}
+		//Initialize SDL_mixer
+		if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0)
+		{
+			printf("SDL_Mixer Open Audio could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
+			return 1;
+		}
+	}
 
 	srand((unsigned)time(NULL));
 
@@ -117,9 +116,9 @@ int waddle_free(waddle* waddle) {
 
 	// Quit additional SDL subsystems
 
-	//if (waddle->quit && !waddle->restart) {
-	//	Mix_Quit();
-	//}
+	if (waddle->quit && !waddle->restart) {
+		Mix_Quit();
+	}
 	//Mix_Quit();
 	//TTF_Quit();
 	IMG_Quit();
@@ -153,6 +152,13 @@ int waddle_load_assets(waddle* waddle) {
 					waddle_sprite_renderer* sprite_rend = (waddle_sprite_renderer*)entity->components[comp_i]->data;
 					if (waddle_load_sprite(waddle->renderer, sprite_rend)) {
 						printf("ERROR: failed to load sprite for %s", entity->name);
+					}
+				} break;
+
+				case WADDLE_AUDIO_PLAYER: {
+					waddle_audio_player* audio_player = (waddle_audio_player*) entity->components[comp_i]->data;
+					if (waddle_load_audio(audio_player)) {
+						printf("ERROR: failed to load audio for %s", entity->name);
 					}
 				} break;
 

@@ -75,6 +75,9 @@
     <ClCompile Include="coin_manager.c">
       <Filter>game\src</Filter>
     </ClCompile>
+    <ClCompile Include="waddle_component_audio_player.c">
+      <Filter>engine\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="game.h">
@@ -142,6 +145,9 @@
     </ClInclude>
     <ClInclude Include="coin_manager.h">
       <Filter>game\include</Filter>
+    </ClInclude>
+    <ClInclude Include="waddle_component_audio_player.h">
+      <Filter>engine\include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
