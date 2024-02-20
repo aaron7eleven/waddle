@@ -1,9 +1,13 @@
 #pragma once
 #include <SDL.h>
 #include "waddle_entity.h"
-#include "waddle_collider_type.h"
 
 typedef void (*waddle_on_collision_enter_callback)(entity* src_entity, entity* dest_entity);
+
+typedef enum {
+	STATIC,
+	DYNAMIC
+} waddle_collider_type;
 
 typedef struct {
 	waddle_collider_type type;
