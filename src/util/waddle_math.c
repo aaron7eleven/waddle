@@ -1,5 +1,5 @@
 #include <math.h>
-#include "waddle_math.h"
+#include "util/waddle_math.h"
 
 float distance_squared(float x1, float y1, float x2, float y2) {
 	float delta_x = x2 - x1;

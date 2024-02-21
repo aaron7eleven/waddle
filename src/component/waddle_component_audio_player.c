@@ -1,4 +1,5 @@
-#include "waddle_component_audio_player.h"
+#include <stdio.h>
+#include "component/waddle_component_audio_player.h"
 
 int waddle_load_audio(waddle_audio_player* audio_player) {
 	switch (audio_player->type)
@@ -20,7 +21,7 @@ int waddle_load_audio(waddle_audio_player* audio_player) {
 }
 
 void play(waddle_audio_player* audio_player) {
-	printf("playing audio\n");
+	//printf("playing audio\n");
 	Mix_Volume(-1, volume_clamp(audio_player->volume));
 	Mix_PlayChannel(-1, audio_player->clip, 0);
 }

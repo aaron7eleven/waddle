@@ -143,6 +143,7 @@ int waddle_free(waddle* waddle) {
 int waddle_load_assets(waddle* waddle) {
 	// Loop through each entity's component to load any assets it's components are pointing to
 	entity* entity;
+	int output = 0;
 	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
 		entity = waddle->entities[entity_i];
 		for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
@@ -152,6 +153,7 @@ int waddle_load_assets(waddle* waddle) {
 					waddle_sprite_renderer* sprite_rend = (waddle_sprite_renderer*)entity->components[comp_i]->data;
 					if (waddle_load_sprite(waddle->renderer, sprite_rend)) {
 						printf("ERROR: failed to load sprite for %s", entity->name);
+						output = 1;
 					}
 				} break;
 
@@ -159,6 +161,7 @@ int waddle_load_assets(waddle* waddle) {
 					waddle_audio_player* audio_player = (waddle_audio_player*) entity->components[comp_i]->data;
 					if (waddle_load_audio(audio_player)) {
 						printf("ERROR: failed to load audio for %s", entity->name);
+						output = 1;
 					}
 				} break;
 
@@ -168,6 +171,7 @@ int waddle_load_assets(waddle* waddle) {
 			}
 		}
 	}
+	return output;
 }
 
 int waddle_run(waddle* waddle) {

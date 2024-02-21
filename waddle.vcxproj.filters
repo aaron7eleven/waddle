@@ -57,24 +57,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="test_games\coin_catcher\src\main.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="test_games\coin_catcher\src\coin_manager.c">
-      <Filter>game\src</Filter>
-    </ClCompile>
-    <ClCompile Include="test_games\coin_catcher\src\coin_spawner.c">
-      <Filter>game\src</Filter>
-    </ClCompile>
-    <ClCompile Include="test_games\coin_catcher\src\game.c">
-      <Filter>game\src</Filter>
-    </ClCompile>
-    <ClCompile Include="test_games\coin_catcher\src\game_manager.c">
-      <Filter>game\src</Filter>
-    </ClCompile>
-    <ClCompile Include="test_games\coin_catcher\src\quad_controller.c">
-      <Filter>game\src</Filter>
-    </ClCompile>
     <ClCompile Include="src\util\waddle_log.c">
       <Filter>engine\src\util</Filter>
     </ClCompile>
@@ -99,30 +81,30 @@
     <ClCompile Include="src\component\waddle_component_sprite_renderer.c">
       <Filter>engine\src\component</Filter>
     </ClCompile>
+    <ClCompile Include="test_games\game\src\main.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test_games\game\src\coin_manager.c">
+      <Filter>game\src</Filter>
+    </ClCompile>
+    <ClCompile Include="test_games\game\src\coin_spawner.c">
+      <Filter>game\src</Filter>
+    </ClCompile>
+    <ClCompile Include="test_games\game\src\game.c">
+      <Filter>game\src</Filter>
+    </ClCompile>
+    <ClCompile Include="test_games\game\src\game_manager.c">
+      <Filter>game\src</Filter>
+    </ClCompile>
+    <ClCompile Include="test_games\game\src\quad_controller.c">
+      <Filter>game\src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="test_games\coin_catcher\include\coin_manager.h">
-      <Filter>game\include</Filter>
-    </ClInclude>
-    <ClInclude Include="test_games\coin_catcher\include\coin_spawner.h">
-      <Filter>game\include</Filter>
-    </ClInclude>
-    <ClInclude Include="test_games\coin_catcher\include\game.h">
-      <Filter>game\include</Filter>
-    </ClInclude>
-    <ClInclude Include="test_games\coin_catcher\include\game_manager.h">
-      <Filter>game\include</Filter>
-    </ClInclude>
-    <ClInclude Include="test_games\coin_catcher\include\quad_controller.h">
-      <Filter>game\include</Filter>
-    </ClInclude>
     <ClInclude Include="include\component\waddle_component.h">
       <Filter>engine\include\component</Filter>
     </ClInclude>
     <ClInclude Include="include\component\waddle_component_audio_player.h">
-      <Filter>engine\include\component</Filter>
-    </ClInclude>
-    <ClInclude Include="include\component\waddle_component_include.h">
       <Filter>engine\include\component</Filter>
     </ClInclude>
     <ClInclude Include="include\component\waddle_component_quad_collider.h">
@@ -135,9 +117,6 @@
       <Filter>engine\include\component</Filter>
     </ClInclude>
     <ClInclude Include="include\component\waddle_component_transform.h">
-      <Filter>engine\include\component</Filter>
-    </ClInclude>
-    <ClInclude Include="include\component\waddle_custom_component_type.h">
       <Filter>engine\include\component</Filter>
     </ClInclude>
     <ClInclude Include="include\entity\waddle_entity.h">
@@ -157,6 +136,24 @@
     </ClInclude>
     <ClInclude Include="include\util\waddle_math.h">
       <Filter>engine\include\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\waddle.h">
+      <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="test_games\game\include\coin_manager.h">
+      <Filter>game\include</Filter>
+    </ClInclude>
+    <ClInclude Include="test_games\game\include\coin_spawner.h">
+      <Filter>game\include</Filter>
+    </ClInclude>
+    <ClInclude Include="test_games\game\include\game.h">
+      <Filter>game\include</Filter>
+    </ClInclude>
+    <ClInclude Include="test_games\game\include\game_manager.h">
+      <Filter>game\include</Filter>
+    </ClInclude>
+    <ClInclude Include="test_games\game\include\quad_controller.h">
+      <Filter>game\include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

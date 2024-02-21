@@ -4,7 +4,24 @@
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 
-#include "waddle_include.h"
+// entity
+#include "entity/waddle_entity.h"
+
+// component
+#include "component/waddle_component.h"
+#include "component/waddle_component_transform.h"
+#include "component/waddle_component_quad_collider.h"
+#include "component/waddle_component_quad_renderer.h"
+#include "component/waddle_component_sprite_renderer.h"
+#include "component/waddle_component_audio_player.h"
+
+// system
+#include "system/waddle_system_physics.h"
+#include "system/waddle_system_render.h"
+
+// util
+#include "util/waddle_log.h"
+#include "util/waddle_math.h"
 
 typedef struct waddle waddle;
 

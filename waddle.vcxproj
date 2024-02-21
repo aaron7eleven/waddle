@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL\include;C:\SDL_image\include;C:\SDL_ttf\include;C:\SDL_mixer\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\waddle\test_games\game\include;C:\waddle\include;C:\SDL\include;C:\SDL_image\include;C:\SDL_ttf\include;C:\SDL_mixer\include</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
@@ -106,7 +106,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\SDL\include;C:\SDL_image\include;C:\SDL_ttf\include;C:\SDL_mixer\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\waddle\test_games\game\include;C:\waddle\include;C:\SDL\include;C:\SDL_image\include;C:\SDL_ttf\include;C:\SDL_mixer\include</AdditionalIncludeDirectories>
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
@@ -155,33 +155,32 @@
     <ClCompile Include="src\util\waddle_log.c" />
     <ClCompile Include="src\util\waddle_math.c" />
     <ClCompile Include="src\waddle.c" />
-    <ClCompile Include="test_games\coin_catcher\src\coin_manager.c" />
-    <ClCompile Include="test_games\coin_catcher\src\coin_spawner.c" />
-    <ClCompile Include="test_games\coin_catcher\src\game.c" />
-    <ClCompile Include="test_games\coin_catcher\src\game_manager.c" />
-    <ClCompile Include="test_games\coin_catcher\src\main.c" />
-    <ClCompile Include="test_games\coin_catcher\src\quad_controller.c" />
+    <ClCompile Include="test_games\game\src\coin_manager.c" />
+    <ClCompile Include="test_games\game\src\coin_spawner.c" />
+    <ClCompile Include="test_games\game\src\game.c" />
+    <ClCompile Include="test_games\game\src\game_manager.c" />
+    <ClCompile Include="test_games\game\src\main.c" />
+    <ClCompile Include="test_games\game\src\quad_controller.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\component\waddle_component.h" />
     <ClInclude Include="include\component\waddle_component_audio_player.h" />
-    <ClInclude Include="include\component\waddle_component_include.h" />
     <ClInclude Include="include\component\waddle_component_quad_collider.h" />
     <ClInclude Include="include\component\waddle_component_quad_renderer.h" />
     <ClInclude Include="include\component\waddle_component_sprite_renderer.h" />
     <ClInclude Include="include\component\waddle_component_transform.h" />
-    <ClInclude Include="include\component\waddle_custom_component_type.h" />
     <ClInclude Include="include\entity\waddle_entity.h" />
     <ClInclude Include="include\system\waddle_system_physics.h" />
     <ClInclude Include="include\system\waddle_system_render.h" />
     <ClInclude Include="include\util\waddle_lazy.h" />
     <ClInclude Include="include\util\waddle_log.h" />
     <ClInclude Include="include\util\waddle_math.h" />
-    <ClInclude Include="test_games\coin_catcher\include\coin_manager.h" />
-    <ClInclude Include="test_games\coin_catcher\include\coin_spawner.h" />
-    <ClInclude Include="test_games\coin_catcher\include\game.h" />
-    <ClInclude Include="test_games\coin_catcher\include\game_manager.h" />
-    <ClInclude Include="test_games\coin_catcher\include\quad_controller.h" />
+    <ClInclude Include="include\waddle.h" />
+    <ClInclude Include="test_games\game\include\coin_manager.h" />
+    <ClInclude Include="test_games\game\include\coin_spawner.h" />
+    <ClInclude Include="test_games\game\include\game.h" />
+    <ClInclude Include="test_games\game\include\game_manager.h" />
+    <ClInclude Include="test_games\game\include\quad_controller.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

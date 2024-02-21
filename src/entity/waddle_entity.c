@@ -1,6 +1,10 @@
 #include <stdio.h>
-#include "waddle_entity.h"
-#include "waddle_component_include.h"
+#include "entity/waddle_entity.h"
+#include "component/waddle_component_transform.h"
+#include "component/waddle_component_quad_collider.h"
+#include "component/waddle_component_quad_renderer.h"
+#include "component/waddle_component_sprite_renderer.h"
+#include "component/waddle_component_audio_player.h"
 
 void* create_component(component_type type) {
 	switch (type)

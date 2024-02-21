@@ -1,4 +1,4 @@
-#include "waddle_component_sprite_renderer.h"
+#include "component/waddle_component_sprite_renderer.h"
 
 int waddle_load_sprite(SDL_Renderer* renderer, waddle_sprite_renderer* sprite_renderer) {
 	sprite_renderer->texture = IMG_LoadTexture(renderer, sprite_renderer->file);

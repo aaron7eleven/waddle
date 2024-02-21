@@ -1,6 +1,6 @@
 #pragma once
 #include <SDL.h>
-#include "waddle_entity.h"
+#include "entity/waddle_entity.h"
 
 typedef void (*waddle_on_collision_enter_callback)(entity* src_entity, entity* dest_entity);
 

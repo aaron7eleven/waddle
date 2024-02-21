@@ -1,6 +1,6 @@
 #pragma once
 #include <SDL.h>
-#include "waddle_entity.h"
+#include "entity/waddle_entity.h"
 void update_physics_system(entity* entities[], int entity_count);
 void update_colliders(entity* entities[], int entity_count);
 void update_quad_collider(entity* entity);

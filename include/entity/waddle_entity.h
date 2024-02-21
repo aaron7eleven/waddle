@@ -1,5 +1,5 @@
 #pragma once
-#include "waddle_component.h"
+#include "component/waddle_component.h"
 
 typedef struct {
 	const char* name;

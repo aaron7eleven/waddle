@@ -1,4 +1,8 @@
-#include "waddle_system_render.h"
+#include "system/waddle_system_render.h"
+#include "component/waddle_component_transform.h"
+#include "component/waddle_component_quad_renderer.h"
+#include "component/waddle_component_quad_collider.h"
+#include "component/waddle_component_sprite_renderer.h"
 
 void update_render_system(SDL_Renderer* renderer, entity* entity)
 {
@@ -6,7 +10,7 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 		switch (entity->components[comp_i]->type)
 		{
 		case WADDLE_QUAD_RENDERER: {
-			waddle_transform* t = (waddle_transform*)get_component(entity, WADDLE_TRANSFORM);
+			waddle_transform* t = (waddle_transform*) get_component(entity, WADDLE_TRANSFORM);
 			if (t == NULL) {
 				printf("%s's sprite renderer doesn't have a transform\n", entity->name);
 				break;

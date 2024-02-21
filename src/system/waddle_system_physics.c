@@ -1,7 +1,8 @@
-#include "waddle_system_physics.h"
-#include "waddle_component_include.h"
-#include "waddle_collider_type.h"
-#include "waddle_math.h"
+#include <stdio.h>
+#include "system/waddle_system_physics.h"
+#include "component/waddle_component_quad_collider.h"
+#include "component/waddle_component_transform.h"
+#include "util/waddle_math.h"
 
 void update_physics_system(entity* entities[], int entity_count) {
 	update_colliders(entities, entity_count);
