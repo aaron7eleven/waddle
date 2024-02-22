@@ -1,18 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="engine">
       <UniqueIdentifier>{e2fe68dc-b373-47ef-8921-e4cd53edbe25}</UniqueIdentifier>
     </Filter>
@@ -21,15 +9,6 @@
     </Filter>
     <Filter Include="engine\include">
       <UniqueIdentifier>{96d5588d-6af1-4bfa-81f7-1ce78c206cb1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="game">
-      <UniqueIdentifier>{6cf93ab4-1893-4f22-9e6f-8eebea585d06}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="game\include">
-      <UniqueIdentifier>{56635566-2eaa-4ae3-8e29-ca6374fe4d2f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="game\src">
-      <UniqueIdentifier>{1b8d10e9-1e89-47b0-acfd-474afbbdd1f3}</UniqueIdentifier>
     </Filter>
     <Filter Include="engine\include\component">
       <UniqueIdentifier>{650d2a29-ac7a-4463-8742-d41b894c10b7}</UniqueIdentifier>
@@ -81,24 +60,6 @@
     <ClCompile Include="src\component\waddle_component_sprite_renderer.c">
       <Filter>engine\src\component</Filter>
     </ClCompile>
-    <ClCompile Include="test_games\game\src\main.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="test_games\game\src\coin_manager.c">
-      <Filter>game\src</Filter>
-    </ClCompile>
-    <ClCompile Include="test_games\game\src\coin_spawner.c">
-      <Filter>game\src</Filter>
-    </ClCompile>
-    <ClCompile Include="test_games\game\src\game.c">
-      <Filter>game\src</Filter>
-    </ClCompile>
-    <ClCompile Include="test_games\game\src\game_manager.c">
-      <Filter>game\src</Filter>
-    </ClCompile>
-    <ClCompile Include="test_games\game\src\quad_controller.c">
-      <Filter>game\src</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\component\waddle_component.h">
@@ -139,21 +100,6 @@
     </ClInclude>
     <ClInclude Include="include\waddle.h">
       <Filter>engine\include</Filter>
-    </ClInclude>
-    <ClInclude Include="test_games\game\include\coin_manager.h">
-      <Filter>game\include</Filter>
-    </ClInclude>
-    <ClInclude Include="test_games\game\include\coin_spawner.h">
-      <Filter>game\include</Filter>
-    </ClInclude>
-    <ClInclude Include="test_games\game\include\game.h">
-      <Filter>game\include</Filter>
-    </ClInclude>
-    <ClInclude Include="test_games\game\include\game_manager.h">
-      <Filter>game\include</Filter>
-    </ClInclude>
-    <ClInclude Include="test_games\game\include\quad_controller.h">
-      <Filter>game\include</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

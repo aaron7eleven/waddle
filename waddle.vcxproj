@@ -27,13 +27,13 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -155,12 +155,6 @@
     <ClCompile Include="src\util\waddle_log.c" />
     <ClCompile Include="src\util\waddle_math.c" />
     <ClCompile Include="src\waddle.c" />
-    <ClCompile Include="test_games\game\src\coin_manager.c" />
-    <ClCompile Include="test_games\game\src\coin_spawner.c" />
-    <ClCompile Include="test_games\game\src\game.c" />
-    <ClCompile Include="test_games\game\src\game_manager.c" />
-    <ClCompile Include="test_games\game\src\main.c" />
-    <ClCompile Include="test_games\game\src\quad_controller.c" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\component\waddle_component.h" />
@@ -176,11 +170,6 @@
     <ClInclude Include="include\util\waddle_log.h" />
     <ClInclude Include="include\util\waddle_math.h" />
     <ClInclude Include="include\waddle.h" />
-    <ClInclude Include="test_games\game\include\coin_manager.h" />
-    <ClInclude Include="test_games\game\include\coin_spawner.h" />
-    <ClInclude Include="test_games\game\include\game.h" />
-    <ClInclude Include="test_games\game\include\game_manager.h" />
-    <ClInclude Include="test_games\game\include\quad_controller.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
