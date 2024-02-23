@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include "component/waddle_component_audio_player.h"
 
-int waddle_load_audio(waddle_audio_player* audio_player) {
+WADDLE_API int waddle_load_audio(waddle_audio_player* audio_player) {
 	switch (audio_player->type)
 	{
 		case WAV: {
@@ -20,7 +20,7 @@ int waddle_load_audio(waddle_audio_player* audio_player) {
 	return 0;
 }
 
-void play(waddle_audio_player* audio_player) {
+WADDLE_API void play(waddle_audio_player* audio_player) {
 	//printf("playing audio\n");
 	Mix_Volume(-1, volume_clamp(audio_player->volume));
 	Mix_PlayChannel(-1, audio_player->clip, 0);

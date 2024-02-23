@@ -6,7 +6,7 @@
 #include "component/waddle_component_sprite_renderer.h"
 #include "component/waddle_component_audio_player.h"
 
-void* create_component(component_type type) {
+WADDLE_API void* create_component(component_type type) {
 	switch (type)
 	{
 		case WADDLE_TRANSFORM: {
@@ -36,11 +36,11 @@ void* create_component(component_type type) {
 	
 }
 
-void* create_component_by_size(size_t sizeof_size) {
+WADDLE_API void* create_component_by_size(size_t sizeof_size) {
 	return calloc(1, sizeof_size);
 }
 
-void* get_component(entity* entity, component_type type) {
+WADDLE_API void* get_component(entity* entity, component_type type) {
 	for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
 		if (entity->components[comp_i]->type == type) {
 			return entity->components[comp_i]->data;
@@ -50,7 +50,7 @@ void* get_component(entity* entity, component_type type) {
 	return NULL;
 }
 
-void add_component(entity* entity, component_type type, void* data) {
+WADDLE_API void add_component(entity* entity, component_type type, void* data) {
 	if ((entity->component_count + 1) >= entity->max_component_per_entity) {
 		printf("ERROR: At max component count per entity, not adding component to entity");
 		return NULL;
@@ -64,11 +64,11 @@ void add_component(entity* entity, component_type type, void* data) {
 	entity->component_count++;
 }
 
-void free_component(component* component) {
+WADDLE_API void free_component(component* component) {
 	free(component->data);
 }
 
-void free_components(entity* entity) {
+WADDLE_API void free_components(entity* entity) {
 	for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
 		free_component(entity->components[comp_i]);
 		free(entity->components[comp_i]);
@@ -77,6 +77,6 @@ void free_components(entity* entity) {
 	entity->component_count = 0;
 }
 
-void destroy_entity(entity* entity) {
+WADDLE_API void destroy_entity(entity* entity) {
 	entity->destroy = 1;
 }

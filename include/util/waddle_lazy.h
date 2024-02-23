@@ -1,4 +1,9 @@
 #pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include "waddle.h"
 // These are lazy copy and paste "functions" that contain loops that happen often
 
@@ -31,3 +36,7 @@ void waddle_entities_loop(waddle* waddle) {
 		// stuff with entity
 	}
 }
+
+#ifdef __cplusplus
+}
+#endif

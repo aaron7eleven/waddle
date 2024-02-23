@@ -1,4 +1,9 @@
 #pragma once
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #include <SDL.h>
 #include "entity/waddle_entity.h"
 
@@ -16,3 +21,7 @@ typedef struct {
 	SDL_FPoint scale;
 	waddle_on_collision_enter_callback on_collision_enter_callback;
 } waddle_quad_collider;
+
+#ifdef __cplusplus
+}
+#endif

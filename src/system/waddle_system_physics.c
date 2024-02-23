@@ -4,12 +4,12 @@
 #include "component/waddle_component_transform.h"
 #include "util/waddle_math.h"
 
-void update_physics_system(entity* entities[], int entity_count) {
+WADDLE_API void update_physics_system(entity* entities[], int entity_count) {
 	update_colliders(entities, entity_count);
 	check_collisions(entities, entity_count);
 }
 
-void update_colliders(entity* entities[], int entity_count) {
+WADDLE_API void update_colliders(entity* entities[], int entity_count) {
 	// Update collider position
 	for (int entity_i = 0; entity_i < entity_count; entity_i++) {
 		for (int comp_i = 0; comp_i < entities[entity_i]->component_count; comp_i++) {
@@ -29,7 +29,7 @@ void update_colliders(entity* entities[], int entity_count) {
 	}
 }
 
-void update_quad_collider(entity* entity) {
+WADDLE_API void update_quad_collider(entity* entity) {
 	waddle_quad_collider* quad_col = (waddle_quad_collider*)get_component(entity, WADDLE_QUAD_COLLIDER);
 	waddle_transform* quad_transform = (waddle_transform*)get_component(entity, WADDLE_TRANSFORM);
 
@@ -60,7 +60,7 @@ void update_quad_collider(entity* entity) {
 	
 }
 
-void check_collisions(entity* entities[], int entity_count) {
+WADDLE_API void check_collisions(entity* entities[], int entity_count) {
 	for (int entity_i = 0; entity_i < entity_count; entity_i++) {
 		for (int entity_j = entity_i + 1; entity_j < entity_count; entity_j++) {
 			if (entity_i == entity_j) {
@@ -94,7 +94,7 @@ void check_collisions(entity* entities[], int entity_count) {
 	}
 }
 
-int check_collision(entity* a, entity* b) {
+WADDLE_API int check_collision(entity* a, entity* b) {
 	waddle_quad_collider* a_quad_collider = (waddle_quad_collider*) get_component(a, WADDLE_QUAD_COLLIDER);
 	waddle_quad_collider* b_quad_collider = (waddle_quad_collider*) get_component(b, WADDLE_QUAD_COLLIDER);
 
@@ -125,7 +125,7 @@ int check_collision(entity* a, entity* b) {
 	return 1;
 }
 
-void collision_response(entity* a, entity* b) {
+WADDLE_API void collision_response(entity* a, entity* b) {
 	waddle_quad_collider* a_quad_collider = (waddle_quad_collider*)get_component(a, WADDLE_QUAD_COLLIDER);
 	waddle_quad_collider* b_quad_collider = (waddle_quad_collider*)get_component(b, WADDLE_QUAD_COLLIDER);
 	
