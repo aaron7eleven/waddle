@@ -115,11 +115,10 @@ int waddle_free(waddle* waddle) {
 	//free(app->game);
 
 	// Quit additional SDL subsystems
-
 	if (waddle->quit && !waddle->restart) {
 		Mix_Quit();
 	}
-	//Mix_Quit();
+
 	//TTF_Quit();
 	IMG_Quit();
 
@@ -215,7 +214,7 @@ void waddle_physics_update(waddle* waddle) {
 
 
 void waddle_render(waddle* waddle) {
-	SDL_SetRenderDrawColor(waddle->renderer, 0x50, 0x60, 0x3A, 0xFF);
+	SDL_SetRenderDrawColor(waddle->renderer, 0x00, 0x00, 0x00, 0xFF);
 	SDL_RenderClear(waddle->renderer);
 	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
 		update_render_system(waddle->renderer, waddle->entities[entity_i]);
@@ -236,15 +235,6 @@ void waddle_update_delta_time(waddle* waddle) {
 	waddle->start_ticks = SDL_GetTicks();
 }
 
-void waddle_apply_frame_delay(waddle* waddle) {
-	Uint32 current_frame_ticks = SDL_GetTicks() - waddle->start_ticks;
-	if (current_frame_ticks < waddle->ticks_per_frame)
-	{
-		//Wait remaining time
-		SDL_Delay(waddle->ticks_per_frame - current_frame_ticks);
-	}
-}
-
 entity* create_entity(waddle* waddle)
 {
 	if ((waddle->entity_count + 1) >= waddle->max_entities) {
@@ -263,8 +253,8 @@ entity* create_entity(waddle* waddle)
 		new_entity->components[comp_i] = NULL;
 	}
 
-	int store_entity = 0;
 	// find place to store entity in list
+	int store_entity = 0;
 	for (int entity_i = 0; entity_i < waddle->max_entities; entity_i++) {
 
 		if (waddle->entities[entity_i] == NULL) {
@@ -280,7 +270,6 @@ entity* create_entity(waddle* waddle)
 		return NULL;
 	}
 
-	//waddle->entities[waddle->entity_count] = new_entity;
 	waddle->entity_count++;
 
 	return new_entity;
@@ -320,7 +309,7 @@ void free_entity(waddle* waddle, entity** entity_ptr)
 	free(*entity_ptr);
 	*entity_ptr = NULL;
 
-	// Restructure entities so there are no gaps
+	// Restructure entities list so there are no gaps
 	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
 		// if current entity is not null, move to next
 		if (waddle->entities[entity_i] != NULL) continue;

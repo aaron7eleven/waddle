@@ -14,6 +14,7 @@ extern "C" {
 #include "entity/waddle_entity.h"
 
 WADDLE_API void update_render_system(SDL_Renderer* renderer, entity* entity);
+//WADDLE_API void (SDL_Renderer* renderer, entity* entity);
 
 #ifdef __cplusplus
 }

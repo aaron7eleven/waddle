@@ -21,7 +21,6 @@ WADDLE_API int waddle_load_audio(waddle_audio_player* audio_player) {
 }
 
 WADDLE_API void play(waddle_audio_player* audio_player) {
-	//printf("playing audio\n");
 	Mix_Volume(-1, volume_clamp(audio_player->volume));
 	Mix_PlayChannel(-1, audio_player->clip, 0);
 }

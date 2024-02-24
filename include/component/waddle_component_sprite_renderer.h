@@ -17,6 +17,7 @@ typedef struct {
 	SDL_Color color;
 	const char* file;
 	SDL_Texture* texture;
+	int render_order; // TBD
 } waddle_sprite_renderer;
 
 WADDLE_API int waddle_load_sprite(SDL_Renderer* renderer, waddle_sprite_renderer* sprite_renderer);

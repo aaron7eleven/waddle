@@ -42,10 +42,8 @@ struct waddle {
 	SDL_Window* window;
 	SDL_Surface* surface;
 	SDL_Renderer* renderer;
-	SDL_Texture* texture;
-	TTF_Font* font;
 
-	// waddle run states
+	// states flags
 	int initialize;
 	int restart;
 	int quit;
@@ -58,9 +56,8 @@ struct waddle {
 	int v_sync;
 	Uint32 target_fps;
 	Uint32 ticks_per_frame; // 1000 ms / X frames
-	//Uint32 ticks_per_frame = 1000 / target_fps; // 1000 ms / X frames
 
-	// runtime
+	// runtime time
 	float delta_time;
 	Uint32 start_ticks;
 
@@ -68,18 +65,18 @@ struct waddle {
 	SDL_Event event; // use for window events and dynamic "event" input (i.e. SDL_Keycode)
 	const Uint8* key_state; // use for key presses (i.e. SDL_SCANCODE_XXXX)
 
+	// entity & component info
 	int entity_count;
 	int max_entities;
 	entity* entities[16];
 	int max_component_per_entity;
 
+	// update info
 	int update_callback_count;
 	int max_update_callback_count;
 	waddle_update_callback update_callbacks[16];
 };
 
-
-//typedef void (*waddle_system_update_callback)(waddle* waddle);
 
 WADDLE_API waddle* waddle_create();
 WADDLE_API int waddle_init(waddle* waddle);
@@ -91,12 +88,10 @@ WADDLE_API int waddle_free(waddle* waddle);
 WADDLE_API void waddle_process_input(waddle* waddle);
 WADDLE_API void waddle_update(waddle* waddle);
 WADDLE_API void waddle_physics_update(waddle* waddle);
+WADDLE_API void waddle_internal_update(waddle* waddle);
 WADDLE_API void waddle_render(waddle* waddle);
 
-WADDLE_API void waddle_internal_update(waddle* waddle);
-
 WADDLE_API void waddle_update_delta_time(waddle* waddle);
-WADDLE_API void waddle_apply_frame_delay(waddle* waddle);
 
 WADDLE_API entity* create_entity(waddle* waddle);
 WADDLE_API void free_entity(waddle* waddle, entity** entity);
@@ -105,7 +100,6 @@ WADDLE_API void add_update_callback(waddle* waddle, waddle_update_callback callb
 //void free_entities(entity* entity);
 
 WADDLE_API int waddle_load_assets(waddle* waddle);
-
 
 // Debug
 void peek_entities(waddle* waddle);
