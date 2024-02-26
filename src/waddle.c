@@ -164,6 +164,14 @@ int waddle_load_assets(waddle* waddle) {
 					}
 				} break;
 
+				case WADDLE_UI_TEXT: {
+					waddle_ui_text* ui_text = (waddle_ui_text*)entity->components[comp_i]->data;
+					if (waddle_load_font(ui_text)) {
+						printf("ERROR: failed to load font for %s", entity->name);
+						output = 1;
+					}
+				} break;
+
 				default: {
 
 				} break;
