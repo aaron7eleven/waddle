@@ -20,7 +20,6 @@ typedef struct {
 	int render_order; // TBD
 } waddle_sprite_renderer;
 
-WADDLE_API int waddle_load_sprite(SDL_Renderer* renderer, waddle_sprite_renderer* sprite_renderer);
 
 #ifdef __cplusplus
 }

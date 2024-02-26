@@ -11,19 +11,10 @@ extern "C" {
 #endif
 
 #include "SDL_mixer.h"
+#include "component/waddle_component_audio_player.h"
 
-typedef enum {
-	WAV,
-	MP3,
-	OGG
-} waddle_audio_file_type;
-
-typedef struct {
-	waddle_audio_file_type type;
-	const char* path;
-	Mix_Chunk* clip;
-	int volume;
-} waddle_audio_player;
+WADDLE_API void play(waddle_audio_player* audio_player);
+int volume_clamp(int volume);
 
 #ifdef __cplusplus
 }

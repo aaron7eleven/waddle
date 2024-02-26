@@ -10,20 +10,21 @@
 extern "C" {
 #endif
 
-#include "SDL_mixer.h"
-
-typedef enum {
-	WAV,
-	MP3,
-	OGG
-} waddle_audio_file_type;
+#include <SDL.h>
+#include <SDL_ttf.h>
 
 typedef struct {
-	waddle_audio_file_type type;
-	const char* path;
-	Mix_Chunk* clip;
-	int volume;
-} waddle_audio_player;
+	// setup
+	const char* file;
+	int point_size;
+	TTF_Font* font;
+	
+	// usage
+	const char* text;
+	SDL_FPoint rect;
+	SDL_Color color;
+	SDL_Texture* texture;	
+} waddle_ui_text;
 
 #ifdef __cplusplus
 }
