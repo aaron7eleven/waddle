@@ -89,8 +89,10 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 			}
 
 			SDL_RenderCopyExF(renderer, ui_text_texture, NULL, &ui_text->rect, 0, NULL, SDL_FLIP_NONE);
+			SDL_FreeSurface(text_surface);
+			SDL_DestroyTexture(ui_text_texture);
 
-			// Debug: Gives sprite an outline to show where ui text texture is supposed to be
+			// Debug: Gives outline to show it supposed to be rendering
 			SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xFF, 0xFF);
 			SDL_RenderDrawRectF(renderer, &ui_text->rect);
 		} break;
