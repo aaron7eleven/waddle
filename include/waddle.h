@@ -15,7 +15,7 @@ extern "C" {
 #include <SDL_ttf.h>
 #include <SDL_mixer.h>
 
-	// entity
+// entity
 #include "entity/waddle_entity.h"
 
 // component
@@ -25,10 +25,13 @@ extern "C" {
 #include "component/waddle_component_quad_renderer.h"
 #include "component/waddle_component_sprite_renderer.h"
 #include "component/waddle_component_audio_player.h"
+#include "component/waddle_component_ui_text.h"
 
 // system
 #include "system/waddle_system_physics.h"
 #include "system/waddle_system_render.h"
+#include "system/waddle_system_audio.h"
+#include "system/waddle_system_resources.h"
 
 // util
 #include "util/waddle_log.h"
