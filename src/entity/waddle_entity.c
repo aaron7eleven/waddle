@@ -5,6 +5,7 @@
 #include "component/waddle_component_quad_renderer.h"
 #include "component/waddle_component_sprite_renderer.h"
 #include "component/waddle_component_audio_player.h"
+#include "component/waddle_component_ui_text.h"
 
 WADDLE_API void* create_component(component_type type) {
 	switch (type)
@@ -27,6 +28,10 @@ WADDLE_API void* create_component(component_type type) {
 
 		case WADDLE_AUDIO_PLAYER: {
 			return calloc(1, sizeof(waddle_audio_player));
+		} break;
+
+		case WADDLE_UI_TEXT: {
+			return calloc(1, sizeof(waddle_ui_text));
 		} break;
 
 	default:

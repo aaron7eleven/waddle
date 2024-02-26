@@ -54,11 +54,11 @@
     <ClCompile Include="src\entity\waddle_entity.c">
       <Filter>engine\src\entity</Filter>
     </ClCompile>
-    <ClCompile Include="src\component\waddle_component_audio_player.c">
-      <Filter>engine\src\component</Filter>
+    <ClCompile Include="src\system\waddle_system_resources.c">
+      <Filter>engine\src\system</Filter>
     </ClCompile>
-    <ClCompile Include="src\component\waddle_component_sprite_renderer.c">
-      <Filter>engine\src\component</Filter>
+    <ClCompile Include="src\system\waddle_system_audio.c">
+      <Filter>engine\src\system</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +100,15 @@
     </ClInclude>
     <ClInclude Include="include\waddle.h">
       <Filter>engine\include</Filter>
+    </ClInclude>
+    <ClInclude Include="include\component\waddle_component_ui_text.h">
+      <Filter>engine\include\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\system\waddle_system_audio.h">
+      <Filter>engine\include\system</Filter>
+    </ClInclude>
+    <ClInclude Include="include\system\waddle_system_resources.h">
+      <Filter>engine\include\system</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
