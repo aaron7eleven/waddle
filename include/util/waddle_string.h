@@ -10,7 +10,7 @@
 extern "C" {
 #endif
 
-char* waddle_int_to_string(int value);
+WADDLE_API char* waddle_int_to_string(int value);
 
 #ifdef __cplusplus
 }
