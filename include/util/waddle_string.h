@@ -11,6 +11,7 @@ extern "C" {
 #endif
 
 WADDLE_API char* waddle_int_to_string(int value);
+WADDLE_API char* waddle_strcat(const char* a, const char* b);
 
 #ifdef __cplusplus
 }
