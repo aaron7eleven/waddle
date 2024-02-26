@@ -36,6 +36,7 @@ extern "C" {
 // util
 #include "util/waddle_log.h"
 #include "util/waddle_math.h"
+#include "util/waddle_string.h"
 
 typedef struct waddle waddle;
 

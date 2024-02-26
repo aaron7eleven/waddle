@@ -154,6 +154,7 @@
     <ClCompile Include="src\system\waddle_system_resources.c" />
     <ClCompile Include="src\util\waddle_log.c" />
     <ClCompile Include="src\util\waddle_math.c" />
+    <ClCompile Include="src\util\waddle_string.c" />
     <ClCompile Include="src\waddle.c" />
   </ItemGroup>
   <ItemGroup>
@@ -172,6 +173,7 @@
     <ClInclude Include="include\util\waddle_lazy.h" />
     <ClInclude Include="include\util\waddle_log.h" />
     <ClInclude Include="include\util\waddle_math.h" />
+    <ClInclude Include="include\util\waddle_string.h" />
     <ClInclude Include="include\waddle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
