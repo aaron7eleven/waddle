@@ -21,7 +21,7 @@ typedef struct {
 	
 	// usage
 	const char* text;
-	SDL_FPoint rect;
+	SDL_FRect rect;
 	SDL_Color color;
 } waddle_ui_text;
 
