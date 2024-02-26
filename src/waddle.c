@@ -55,10 +55,10 @@ int waddle_init(waddle* waddle) {
 	}
 
 	// Load text library
-	//if (TTF_Init() == -1) {
-	//	printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
-	//	return 1;
-	//}
+	if (TTF_Init() == -1) {
+		printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
+		return 1;
+	}
 
 	//// Load Font
 	//app->font = TTF_OpenFont("assets/font/DotGothic16-Regular.ttf", app->fontPointSize);
@@ -119,7 +119,7 @@ int waddle_free(waddle* waddle) {
 		Mix_Quit();
 	}
 
-	//TTF_Quit();
+	TTF_Quit();
 	IMG_Quit();
 
 	SDL_FreeSurface(waddle->surface);
