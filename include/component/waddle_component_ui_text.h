@@ -23,7 +23,6 @@ typedef struct {
 	const char* text;
 	SDL_FPoint rect;
 	SDL_Color color;
-	SDL_Texture* texture;	
 } waddle_ui_text;
 
 #ifdef __cplusplus

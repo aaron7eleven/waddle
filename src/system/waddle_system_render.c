@@ -3,6 +3,7 @@
 #include "component/waddle_component_quad_renderer.h"
 #include "component/waddle_component_quad_collider.h"
 #include "component/waddle_component_sprite_renderer.h"
+#include "component/waddle_component_ui_text.h"
 
 void update_render_system(SDL_Renderer* renderer, entity* entity)
 {
@@ -33,19 +34,19 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 
 		} break;
 
-			case WADDLE_QUAD_COLLIDER: {
-				continue;
-				waddle_quad_collider* q_collider = (waddle_quad_collider*)entity->components[comp_i]->data;
-				SDL_FRect render_rect = {
-					q_collider->rect.x,
-					q_collider->rect.y,
-					q_collider->rect.w * q_collider->scale.x,
-					q_collider->rect.h * q_collider->scale.y
-				};
+		case WADDLE_QUAD_COLLIDER: {
+			continue;
+			waddle_quad_collider* q_collider = (waddle_quad_collider*)entity->components[comp_i]->data;
+			SDL_FRect render_rect = {
+				q_collider->rect.x,
+				q_collider->rect.y,
+				q_collider->rect.w * q_collider->scale.x,
+				q_collider->rect.h * q_collider->scale.y
+			};
 
-				SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
-				SDL_RenderDrawRectF(renderer, &render_rect);
-			} break;
+			SDL_SetRenderDrawColor(renderer, 0x00, 0x00, 0x00, 0xFF);
+			SDL_RenderDrawRectF(renderer, &render_rect);
+		} break;
 
 		case WADDLE_SPRITE_RENDERER: {
 			waddle_sprite_renderer* sprite_rend = (waddle_sprite_renderer*)entity->components[comp_i]->data;
@@ -69,6 +70,29 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 			// Debug: Gives sprite an outline to show where texture is supposed to be
 			SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
 			SDL_RenderDrawRectF(renderer, &render_rect);
+		} break;
+
+
+		case WADDLE_UI_TEXT: {
+			waddle_ui_text* ui_text = (waddle_ui_text*) entity->components[comp_i]->data;
+
+			SDL_Surface* text_surface = TTF_RenderText_Solid(ui_text->font, ui_text->text, ui_text->color);
+			if (text_surface == NULL) {
+				printf("Unable to render ui text surface (%s)! SDL_TTF Error: %s\n", ui_text->text, TTF_GetError());
+				break;
+			}
+			
+			SDL_Texture* ui_text_texture = SDL_CreateTextureFromSurface(renderer, text_surface);
+			if (ui_text_texture == NULL) {
+				printf("Unable to create ui text texture from %s! SDL Error: %s\n", ui_text->text, SDL_GetError());
+				break;
+			}
+
+			SDL_RenderCopyExF(renderer, ui_text_texture, NULL, &ui_text->rect, 0, NULL, SDL_FLIP_NONE);
+
+			// Debug: Gives sprite an outline to show where ui text texture is supposed to be
+			SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0xFF, 0xFF);
+			SDL_RenderDrawRectF(renderer, &ui_text->rect);
 		} break;
 
 		default:
