@@ -12,7 +12,18 @@ extern "C" {
 
 #include <stdio.h>
 
+typedef enum {
+	LOG,
+	WARNING,
+	ERROR,
+	FATAL
+} waddle_log_level;
+
+WADDLE_API void waddle_log_by_level(const char* msg, waddle_log_level log_level);
 WADDLE_API void waddle_log(const char* msg);
+WADDLE_API void waddle_log_warning(const char* msg);
+WADDLE_API void waddle_log_error(const char* msg);
+WADDLE_API void waddle_log_fatal(const char* msg);
 
 #ifdef __cplusplus
 }
