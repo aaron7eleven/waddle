@@ -4,6 +4,8 @@
 #include "component/waddle_component_quad_collider.h"
 #include "component/waddle_component_sprite_renderer.h"
 #include "component/waddle_component_ui_text.h"
+#include "component/waddle_component_animated_sprite_renderer.h"
+#include "component/waddle_component_animator.h"
 
 void update_render_system(SDL_Renderer* renderer, entity* entity)
 {
@@ -66,6 +68,44 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 
 			SDL_SetRenderDrawColor(renderer, sprite_rend->color.r, sprite_rend->color.g, sprite_rend->color.b, sprite_rend->color.a);
 			SDL_RenderCopyF(renderer, sprite_rend->texture, NULL, &render_rect);
+
+			// Debug: Gives sprite an outline to show where texture is supposed to be
+			SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+			SDL_RenderDrawRectF(renderer, &render_rect);
+		} break;
+
+		case WADDLE_ANIMATED_SPRITE_RENDERER: {
+			waddle_animated_sprite_renderer* anim_sprite_rend = (waddle_animated_sprite_renderer*)entity->components[comp_i]->data;
+			waddle_transform* t = (waddle_transform*)get_component(entity, WADDLE_TRANSFORM);
+			waddle_animator* animator = (waddle_transform*)get_component(entity, WADDLE_ANIMATOR);
+
+			if (t == NULL) {
+				printf("%s's animated sprite renderer doesn't have a transform\n", entity->name);
+				break;
+			}
+
+			if (animator == NULL) {
+				printf("%s's animated sprite renderer doesn't have a animator\n", entity->name);
+				break;
+			}
+
+			SDL_FRect src_rect = {
+				animator->current_frame.x,
+				animator->current_frame.y,
+				anim_sprite_rend->frame_size.x,
+				anim_sprite_rend->frame_size.y
+			};
+
+			SDL_FRect render_rect = {
+				t->position.x,
+				t->position.y,
+				anim_sprite_rend->frame_size.x * t->scale.x,
+				anim_sprite_rend->frame_size.y * t->scale.y
+			};
+
+
+			SDL_SetRenderDrawColor(renderer, anim_sprite_rend->color.r, anim_sprite_rend->color.g, anim_sprite_rend->color.b, anim_sprite_rend->color.a);
+			SDL_RenderCopyF(renderer, anim_sprite_rend->texture, NULL, &render_rect);
 
 			// Debug: Gives sprite an outline to show where texture is supposed to be
 			SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);

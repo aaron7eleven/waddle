@@ -63,6 +63,9 @@
     <ClCompile Include="src\util\waddle_string.c">
       <Filter>engine\src\util</Filter>
     </ClCompile>
+    <ClCompile Include="src\system\waddle_system_animation.c">
+      <Filter>engine\src\system</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\component\waddle_component.h">
@@ -115,6 +118,18 @@
     </ClInclude>
     <ClInclude Include="include\util\waddle_string.h">
       <Filter>engine\include\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\component\waddle_component_animator.h">
+      <Filter>engine\include\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\component\waddle_system_animation.h">
+      <Filter>engine\include\system</Filter>
+    </ClInclude>
+    <ClInclude Include="include\component\waddle_component_animated_sprite_renderer.h">
+      <Filter>engine\include\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\component\waddle_component_animation.h">
+      <Filter>engine\include\component</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

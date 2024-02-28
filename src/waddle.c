@@ -1,4 +1,5 @@
 #pragma once
+#include <stdio.h>
 #include "waddle.h"
 
 waddle* waddle_create() {
@@ -12,7 +13,7 @@ int waddle_init(waddle* waddle) {
 		// https://www.gamedev.net/forums/topic/336190-possible-to-call-sdl_init-more-than-once/3187085/
 		if (SDL_Init(SDL_INIT_EVERYTHING))
 		{
-			waddle_log("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
+			printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
 			return 1;
 		}
 	}
@@ -132,54 +133,13 @@ int waddle_free(waddle* waddle) {
 	waddle->window = NULL;
 
 	//Quit SDL subsystems
-	//SDL_Quit();
 	if (waddle->quit && !waddle->restart) {
 		SDL_Quit();
 	}
 	return 0;
 }
 
-int waddle_load_assets(waddle* waddle) {
-	// Loop through each entity's component to load any assets it's components are pointing to
-	entity* entity;
-	int output = 0;
-	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
-		entity = waddle->entities[entity_i];
-		for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
-			
-			switch (entity->components[comp_i]->type) {
-				case WADDLE_SPRITE_RENDERER: {
-					waddle_sprite_renderer* sprite_rend = (waddle_sprite_renderer*)entity->components[comp_i]->data;
-					if (waddle_load_sprite(waddle->renderer, sprite_rend)) {
-						printf("ERROR: failed to load sprite for %s", entity->name);
-						output = 1;
-					}
-				} break;
 
-				case WADDLE_AUDIO_PLAYER: {
-					waddle_audio_player* audio_player = (waddle_audio_player*) entity->components[comp_i]->data;
-					if (waddle_load_audio(audio_player)) {
-						printf("ERROR: failed to load audio for %s", entity->name);
-						output = 1;
-					}
-				} break;
-
-				case WADDLE_UI_TEXT: {
-					waddle_ui_text* ui_text = (waddle_ui_text*)entity->components[comp_i]->data;
-					if (waddle_load_font(ui_text)) {
-						printf("ERROR: failed to load font for %s", entity->name);
-						output = 1;
-					}
-				} break;
-
-				default: {
-
-				} break;
-			}
-		}
-	}
-	return output;
-}
 
 int waddle_run(waddle* waddle) {
 	while (!waddle->quit && !waddle->restart)
@@ -189,6 +149,7 @@ int waddle_run(waddle* waddle) {
 		waddle_update(waddle);
 		waddle_physics_update(waddle);
 		waddle_internal_update(waddle);
+		waddle_animation_update(waddle);
 		waddle_render(waddle);
 	}
 
@@ -220,6 +181,19 @@ void waddle_physics_update(waddle* waddle) {
 	update_physics_system(waddle->entities, waddle->entity_count);
 }
 
+void waddle_animation_update(waddle* waddle) {
+	update_animation_system(waddle->entities, waddle->entity_count);
+}
+
+
+
+void waddle_internal_update(waddle* waddle) {
+	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
+		if (waddle->entities[entity_i]->destroy) {
+			free_entity(waddle, &(waddle->entities[entity_i]));
+		}
+	}
+}
 
 void waddle_render(waddle* waddle) {
 	SDL_SetRenderDrawColor(waddle->renderer, 0x00, 0x00, 0x00, 0xFF);
@@ -228,14 +202,6 @@ void waddle_render(waddle* waddle) {
 		update_render_system(waddle->renderer, waddle->entities[entity_i]);
 	}
 	SDL_RenderPresent(waddle->renderer);
-}
-
-void waddle_internal_update(waddle* waddle) {
-	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
-		if (waddle->entities[entity_i]->destroy) {
-			free_entity(waddle, &(waddle->entities[entity_i]));
-		}
-	}
 }
 
 void waddle_update_delta_time(waddle* waddle) {
@@ -345,6 +311,48 @@ void add_update_callback(waddle* waddle, waddle_update_callback callback) {
 
 	waddle->update_callbacks[waddle->update_callback_count] = callback;
 	waddle->update_callback_count++;
+}
+
+int waddle_load_assets(waddle* waddle) {
+	// Loop through each entity's component to load any assets it's components are pointing to
+	entity* entity;
+	int output = 0;
+	for (int entity_i = 0; entity_i < waddle->entity_count; entity_i++) {
+		entity = waddle->entities[entity_i];
+		for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
+
+			switch (entity->components[comp_i]->type) {
+			case WADDLE_SPRITE_RENDERER: {
+				waddle_sprite_renderer* sprite_rend = (waddle_sprite_renderer*)entity->components[comp_i]->data;
+				if (waddle_load_sprite(waddle->renderer, sprite_rend)) {
+					printf("ERROR: failed to load sprite for %s", entity->name);
+					output = 1;
+				}
+			} break;
+
+			case WADDLE_AUDIO_PLAYER: {
+				waddle_audio_player* audio_player = (waddle_audio_player*)entity->components[comp_i]->data;
+				if (waddle_load_audio(audio_player)) {
+					printf("ERROR: failed to load audio for %s", entity->name);
+					output = 1;
+				}
+			} break;
+
+			case WADDLE_UI_TEXT: {
+				waddle_ui_text* ui_text = (waddle_ui_text*)entity->components[comp_i]->data;
+				if (waddle_load_font(ui_text)) {
+					printf("ERROR: failed to load font for %s", entity->name);
+					output = 1;
+				}
+			} break;
+
+			default: {
+
+			} break;
+			}
+		}
+	}
+	return output;
 }
 
 void peek_entities(waddle* waddle) {

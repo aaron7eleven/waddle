@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\entity\waddle_entity.c" />
+    <ClCompile Include="src\system\waddle_system_animation.c" />
     <ClCompile Include="src\system\waddle_system_audio.c" />
     <ClCompile Include="src\system\waddle_system_physics.c" />
     <ClCompile Include="src\system\waddle_system_render.c" />
@@ -159,12 +160,16 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\component\waddle_component.h" />
+    <ClInclude Include="include\component\waddle_component_animated_sprite_renderer.h" />
+    <ClInclude Include="include\component\waddle_component_animation.h" />
+    <ClInclude Include="include\component\waddle_component_animator.h" />
     <ClInclude Include="include\component\waddle_component_audio_player.h" />
     <ClInclude Include="include\component\waddle_component_quad_collider.h" />
     <ClInclude Include="include\component\waddle_component_quad_renderer.h" />
     <ClInclude Include="include\component\waddle_component_sprite_renderer.h" />
     <ClInclude Include="include\component\waddle_component_transform.h" />
     <ClInclude Include="include\component\waddle_component_ui_text.h" />
+    <ClInclude Include="include\component\waddle_system_animation.h" />
     <ClInclude Include="include\entity\waddle_entity.h" />
     <ClInclude Include="include\system\waddle_system_audio.h" />
     <ClInclude Include="include\system\waddle_system_physics.h" />
