@@ -37,3 +37,12 @@ WADDLE_API int waddle_load_font(waddle_ui_text* ui_text) {
 	}
 	return 0;
 }
+
+WADDLE_API int waddle_load_animated_sprite(SDL_Renderer* renderer, waddle_animated_sprite_renderer* animated_sprite_renderer) {
+	animated_sprite_renderer->texture = IMG_LoadTexture(renderer, animated_sprite_renderer->file);
+	if (animated_sprite_renderer->texture == NULL) {
+		printf("ERROR: Failed to load asset: %s", animated_sprite_renderer->file);
+		return 1;
+	}
+	return 0;
+}
