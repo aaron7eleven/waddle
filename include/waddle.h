@@ -35,6 +35,7 @@ extern "C" {
 #include "system/waddle_system_render.h"
 #include "system/waddle_system_audio.h"
 #include "system/waddle_system_resources.h"
+#include "system/waddle_system_animation.h"
 
 // util
 #include "util/waddle_log.h"

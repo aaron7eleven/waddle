@@ -1,16 +1,17 @@
 #include "component/waddle_system_animation.h"
 
-WADDLE_API void add_animation_to_animator(waddle_animator* animator, waddle_animation* animation) {
+WADDLE_API int add_animation_to_animator(waddle_animator* animator, waddle_animation* animation) {
 	if ((animator->animation_count + 1) >= animator->max_animation_count) {
 		printf("ERROR: animator has too reached limit of animations");
-		return;
+		return 0;
 	}
 
 	animator->animations[animator->animation_count] = animation;
 	animator->animation_count++;
+	return 1;
 }
 
-WADDLE_API void change_animation(waddle_animator* animator, const char* new_anim_name) {
+WADDLE_API int change_animation(waddle_animator* animator, const char* new_anim_name) {
 	// find animation
 	for (int i_anim = 0; i_anim < animator->animation_count; i_anim++) {
 		if (SDL_strcmp(animator->animations[i_anim]->name, new_anim_name) == 0) {
@@ -19,9 +20,11 @@ WADDLE_API void change_animation(waddle_animator* animator, const char* new_anim
 			animator->current_frame = animator->animations[i_anim]->start_frame;
 			animator->current_frame_count = 0;
 			animator->frame_timer = 0.0f;
+			return 1;
 		}
 	}
-	// Not sure what to do if not found?
+
+	return 0;
 }
 
 WADDLE_API void update_animation_system(entity* entities[], int entity_count, float delta_time) {
