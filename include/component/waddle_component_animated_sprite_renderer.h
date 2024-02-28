@@ -13,7 +13,7 @@ extern "C" {
 #include <SDL.h>
 
 	typedef struct {
-		SDL_FPoint texture_size;
+		SDL_Point texture_size;
 		SDL_Point frame_size;
 		SDL_Color color;
 		const char* file;
