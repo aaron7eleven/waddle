@@ -212,7 +212,7 @@ void waddle_update_delta_time(waddle* waddle) {
 entity* create_entity(waddle* waddle)
 {
 	if ((waddle->entity_count + 1) >= waddle->max_entities) {
-		printf("ERROR: At max entity count, not creating entity");
+		printf("ERROR: At max entity count, not creating entity\n");
 		return NULL;
 	}
 
@@ -342,6 +342,14 @@ int waddle_load_assets(waddle* waddle) {
 				waddle_ui_text* ui_text = (waddle_ui_text*)entity->components[comp_i]->data;
 				if (waddle_load_font(ui_text)) {
 					printf("ERROR: failed to load font for %s", entity->name);
+					output = 1;
+				}
+			} break;
+
+			case WADDLE_ANIMATED_SPRITE_RENDERER: {
+				waddle_animated_sprite_renderer* anim_sprite_rend = (waddle_animated_sprite_renderer*)entity->components[comp_i]->data;
+				if (waddle_load_animated_sprite(waddle->renderer, anim_sprite_rend)) {
+					printf("ERROR: failed to load sprite for %s", entity->name);
 					output = 1;
 				}
 			} break;
