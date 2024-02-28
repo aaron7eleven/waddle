@@ -122,14 +122,14 @@
     <ClInclude Include="include\component\waddle_component_animator.h">
       <Filter>engine\include\component</Filter>
     </ClInclude>
-    <ClInclude Include="include\component\waddle_system_animation.h">
-      <Filter>engine\include\system</Filter>
-    </ClInclude>
     <ClInclude Include="include\component\waddle_component_animated_sprite_renderer.h">
       <Filter>engine\include\component</Filter>
     </ClInclude>
     <ClInclude Include="include\component\waddle_component_animation.h">
       <Filter>engine\include\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\system\waddle_system_animation.h">
+      <Filter>engine\include\system</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

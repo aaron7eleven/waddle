@@ -1,4 +1,4 @@
-#include "component/waddle_system_animation.h"
+#include "system/waddle_system_animation.h"
 
 WADDLE_API int add_animation_to_animator(waddle_animator* animator, waddle_animation* animation) {
 	if ((animator->animation_count + 1) >= animator->max_animation_count) {

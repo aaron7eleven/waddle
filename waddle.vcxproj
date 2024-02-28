@@ -169,8 +169,8 @@
     <ClInclude Include="include\component\waddle_component_sprite_renderer.h" />
     <ClInclude Include="include\component\waddle_component_transform.h" />
     <ClInclude Include="include\component\waddle_component_ui_text.h" />
-    <ClInclude Include="include\component\waddle_system_animation.h" />
     <ClInclude Include="include\entity\waddle_entity.h" />
+    <ClInclude Include="include\system\waddle_system_animation.h" />
     <ClInclude Include="include\system\waddle_system_audio.h" />
     <ClInclude Include="include\system\waddle_system_physics.h" />
     <ClInclude Include="include\system\waddle_system_render.h" />
