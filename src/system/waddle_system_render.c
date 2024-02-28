@@ -90,8 +90,8 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 			}
 
 			SDL_FRect src_rect = {
-				animator->current_frame.x,
-				animator->current_frame.y,
+				animator->current_frame.x * anim_sprite_rend->frame_size.x,
+				animator->current_frame.y * anim_sprite_rend->frame_size.y,
 				anim_sprite_rend->frame_size.x,
 				anim_sprite_rend->frame_size.y
 			};

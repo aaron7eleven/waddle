@@ -182,7 +182,7 @@ void waddle_physics_update(waddle* waddle) {
 }
 
 void waddle_animation_update(waddle* waddle) {
-	update_animation_system(waddle->entities, waddle->entity_count);
+	update_animation_system(waddle->entities, waddle->entity_count, waddle->delta_time);
 }
 
 
