@@ -105,7 +105,7 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 
 
 			SDL_SetRenderDrawColor(renderer, anim_sprite_rend->color.r, anim_sprite_rend->color.g, anim_sprite_rend->color.b, anim_sprite_rend->color.a);
-			SDL_RenderCopyF(renderer, anim_sprite_rend->texture, NULL, &render_rect);
+			SDL_RenderCopyF(renderer, anim_sprite_rend->texture, &src_rect, &render_rect);
 
 			// Debug: Gives sprite an outline to show where texture is supposed to be
 			SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
