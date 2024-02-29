@@ -102,7 +102,7 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 		case WADDLE_ANIMATED_SPRITE_RENDERER: {
 			waddle_animated_sprite_renderer* anim_sprite_rend = (waddle_animated_sprite_renderer*)entity->components[comp_i]->data;
 			waddle_transform* t = (waddle_transform*)get_component(entity, WADDLE_TRANSFORM);
-			waddle_animator* animator = (waddle_transform*)get_component(entity, WADDLE_ANIMATOR);
+			waddle_animator* animator = (waddle_animator*)get_component(entity, WADDLE_ANIMATOR);
 
 			if (t == NULL) {
 				printf("%s's animated sprite renderer doesn't have a transform\n", entity->name);
@@ -114,19 +114,12 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 				break;
 			}
 
-			SDL_FRect src_rect = {
+			SDL_Rect src_rect = {
 				animator->current_frame.x * anim_sprite_rend->frame_size.x,
 				animator->current_frame.y * anim_sprite_rend->frame_size.y,
 				anim_sprite_rend->frame_size.x,
 				anim_sprite_rend->frame_size.y
 			};
-
-			//SDL_FRect src_rect = {
-			//	0,
-			//	0,
-			//	32,
-			//	32
-			//};
 
 			SDL_FRect render_rect = {
 				t->position.x,
