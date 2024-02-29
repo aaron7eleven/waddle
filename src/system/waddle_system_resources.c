@@ -46,3 +46,12 @@ WADDLE_API int waddle_load_animated_sprite(SDL_Renderer* renderer, waddle_animat
 	}
 	return 0;
 }
+
+WADDLE_API int waddle_load_texture(SDL_Renderer* renderer, const char* file, SDL_Texture** texture) {
+	*(texture) = IMG_LoadTexture(renderer, file);
+	if (*(texture) == NULL) {
+		printf("ERROR: Failed to load texture: %s", file);
+		return 1;
+	}
+	return 0;
+}
