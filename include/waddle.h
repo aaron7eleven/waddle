@@ -29,6 +29,7 @@ extern "C" {
 #include "component/waddle_component_animation.h"
 #include "component/waddle_component_animator.h"
 #include "component/waddle_component_animated_sprite_renderer.h"
+#include "component/waddle_component_clip_sprite_renderer.h"
 
 // system
 #include "system/waddle_system_physics.h"

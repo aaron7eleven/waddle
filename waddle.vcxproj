@@ -164,6 +164,7 @@
     <ClInclude Include="include\component\waddle_component_animation.h" />
     <ClInclude Include="include\component\waddle_component_animator.h" />
     <ClInclude Include="include\component\waddle_component_audio_player.h" />
+    <ClInclude Include="include\component\waddle_component_clip_sprite_renderer.h" />
     <ClInclude Include="include\component\waddle_component_quad_collider.h" />
     <ClInclude Include="include\component\waddle_component_quad_renderer.h" />
     <ClInclude Include="include\component\waddle_component_sprite_renderer.h" />

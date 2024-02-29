@@ -131,5 +131,8 @@
     <ClInclude Include="include\system\waddle_system_animation.h">
       <Filter>engine\include\system</Filter>
     </ClInclude>
+    <ClInclude Include="include\component\waddle_component_clip_sprite_renderer.h">
+      <Filter>engine\include\component</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
