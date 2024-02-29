@@ -14,12 +14,12 @@ extern "C" {
 
 typedef struct {
 	SDL_Point texture_size;
-	SDL_Point frame_size;
+	SDL_FRect clip_rect;
 	SDL_Color color;
 	const char* file;
 	SDL_Texture* texture;
 	int render_order; // TBD
-} waddle_animated_sprite_renderer;
+} waddle_clip_sprite_renderer;
 
 
 #ifdef __cplusplus

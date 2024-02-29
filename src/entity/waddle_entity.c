@@ -9,6 +9,7 @@
 #include "component/waddle_component_animation.h"
 #include "component/waddle_component_animator.h"
 #include "component/waddle_component_animated_sprite_renderer.h"
+#include "component/waddle_component_clip_sprite_renderer.h"
 
 WADDLE_API void* create_component(component_type type) {
 	switch (type)
@@ -47,6 +48,10 @@ WADDLE_API void* create_component(component_type type) {
 
 		case WADDLE_ANIMATED_SPRITE_RENDERER: {
 			return calloc(1, sizeof(waddle_animated_sprite_renderer));
+		} break;
+
+		case WADDLE_CLIP_SPRITE_RENDERER: {
+			return calloc(1, sizeof(waddle_clip_sprite_renderer));
 		} break;
 
 	default:

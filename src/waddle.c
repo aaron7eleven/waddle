@@ -324,10 +324,6 @@ int waddle_load_assets(waddle* waddle) {
 			switch (entity->components[comp_i]->type) {
 			case WADDLE_SPRITE_RENDERER: {
 				waddle_sprite_renderer* sprite_rend = (waddle_sprite_renderer*)entity->components[comp_i]->data;
-				//if (waddle_load_sprite(waddle->renderer, sprite_rend)) {
-				//	printf("ERROR: failed to load sprite for %s", entity->name);
-				//	output = 1;
-				//}
 				if (waddle_load_texture(waddle->renderer, sprite_rend->file, &sprite_rend->texture)) {
 					printf("ERROR: failed to load sprite for %s", entity->name);
 					output = 1;
@@ -352,11 +348,15 @@ int waddle_load_assets(waddle* waddle) {
 
 			case WADDLE_ANIMATED_SPRITE_RENDERER: {
 				waddle_animated_sprite_renderer* anim_sprite_rend = (waddle_animated_sprite_renderer*)entity->components[comp_i]->data;
-				//if (waddle_load_animated_sprite(waddle->renderer, anim_sprite_rend)) {
-				//	printf("ERROR: failed to load sprite for %s", entity->name);
-				//	output = 1;
-				//}
 				if (waddle_load_texture(waddle->renderer, anim_sprite_rend->file, &anim_sprite_rend->texture)) {
+					printf("ERROR: failed to load sprite for %s", entity->name);
+					output = 1;
+				}
+			} break;
+
+			case WADDLE_CLIP_SPRITE_RENDERER: {
+				waddle_clip_sprite_renderer* clip_sprite_rend = (waddle_clip_sprite_renderer*)entity->components[comp_i]->data;
+				if (waddle_load_texture(waddle->renderer, clip_sprite_rend->file, &clip_sprite_rend->texture)) {
 					printf("ERROR: failed to load sprite for %s", entity->name);
 					output = 1;
 				}

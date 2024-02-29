@@ -6,6 +6,7 @@
 #include "component/waddle_component_ui_text.h"
 #include "component/waddle_component_animated_sprite_renderer.h"
 #include "component/waddle_component_animator.h"
+#include "component/waddle_component_clip_sprite_renderer.h"
 
 void update_render_system(SDL_Renderer* renderer, entity* entity)
 {
@@ -68,6 +69,30 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 
 			SDL_SetRenderDrawColor(renderer, sprite_rend->color.r, sprite_rend->color.g, sprite_rend->color.b, sprite_rend->color.a);
 			SDL_RenderCopyF(renderer, sprite_rend->texture, NULL, &render_rect);
+
+			// Debug: Gives sprite an outline to show where texture is supposed to be
+			SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
+			SDL_RenderDrawRectF(renderer, &render_rect);
+		} break;
+
+		case WADDLE_CLIP_SPRITE_RENDERER: {
+			waddle_clip_sprite_renderer* clip_sprite_rend = (waddle_clip_sprite_renderer*)entity->components[comp_i]->data;
+			waddle_transform* t = (waddle_transform*)get_component(entity, WADDLE_TRANSFORM);
+
+			if (t == NULL) {
+				printf("%s's clip sprite renderer doesn't have a transform\n", entity->name);
+				break;
+			}
+
+			SDL_FRect render_rect = {
+				t->position.x,
+				t->position.y,
+				clip_sprite_rend->clip_rect.w * t->scale.x,
+				clip_sprite_rend->clip_rect.h * t->scale.y
+			};
+
+			SDL_SetRenderDrawColor(renderer, clip_sprite_rend->color.r, clip_sprite_rend->color.g, clip_sprite_rend->color.b, clip_sprite_rend->color.a);
+			SDL_RenderCopyF(renderer, clip_sprite_rend->texture, &(clip_sprite_rend->clip_rect), &render_rect);
 
 			// Debug: Gives sprite an outline to show where texture is supposed to be
 			SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);
