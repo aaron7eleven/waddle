@@ -14,7 +14,7 @@ extern "C" {
 
 typedef struct {
 	SDL_Point texture_size;
-	SDL_FRect clip_rect;
+	SDL_Rect clip_rect;
 	SDL_Color color;
 	const char* file;
 	SDL_Texture* texture;
