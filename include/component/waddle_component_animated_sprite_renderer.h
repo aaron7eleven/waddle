@@ -18,6 +18,8 @@ typedef struct {
 	SDL_Color color;
 	const char* file;
 	SDL_Texture* texture;
+	int flip_x;
+	int flip_y;
 	int render_order; // TBD
 } waddle_animated_sprite_renderer;
 

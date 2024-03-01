@@ -128,9 +128,19 @@ void update_render_system(SDL_Renderer* renderer, entity* entity)
 				anim_sprite_rend->frame_size.y * t->scale.y
 			};
 
+			SDL_RendererFlip flip = SDL_FLIP_NONE;
+			
+			if (anim_sprite_rend->flip_x) {
+				flip |= SDL_FLIP_HORIZONTAL;
+			}
+
+			if (anim_sprite_rend->flip_y) {
+				flip |= SDL_FLIP_VERTICAL;
+			}
 
 			SDL_SetRenderDrawColor(renderer, anim_sprite_rend->color.r, anim_sprite_rend->color.g, anim_sprite_rend->color.b, anim_sprite_rend->color.a);
-			SDL_RenderCopyF(renderer, anim_sprite_rend->texture, &src_rect, &render_rect);
+			//SDL_RenderCopyF(renderer, anim_sprite_rend->texture, &src_rect, &render_rect);
+			SDL_RenderCopyExF(renderer, anim_sprite_rend->texture, &src_rect, &render_rect, 0.0f, NULL, flip);
 
 			// Debug: Gives sprite an outline to show where texture is supposed to be
 			SDL_SetRenderDrawColor(renderer, 0xFF, 0x00, 0x00, 0xFF);

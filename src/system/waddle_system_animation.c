@@ -1,3 +1,4 @@
+#include <string.h>
 #include "system/waddle_system_animation.h"
 
 WADDLE_API int add_animation_to_animator(waddle_animator* animator, waddle_animation* animation) {
@@ -14,7 +15,7 @@ WADDLE_API int add_animation_to_animator(waddle_animator* animator, waddle_anima
 WADDLE_API int change_animation(waddle_animator* animator, const char* new_anim_name) {
 	// find animation
 	for (int i_anim = 0; i_anim < animator->animation_count; i_anim++) {
-		if (SDL_strcmp(animator->animations[i_anim]->name, new_anim_name) == 0) {
+		if (strcmp(animator->animations[i_anim]->name, new_anim_name) == 0) {
 			// Change to found animation
 			animator->current_animation = animator->animations[i_anim];
 			animator->current_frame = animator->animations[i_anim]->start_frame;
