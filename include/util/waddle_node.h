@@ -10,9 +10,13 @@
 extern "C" {
 #endif
 
-#include "entity/waddle_entity.h"
+typedef struct waddle_node waddle_node;
 
-WADDLE_API void update_render_system(entity* entity);
+struct waddle_node {
+	void* data;
+	waddle_node* next;
+};
+
 
 #ifdef __cplusplus
 }

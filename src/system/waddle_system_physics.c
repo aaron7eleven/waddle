@@ -1,31 +1,21 @@
 #include <stdio.h>
+
+
+#include "data/waddle_globals.h"
 #include "system/waddle_system_physics.h"
 #include "component/waddle_component_quad_collider.h"
 #include "component/waddle_component_transform.h"
 #include "util/waddle_math.h"
 
-WADDLE_API void update_physics_system(entity* entities[], int entity_count) {
-	update_colliders(entities, entity_count);
-	check_collisions(entities, entity_count);
+WADDLE_API void update_physics_system(entity* entity) {
+	update_collider(entity);
+	check_collisions(entity);
 }
 
-WADDLE_API void update_colliders(entity* entities[], int entity_count) {
-	// Update collider position
-	for (int entity_i = 0; entity_i < entity_count; entity_i++) {
-		for (int comp_i = 0; comp_i < entities[entity_i]->component_count; comp_i++) {
-			//continue;
-			switch (entities[entity_i]->components[comp_i]->type)
-			{
-
-			case WADDLE_QUAD_COLLIDER: {
-				update_quad_collider(entities[entity_i]);
-			} break;
-
-
-			default:
-				break;
-			}
-		}
+WADDLE_API void update_collider(entity* entity) {
+	waddle_quad_collider* quad_col = (waddle_quad_collider*) get_component(entity, WADDLE_QUAD_COLLIDER);
+	if (quad_col != NULL) {
+		update_quad_collider(entity);
 	}
 }
 
@@ -47,49 +37,33 @@ WADDLE_API void update_quad_collider(entity* entity) {
 	quad_col->delta.y = quad_transform->position.y - quad_col->rect.y;
 
 	quad_col->rect.x = quad_transform->position.x;
-	quad_col->rect.y = quad_transform->position.y;
-
-	//// writing to y of quad collider breaks renderer
-	//quad_col->rect.y = quad_transform->position.y; // errors renderer
-	////quad_col->rect.y = quad_transform->position.x; // errors renderer
-	////quad_col->rect.x = quad_transform->position.y; // works
-	
-	
-	//quad_col->rect.w = 150.0f;
-	//quad_col->rect.h = 250.0f;
-	
+	quad_col->rect.y = quad_transform->position.y;	
 }
 
-WADDLE_API void check_collisions(entity* entities[], int entity_count) {
+WADDLE_API void check_collisions(entity* entity) {
 	for (int entity_i = 0; entity_i < entity_count; entity_i++) {
-		for (int entity_j = entity_i + 1; entity_j < entity_count; entity_j++) {
-			if (entity_i == entity_j) {
-				// skip self checks
-				continue;
+		if (entity->id == entities[entity_i]->id) {
+			// skip self checks
+			continue;
+		}
+
+		if ((waddle_quad_collider*)get_component(entities[entity_i], WADDLE_QUAD_COLLIDER) == NULL) {
+			continue;
+		}
+
+		if (check_collision(entity, entities[entity_i])) {
+			//printf("collision occured\n");
+			waddle_quad_collider* quad_collider = (waddle_quad_collider*)get_component(entity, WADDLE_QUAD_COLLIDER);
+			if (quad_collider->on_collision_enter_callback != NULL) {
+				quad_collider->on_collision_enter_callback(entity, entities[entity_i]);
 			}
 
-			if ((waddle_quad_collider*)get_component(entities[entity_i], WADDLE_QUAD_COLLIDER) == NULL) {
-				continue;
+			waddle_quad_collider* i_quad_collider = (waddle_quad_collider*) get_component(entities[entity_i], WADDLE_QUAD_COLLIDER);
+			if (i_quad_collider->on_collision_enter_callback != NULL) {
+				i_quad_collider->on_collision_enter_callback(entities[entity_i], entity);
 			}
-
-			if ((waddle_quad_collider*)get_component(entities[entity_j], WADDLE_QUAD_COLLIDER) == NULL) {
-				continue;
-			}
-
-			if (check_collision(entities[entity_i], entities[entity_j])) {
-				//printf("collision occured\n");
-				waddle_quad_collider* a_quad_collider = (waddle_quad_collider*)get_component(entities[entity_i], WADDLE_QUAD_COLLIDER);
-				if (a_quad_collider->on_collision_enter_callback != NULL) {
-					a_quad_collider->on_collision_enter_callback(entities[entity_i], entities[entity_j]);
-				}
-
-				waddle_quad_collider* b_quad_collider = (waddle_quad_collider*) get_component(entities[entity_j], WADDLE_QUAD_COLLIDER);
-				if (b_quad_collider->on_collision_enter_callback != NULL) {
-					b_quad_collider->on_collision_enter_callback(entities[entity_j], entities[entity_i]);
-				}
 				
-				//collision_response(entities[entity_i], entities[entity_j]);
-			}
+			//collision_response(entities[entity_i], entities[entity_j]);
 		}
 	}
 }

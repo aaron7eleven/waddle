@@ -147,12 +147,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="include\util\waddle_window.c" />
     <ClCompile Include="src\entity\waddle_entity.c" />
     <ClCompile Include="src\system\waddle_system_animation.c" />
     <ClCompile Include="src\system\waddle_system_audio.c" />
     <ClCompile Include="src\system\waddle_system_physics.c" />
     <ClCompile Include="src\system\waddle_system_render.c" />
     <ClCompile Include="src\system\waddle_system_resources.c" />
+    <ClCompile Include="src\util\waddle_linked_list.c" />
     <ClCompile Include="src\util\waddle_log.c" />
     <ClCompile Include="src\util\waddle_math.c" />
     <ClCompile Include="src\util\waddle_string.c" />
@@ -170,6 +172,7 @@
     <ClInclude Include="include\component\waddle_component_sprite_renderer.h" />
     <ClInclude Include="include\component\waddle_component_transform.h" />
     <ClInclude Include="include\component\waddle_component_ui_text.h" />
+    <ClInclude Include="include\data\waddle_globals.h" />
     <ClInclude Include="include\entity\waddle_entity.h" />
     <ClInclude Include="include\system\waddle_system_animation.h" />
     <ClInclude Include="include\system\waddle_system_audio.h" />
@@ -177,9 +180,12 @@
     <ClInclude Include="include\system\waddle_system_render.h" />
     <ClInclude Include="include\system\waddle_system_resources.h" />
     <ClInclude Include="include\util\waddle_lazy.h" />
+    <ClInclude Include="include\util\waddle_linked_list.h" />
     <ClInclude Include="include\util\waddle_log.h" />
     <ClInclude Include="include\util\waddle_math.h" />
+    <ClInclude Include="include\util\waddle_node.h" />
     <ClInclude Include="include\util\waddle_string.h" />
+    <ClInclude Include="include\util\waddle_window.h" />
     <ClInclude Include="include\waddle.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

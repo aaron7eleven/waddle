@@ -17,7 +17,7 @@ extern "C" {
 
 WADDLE_API int add_animation_to_animator(waddle_animator* animator, waddle_animation* animation);
 WADDLE_API int change_animation(waddle_animator* animator, const char* new_anim_name);
-WADDLE_API void update_animation_system(entity* entities[], int entity_count, float delta_time);
+WADDLE_API void update_animation_system(entity* entity);
 
 #ifdef __cplusplus
 }

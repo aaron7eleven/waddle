@@ -10,7 +10,7 @@
 extern "C" {
 #endif
 
-#include "SDL_mixer.h"
+#include <SDL_mixer.h>
 
 typedef enum {
 	WAV,

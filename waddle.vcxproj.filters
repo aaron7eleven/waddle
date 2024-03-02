@@ -34,6 +34,9 @@
     <Filter Include="engine\src\util">
       <UniqueIdentifier>{08a10283-0882-4067-85fa-ca7ae6ced11d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="engine\include\data">
+      <UniqueIdentifier>{454ed2ac-518e-4baf-8358-e433f000f74c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\util\waddle_log.c">
@@ -65,6 +68,12 @@
     </ClCompile>
     <ClCompile Include="src\system\waddle_system_animation.c">
       <Filter>engine\src\system</Filter>
+    </ClCompile>
+    <ClCompile Include="src\util\waddle_linked_list.c">
+      <Filter>engine\src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="include\util\waddle_window.c">
+      <Filter>engine\src\util</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +142,18 @@
     </ClInclude>
     <ClInclude Include="include\component\waddle_component_clip_sprite_renderer.h">
       <Filter>engine\include\component</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\waddle_node.h">
+      <Filter>engine\include\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\waddle_linked_list.h">
+      <Filter>engine\include\util</Filter>
+    </ClInclude>
+    <ClInclude Include="include\data\waddle_globals.h">
+      <Filter>engine\include\data</Filter>
+    </ClInclude>
+    <ClInclude Include="include\util\waddle_window.h">
+      <Filter>engine\include\util</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

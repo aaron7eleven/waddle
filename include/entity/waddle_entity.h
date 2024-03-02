@@ -21,6 +21,10 @@ typedef struct {
 	int destroy;
 } entity;
 
+WADDLE_API entity* create_entity();
+WADDLE_API void free_entity(entity** entity);
+WADDLE_API void destroy_entity(entity* entity);
+
 WADDLE_API void* get_component(entity* entity, component_type type);
 WADDLE_API void add_component(entity* entity, component_type type, void* data);
 WADDLE_API void* create_component(component_type type);
@@ -30,7 +34,6 @@ WADDLE_API void* create_component_by_size(size_t sizeof_size);
 
 // WADDLE_API void free_component(entity* entity, component_type type);
 WADDLE_API void free_components(entity* entity);
-WADDLE_API void destroy_entity(entity* entity);
 
 #ifdef __cplusplus
 }

@@ -1,3 +1,4 @@
+#include "data/waddle_globals.h"
 #include "system/waddle_system_render.h"
 #include "component/waddle_component_transform.h"
 #include "component/waddle_component_quad_renderer.h"
@@ -8,7 +9,7 @@
 #include "component/waddle_component_animator.h"
 #include "component/waddle_component_clip_sprite_renderer.h"
 
-void update_render_system(SDL_Renderer* renderer, entity* entity)
+void update_render_system(entity* entity)
 {
 	for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
 		switch (entity->components[comp_i]->type)

@@ -1,4 +1,6 @@
 #include <string.h>
+
+#include "data/waddle_globals.h"
 #include "system/waddle_system_animation.h"
 
 WADDLE_API int add_animation_to_animator(waddle_animator* animator, waddle_animation* animation) {
@@ -28,37 +30,25 @@ WADDLE_API int change_animation(waddle_animator* animator, const char* new_anim_
 	return 0;
 }
 
-WADDLE_API void update_animation_system(entity* entities[], int entity_count, float delta_time) {
-	for (int entity_i = 0; entity_i < entity_count; entity_i++) {
-		for (int comp_i = 0; comp_i < entities[entity_i]->component_count; comp_i++) {
-			switch (entities[entity_i]->components[comp_i]->type)
-			{
-				// add statements to filter by component type
-				case WADDLE_ANIMATOR: {
-					// update animator
-					waddle_animator* animator = (waddle_animator*)entities[entity_i]->components[comp_i]->data;
-					animator->frame_timer += delta_time;
-					if (animator->frame_timer >= animator->current_animation->time_between_frames) {
-						// move to next frame
-						animator->frame_timer -= animator->current_animation->time_between_frames;
-						if ((animator->current_frame_count + 1) == animator->current_animation->number_of_frames) {
-							// loop back to beginning
-							animator->current_frame_count = 0;
-							animator->current_frame = animator->current_animation->start_frame;
-						}
-						else {
-							// move to next frame of animation
-							animator->current_frame_count++;
-							// can't "add" SDL_Point's together. Do piecewise.
-							animator->current_frame.x += animator->current_animation->frame_diff.x;
-							animator->current_frame.y += animator->current_animation->frame_diff.y;
-						}
-					}
-				} break;
-
-			default:
-				break;
-			}
+WADDLE_API void update_animation_system(entity* entity) {
+	// update animator
+	waddle_animator* animator = (waddle_animator*) get_component(entity, WADDLE_ANIMATOR);
+	animator->frame_timer += delta_time;
+	if (animator->frame_timer >= animator->current_animation->time_between_frames) {
+		// move to next frame
+		animator->frame_timer -= animator->current_animation->time_between_frames;
+		if ((animator->current_frame_count + 1) == animator->current_animation->number_of_frames) {
+			// loop back to beginning
+			animator->current_frame_count = 0;
+			animator->current_frame = animator->current_animation->start_frame;
+		}
+		else {
+			// move to next frame of animation
+			animator->current_frame_count++;
+			// can't "add" SDL_Point's together. Do piecewise.
+			animator->current_frame.x += animator->current_animation->frame_diff.x;
+			animator->current_frame.y += animator->current_animation->frame_diff.y;
 		}
 	}
 }
+

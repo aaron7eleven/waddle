@@ -42,78 +42,25 @@ extern "C" {
 #include "util/waddle_log.h"
 #include "util/waddle_math.h"
 #include "util/waddle_string.h"
-
-typedef struct waddle waddle;
-
-typedef void (*waddle_update_callback)(waddle* waddle);
-
-struct waddle {
-	SDL_Window* window;
-	SDL_Surface* surface;
-	SDL_Renderer* renderer;
-
-	// states flags
-	int initialize;
-	int restart;
-	int quit;
-
-	// window settings
-	const char* window_title;
-	int screen_width;
-	int screen_height;
-	int fullscreen;
-	int v_sync;
-	Uint32 target_fps;
-	Uint32 ticks_per_frame; // 1000 ms / X frames
-
-	// runtime time
-	float delta_time;
-	Uint32 start_ticks;
-
-	// input
-	SDL_Event event; // use for window events and dynamic "event" input (i.e. SDL_Keycode)
-	const Uint8* key_state; // use for key presses (i.e. SDL_SCANCODE_XXXX)
-
-	// entity & component info
-	int entity_count;
-	int max_entities;
-	entity* entities[16];
-	int max_component_per_entity;
-
-	// update info
-	int update_callback_count;
-	int max_update_callback_count;
-	waddle_update_callback update_callbacks[16];
-};
+//#include "util/waddle_window.h"
 
 
-WADDLE_API waddle* waddle_create();
-WADDLE_API int waddle_init(waddle* waddle);
-WADDLE_API int waddle_run(waddle* waddle);
-WADDLE_API int waddle_free(waddle* waddle);
+WADDLE_API int waddle_init();
+WADDLE_API int waddle_run();
+WADDLE_API int waddle_free();
 
 
 // Game Loop
-WADDLE_API void waddle_process_input(waddle* waddle);
-WADDLE_API void waddle_update(waddle* waddle);
-WADDLE_API void waddle_physics_update(waddle* waddle);
-WADDLE_API void waddle_internal_update(waddle* waddle);
-WADDLE_API void waddle_animation_update(waddle* waddle);
-WADDLE_API void waddle_render(waddle* waddle);
+void waddle_update_delta_time();
+void waddle_process_input();
+void waddle_update();
+void waddle_render();
 
-WADDLE_API void waddle_update_delta_time(waddle* waddle);
 
-WADDLE_API entity* create_entity(waddle* waddle);
-WADDLE_API void free_entity(waddle* waddle, entity** entity);
+int contains_collider(entity* entity);
 
-WADDLE_API void add_update_callback(waddle* waddle, waddle_update_callback callback);
-//void free_entities(entity* entity);
+int contains_renderer(entity* entity);
 
-WADDLE_API int waddle_load_assets(waddle* waddle);
-
-// Debug
-void peek_entities(waddle* waddle);
-void peek_entity(entity* entity);
 
 #ifdef __cplusplus
 }

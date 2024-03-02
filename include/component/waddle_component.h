@@ -29,6 +29,10 @@ typedef enum {
 	typedef waddle_component_type component_type;
 #endif
 
+#ifndef COMPONENT_COUNT
+	#define COMPONENT_COUNT WADDLE_COMPONENT_COUNT
+#endif
+
 typedef struct {
 	component_type type;
 	void* data;
