@@ -24,11 +24,11 @@ entity* create_entity()
 	new_entity->id = entity_count;
 	new_entity->component_count = 0;
 	new_entity->destroy = 0;
-	new_entity->max_component_per_entity = MAX_COMPONENT_PER_ENTITY;
+	//new_entity->max_component_per_entity = MAX_COMPONENT_PER_ENTITY;
 
-	for (int comp_i = 0; comp_i < MAX_COMPONENT_PER_ENTITY; comp_i++) {
-		new_entity->components[comp_i] = NULL;
-	}
+	//for (int comp_i = 0; comp_i < MAX_COMPONENT_PER_ENTITY; comp_i++) {
+	//	new_entity->components[comp_i] = NULL;
+	//}
 
 	// find place to store entity in list
 	int store_entity = 0;
@@ -161,17 +161,20 @@ WADDLE_API void* create_component_by_size(size_t sizeof_size) {
 }
 
 WADDLE_API void* get_component(entity* entity, component_type type) {
-	for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
-		if (entity->components[comp_i]->type == type) {
-			return entity->components[comp_i]->data;
-		}
-	}
 
-	return NULL;
+	return components[type][entity->id];
+
+	//for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
+	//	if (entity->components[comp_i]->type == type) {
+	//		return entity->components[comp_i]->data;
+	//	}
+	//}
+
+	//return NULL;
 }
 
 WADDLE_API void add_component(entity* entity, component_type type, void* data) {
-	if ((entity->component_count + 1) >= entity->max_component_per_entity) {
+	if ((entity->component_count + 1) >= MAX_COMPONENT_PER_ENTITY) {
 		printf("ERROR: At max component count per entity, not adding component to entity");
 		return NULL;
 	}
@@ -180,7 +183,10 @@ WADDLE_API void add_component(entity* entity, component_type type, void* data) {
 	new_component->type = type;
 	new_component->data = data;
 	
-	entity->components[entity->component_count] = new_component;
+	//entity->components[entity->component_count] = new_component;
+	//entity->component_count++;
+
+	components[type][entity->id] = new_component;
 	entity->component_count++;
 }
 
@@ -189,10 +195,17 @@ WADDLE_API void free_component(component* component) {
 }
 
 WADDLE_API void free_components(entity* entity) {
+	//for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
+	//	free_component(entity->components[comp_i]);
+	//	free(entity->components[comp_i]);
+	//	entity->components[comp_i] = NULL;
+	//}
+	//entity->component_count = 0;
+
 	for (int comp_i = 0; comp_i < entity->component_count; comp_i++) {
-		free_component(entity->components[comp_i]);
-		free(entity->components[comp_i]);
-		entity->components[comp_i] = NULL;
+		if (components[comp_i][entity->id] != NULL) {
+			free_component(components[comp_i][entity->id]);
+		}
 	}
 	entity->component_count = 0;
 }

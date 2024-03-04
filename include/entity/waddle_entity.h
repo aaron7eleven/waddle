@@ -16,8 +16,8 @@ typedef struct {
 	const char* name;
 	int id;
 	int component_count;
-	int max_component_per_entity;
-	component* components[16];
+	//int max_component_per_entity;
+	//component* components[16];
 	int destroy;
 } entity;
 
