@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="include\util\waddle_window.c" />
+    <ClCompile Include="src\data\waddle_globals.c" />
     <ClCompile Include="src\entity\waddle_entity.c" />
     <ClCompile Include="src\system\waddle_system_animation.c" />
     <ClCompile Include="src\system\waddle_system_audio.c" />

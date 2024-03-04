@@ -37,6 +37,9 @@
     <Filter Include="engine\include\data">
       <UniqueIdentifier>{454ed2ac-518e-4baf-8358-e433f000f74c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="engine\src\data">
+      <UniqueIdentifier>{2f7bf353-b5ae-4aa6-840b-c4bf8e9fe912}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\util\waddle_log.c">
@@ -74,6 +77,9 @@
     </ClCompile>
     <ClCompile Include="include\util\waddle_window.c">
       <Filter>engine\src\util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\data\waddle_globals.c">
+      <Filter>engine\src\data</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
